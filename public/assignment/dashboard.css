@@ -103,3 +103,24 @@ body {
     display: inline-block;
     border-radius: 50%;
 }
+
+.checkbox, .radio {
+    margin-top: 1px;
+}
+
+.smalllabel {
+    margin-bottom: 0px;
+}
+
+.dropdown-menu {
+    min-width: 0px;
+}
+
+.btn-cust{
+    padding-left: 10px;
+}
+
+.glyphicon {
+    top: 6px;
+    font-size: 1.2em;
+}
