@@ -86,6 +86,8 @@
     }
 
     function renderMovieDetails(movie){
+
+        console.log(movie);
         var actors = movie.Actors;
         var director = movie.Director;
         var plot =  movie.Plot;
