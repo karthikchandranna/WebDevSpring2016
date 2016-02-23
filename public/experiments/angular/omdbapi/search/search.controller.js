@@ -12,7 +12,7 @@
         }
 
         function search(title) {
-            //console.log(title);
+
             $location.url("/search/"+title);
             MovieService.findMovieByTitle(
                 title,
