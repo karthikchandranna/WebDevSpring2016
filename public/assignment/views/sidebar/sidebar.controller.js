@@ -1,3 +1,9 @@
-/**
- * Created by hp on 2/23/2016.
- */
+(function(){
+    angular
+        .module("FormBuilderApp")
+        .controller("SidebarController", SidebarController);
+
+    function SidebarController($scope, $location){
+        $scope.location = $location;
+    }
+})();
