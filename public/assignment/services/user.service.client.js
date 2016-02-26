@@ -32,12 +32,22 @@
 
         function setCurrentUser(user) {
             //$rootScope.currentUser = user;
-            $rootScope.currentUser = {"_id":user._id, "firstName":user.firstName, "lastName":user.lastName,
-                "username":user.username, "password":user.password, "roles": user.roles, "email": user.email}
+            if(user) {
+                $rootScope.currentUser = {
+                    "_id": user._id, "firstName": user.firstName, "lastName": user.lastName,
+                    "username": user.username, "password": user.password, "roles": user.roles, "email": user.email
+                }
+            }
+            else
+                $rootScope.currentUser = null;
         }
 
         function getCurrentUser() {
-            return $rootScope.currentUser;
+            //return $rootScope.currentUser;
+            return {"_id":$rootScope.currentUser._id, "firstName":$rootScope.currentUser.firstName,
+                "lastName":$rootScope.currentUser.lastName, "username":$rootScope.currentUser.username,
+                "password":$rootScope.currentUser.password, "roles": $rootScope.currentUser.roles,
+                "email": $rootScope.currentUser.email}
         }
 
         function findUserByCredentials(username, password, callback) {

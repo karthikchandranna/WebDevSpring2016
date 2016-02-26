@@ -29,6 +29,7 @@
                 //console.log($rootScope.currentUser);
                 newUser = response;
                 $location.url("/profile");
+                //$scope.$apply();
             });
             if(!newUser)
                 $scope.message = "Invalid login credentials";

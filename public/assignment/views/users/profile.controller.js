@@ -3,7 +3,7 @@
         .module("FormBuilderApp")
         .controller("ProfileController", profileController);
 
-    function profileController($scope, UserService, $location) {
+    function profileController($scope, UserService, $location, $rootScope) {
 
         $scope.error = null;
         $scope.message = null;
@@ -11,6 +11,7 @@
         $scope.currentUser = UserService.getCurrentUser();
         if (!$scope.currentUser) {
             $location.url("/home");
+            //$scope.$apply();
         }
 
         $scope.update = update;
@@ -35,11 +36,14 @@
                 $scope.error = "Please provide a email";
                 return;
             }
-
+            /*console.log($rootScope.currentUser);
+            console.log($scope.currentUser);*/
             var newUser;
             UserService.updateUser(user._id, user, function(response) {
                 $scope.message = "User updated successfully";
                 UserService.setCurrentUser(response);
+                /*console.log($rootScope.currentUser);
+                console.log($scope.currentUser);*/
                 newUser = response;
             });
 

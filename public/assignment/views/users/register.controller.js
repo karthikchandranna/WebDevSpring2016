@@ -37,6 +37,7 @@
             UserService.createUser($scope.user, function(response){
                 //console.log($rootScope.currentUser);
                 $location.url("/profile");
+                //$scope.$apply();
             });
 
         }
