@@ -109,11 +109,11 @@ body {
 }
 
 .smalllabel {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 .dropdown-menu {
-    min-width: 0px;
+    min-width: 0;
 }
 
 .btn-cust{

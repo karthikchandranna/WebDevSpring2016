@@ -1,10 +1,10 @@
-(function(){
+(function () {
     "use strict";
     angular
         .module("FormBuilderApp")
-        .controller("ProfileController", profileController);
+        .controller("ProfileController", ProfileController);
 
-    function profileController($scope, UserService, $location, $rootScope) {
+    function ProfileController($scope, $location, UserService) {
 
         $scope.error = null;
         $scope.message = null;
@@ -12,7 +12,6 @@
         $scope.currentUser = UserService.getCurrentUser();
         if (!$scope.currentUser) {
             $location.url("/home");
-            //$scope.$apply();
         }
 
         $scope.update = update;
@@ -21,7 +20,7 @@
             $scope.error = null;
             $scope.message = null;
 
-            if (user == null) {
+            if (user === null) {
                 $scope.error = "Please fill in the required fields";
                 return;
             }
@@ -34,22 +33,19 @@
                 return;
             }
             if (!user.email) {
-                $scope.error = "Please provide a email";
+                $scope.error = "Please provide a valid email";
                 return;
             }
-            /*console.log($rootScope.currentUser);
-            console.log($scope.currentUser);*/
             var newUser;
-            UserService.updateUser(user._id, user, function(response) {
+            UserService.updateUser(user._id, user, function (response) {
                 $scope.message = "User updated successfully";
                 UserService.setCurrentUser(response);
-                /*console.log($rootScope.currentUser);
-                console.log($scope.currentUser);*/
                 newUser = response;
             });
 
-            if (!newUser)
+            if (!newUser) {
                 $scope.error = "Unable to update the user";
+            }
         }
     }
 })();

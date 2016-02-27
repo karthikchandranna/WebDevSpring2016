@@ -1,10 +1,10 @@
-(function(){
+(function () {
     "use strict";
     angular
         .module("FormBuilderApp")
-        .controller("LoginController", loginController);
+        .controller("LoginController", LoginController);
 
-    function loginController($location, $scope, UserService) {
+    function LoginController($scope, $location, UserService) {
         $scope.message = null;
         $scope.login = login;
 
@@ -25,15 +25,14 @@
             var username = user.username;
             var password = user.password;
             var newUser;
-            UserService.findUserByCredentials(username, password, function(response) {
+            UserService.findUserByCredentials(username, password, function (response) {
                 UserService.setCurrentUser(response);
-                //console.log($rootScope.currentUser);
                 newUser = response;
                 $location.url("/profile");
-                //$scope.$apply();
             });
-            if(!newUser)
+            if (!newUser) {
                 $scope.message = "Invalid login credentials";
+            }
         }
     }
 })();

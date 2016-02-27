@@ -1,10 +1,10 @@
-(function(){
+(function () {
     "use strict";
     angular
         .module("FormBuilderApp")
-        .controller("RegisterController", registerController);
+        .controller("RegisterController", RegisterController);
 
-    function registerController($location, $scope, UserService) {
+    function RegisterController($location, $scope, UserService) {
         $scope.message = null;
         $scope.register = register;
 
@@ -22,25 +22,22 @@
                 $scope.message = "Please provide a password";
                 return;
             }
-            if (user.password != user.password2) {
+            if (user.password !== user.password2) {
                 $scope.message = "Passwords must match";
                 return;
             }
             if (!user.email) {
-                $scope.message = "Please provide a email";
+                $scope.message = "Please provide a valid email";
                 return;
             }
-            var user = UserService.findUserByUsername(user.username);
-            if (user != null) {
+            var userDB = UserService.findUserByUsername(user.username);
+            if (userDB !== null) {
                 $scope.message = "User already exists";
                 return;
             }
-            UserService.createUser($scope.user, function(response){
-                //console.log($rootScope.currentUser);
+            UserService.createUser($scope.user, function (response) {
                 $location.url("/profile");
-                //$scope.$apply();
             });
-
         }
     }
 })();

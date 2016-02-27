@@ -1,4 +1,4 @@
-(function() {
+(function () {
     "use strict";
     angular
         .module("FormBuilderApp")
@@ -12,18 +12,17 @@
                 {"_id": "020", "title": "CDs",      "userId": 234}
             ],
 
+            //function declarations
             createFormForUser: createFormForUser,
             findAllFormsForUser: findAllFormsForUser,
             deleteFormById: deleteFormById,
             updateFormById: updateFormById
         };
 
-        return model;
-
         function createFormForUser(userId, form, callback) {
             var newForm = {
-                _id: (new Date).getTime(),
-                title: form.name,
+                _id: (new Date()).getTime(),
+                title: form.title,
                 userId: userId
             };
             model.forms.push(newForm);
@@ -52,7 +51,6 @@
                 model.forms.splice(index, 1);
             }
             callback(model.forms);
-
         }
 
         function updateFormById(formId, newForm, callback) {
@@ -72,5 +70,7 @@
                 callback(model.forms[index]);
             }
         }
+
+        return model;
     }
 })();
