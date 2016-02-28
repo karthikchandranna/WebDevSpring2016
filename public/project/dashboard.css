@@ -1,0 +1,114 @@
+/*
+ * Base structure
+ */
+
+/* Move down content in body */
+body {
+    padding-top: 100px;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 110px;
+    }
+}
+
+
+/*
+ * Global add-ons
+ */
+
+.sub-header {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/*
+ * Top navigation
+ * Hide default border to remove 1px line.
+ */
+.navbar-fixed-top {
+    border: 0;
+}
+
+/*
+ * Main content
+ */
+
+.main {
+    padding: 20px;
+}
+@media (min-width: 768px) {
+    .main {
+        padding-right: 40px;
+        padding-left: 40px;
+    }
+}
+.main .page-header {
+    margin-top: 0;
+}
+
+/*
+ * Placeholder dashboard ideas
+ */
+
+.placeholders {
+    margin-bottom: 30px;
+    text-align: center;
+}
+.placeholders h4 {
+    margin-bottom: 0;
+}
+.placeholder {
+    margin-bottom: 20px;
+}
+.placeholder img {
+    display: inline-block;
+    border-radius: 50%;
+}
+
+#searchbar {
+    margin-bottom: 12px;
+    margin-left: -15px;
+    margin-right: -15px;
+}
+/*Push the searchbar down on desktop*/
+@media (min-width: 768px) {
+    #searchbar {
+        margin-top: 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    #searchbar {
+        margin-top: -20px;
+    }
+}
+
+/*To fit the logo in header*/
+.navbar-header {
+    height:90px;
+}
+.navbar-header img {
+    width:auto;
+}
+
+/*To offset the searchbar */
+#logo {
+    margin-right: 100px;
+}
+
+@media (max-width: 768px) {
+    #logo {
+        height: 45px;
+        width: 45px;
+    }
+}
+
+/*Align the links to center on desktop*/
+@media (min-width: 768px) {
+    .navbar-nav > li > a {
+        padding-top: 30px;
+        padding-bottom: 15px;
+    }
+}
