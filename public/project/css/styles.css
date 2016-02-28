@@ -108,7 +108,14 @@ body {
 /*Align the links to center on desktop*/
 @media (min-width: 768px) {
     .navbar-nav > li > a {
-        padding-top: 30px;
+        margin-top: 15px;
+        padding-bottom: 15px;
+    }
+}
+
+@media (min-width: 768px) {
+    .textarea {
+        width:66%;
         padding-bottom: 15px;
     }
 }

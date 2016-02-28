@@ -1,52 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
-<!--<div class="jumbotron">
-    <h1 class="text-center">My Project</h1>
-</div>-->
+<html lang="en" ng-app="FilmsterApp">
 <head>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-
-    <script>
-        var apikey = "a1aa62ec3ff2b05c1b0e804adce79c24";
-        var baseUrl = "https://api.themoviedb.org/3";
-
-        // construct the uri with our apikey
-        var moviesSearchUrl = baseUrl + '/movie/upcoming?api_key=' + apikey;
-
-
-        $(document).ready(function() {
-
-            // send off the query
-            $.ajax({
-                url: moviesSearchUrl,
-                success: searchCallback1
-            });
-        });
-
-        // callback for when we get back the results
-        function searchCallback(movie) {
-            /*$(document.body).append('Found ' + data.total + ' results for ');*/
-            $(document.body).append('<h1>' + movie.imdb_id + '</h1>');
-            $(document.body).append('<h2>' + movie.title + '</h2>');
-            $(document.body).append('<img src="' + baseUrl + movie.poster_path + '?api_key='+ apikey + '" />');
-            $(document.body).append('<p>' + movie.overview + '</p>');
-        }
-
-        function searchCallback1(data) {
-            $(document.body).append('Found ' + data.results.length + ' results for upcoming movies');
-            var movies = data.results;
-            $.each(movies, function(index, movie) {
-                $(document.body).append('<h2>' + 'Movie Title: ' + movie.title + '</h2>');
-                $(document.body).append('<h4>' + 'Releases On: ' + movie.release_date+ '</h4>');
-                $(document.body).append('<img src="' + 'http://image.tmdb.org/t/p/w92' + movie.poster_path + '?api_key='+ apikey + '" />');
-                $(document.body).append('<p>' + 'Synopsis: ' + movie.overview + '</p>');
-            });
-        }
-
-    </script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--This is to make the webpage look good on a phone/tablet i.e. making it responsive-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Fimster</title>
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/styles.css" rel="stylesheet">
 
 </head>
-<body>
+
+<body ng-controller="MainController">
+<div ng-include="'views/header/header.view.html'"></div>
+<div ng-view>
+
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so that the page loads faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+<script src="app.js"></script>
+<script src="config.js"></script>
+<script src="views/main/main.controller.js"></script>
+<script src="views/header/header.controller.js"></script>
 </body>
 </html>
