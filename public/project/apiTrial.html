@@ -12,7 +12,7 @@
         var baseUrl = "https://api.themoviedb.org/3";
 
         // construct the uri with our apikey
-        var moviesSearchUrl = baseUrl + '/movie/upcoming?api_key=' + apikey;
+        var moviesSearchUrl = baseUrl + '/movie/upcoming?api_key=' + apikey + "&append_to_response=videos";
 
 
         $(document).ready(function() {

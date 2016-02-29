@@ -18,13 +18,15 @@
             /*.when("/profile", {
                 templateUrl: "views/users/profile.view.html",
                 controller: "ProfileController"
-            })
+            })*/
             .when("/admin", {
-                templateUrl: "views/admin/admin.view.html",
-                controller: "AdminController"
-            })            */
+                templateUrl: "views/admin/admin.view.html"
+            })
             .when("/critic", {
                 templateUrl: "views/critic/critic.view.html"
+            })
+            .when("/search", {
+                templateUrl: "views/search/search.view.html"
             })
             .otherwise({
                 redirectTo: "/home"

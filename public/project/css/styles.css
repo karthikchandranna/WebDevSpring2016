@@ -112,10 +112,101 @@ body {
         padding-bottom: 15px;
     }
 }
-
+/*Text area width*/
 @media (min-width: 768px) {
     .textarea {
         width:66%;
         padding-bottom: 15px;
     }
+}
+
+/*Align the labels to left*/
+@media (min-width: 768px) {
+    .form-horizontal .control-label {
+        text-align: left;
+    }
+}
+/*No wrap */
+.nowrap {
+    white-space: nowrap;
+}
+/*Rounding a badge*/
+.label-as-badge {
+    border-radius: 1em;
+}
+
+/*
+.rating {
+    font-size: 20px;
+}
+
+.rating span.star {
+    font-family: FontAwesome;
+    font-weight: normal;
+    font-style: normal;
+    display: inline-block;
+}
+
+.star-rating {
+    line-height:20px;
+    font-size:2em;
+    cursor: pointer;
+}*/
+/*Star rating*/
+.star-rating {
+    font-size: 0px;
+    padding-top: 5px;
+}
+.star-rating s:hover {
+    color: #ff961a;
+}
+
+.star-rating s,
+.star-rating-rtl s {
+    color: black;
+    cursor: default;
+    text-decoration: none;
+    line-height: 0px;
+    font-size: 30px;
+}
+
+.star-rating-rtl {
+    background: #555;
+    display: inline-block;
+    border: 2px solid #444;
+}
+.star-rating-rtl s {
+    color: yellow;
+}
+.star-rating s:hover:before{
+    content: "\2605";
+}
+.star-rating s:before {
+    content: "\2606";
+}
+.star-rating-rtl s:hover:after{
+    content: "\2605";
+}
+.star-rating-rtl s:after {
+    content: "\2606";
+}
+
+/*@media (max-width: 992px) {
+    h4.smallheader {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+}*/
+
+
+h4.smallheader {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+
+.thumbnail {
+    background-color: #DED9D6;
 }
