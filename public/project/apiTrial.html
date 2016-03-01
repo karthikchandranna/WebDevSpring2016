@@ -12,7 +12,7 @@
         var baseUrl = "https://api.themoviedb.org/3";
 
         // construct the uri with our apikey
-        var moviesSearchUrl = baseUrl + '/movie/upcoming?api_key=' + apikey + "&append_to_response=videos";
+        var moviesSearchUrl = baseUrl + '/movie/now_playing?api_key=' + apikey;
 
 
         $(document).ready(function() {
@@ -39,6 +39,7 @@
             $.each(movies, function(index, movie) {
                 $(document.body).append('<h2>' + 'Movie Title: ' + movie.title + '</h2>');
                 $(document.body).append('<h4>' + 'Releases On: ' + movie.release_date+ '</h4>');
+                //use w300, w392 etc for different sizes
                 $(document.body).append('<img src="' + 'http://image.tmdb.org/t/p/w92' + movie.poster_path + '?api_key='+ apikey + '" />');
                 $(document.body).append('<p>' + 'Synopsis: ' + movie.overview + '</p>');
             });
