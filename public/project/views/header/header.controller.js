@@ -12,5 +12,11 @@
             UserService.setCurrentUser(null);
             $location.url("/home");
         }*/
+
+        $scope.mySearch = mySearch;
+
+        function mySearch(){
+            $location.url("/search");
+        }
     }
 })();

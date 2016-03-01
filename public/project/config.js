@@ -28,6 +28,9 @@
             .when("/search", {
                 templateUrl: "views/search/search.view.html"
             })
+            .when("/cast", {
+                templateUrl: "views/cast/cast.view.html"
+            })
             .otherwise({
                 redirectTo: "/home"
             });
