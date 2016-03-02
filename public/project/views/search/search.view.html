@@ -1,135 +1,25 @@
 <div class="col-sm-11 col-sm-offset-1 col-md-11 col-md-offset-1 main">
-    <h1 class="page-header">Search Results</h1>
+    <h1 class="page-header">Search Results for {{query}}</h1>
 
     <div class="row placeholders">
-        <div class="col-xs-12 col-sm-6 col-md-4 placeholder">
-            <div class="thumbnail">
-                <div class="embed-responsive embed-responsive-4by3">
-                    <iframe src="https://www.youtube.com/embed/FkTybqcX-Yo"></iframe>
-                </div>
-                <div>
-                    <a href="#"><h4 class="smallheader">Captain America: Civil War</h4></a>
-                    <h5>Release Date: March 11</h5>
+        <div class="col-xs-12 col-sm-6 col-md-4 placeholder" ng-repeat="movie in data.results">
+
+            <div class="thumbnail" style="display: inline-block">
+                <a href="#/movie/{{movie.id}}">
+                    <img style="height: 375px; width: 250px; display: block;" alt="No Poster Available !!!"
+                         ng-src="https://image.tmdb.org/t/p/w342/{{movie.poster_path}}">
+                </a>
+                <div class="caption">
+                    <a href="#/movie/{{movie.id}}"><h4 class="smallheader">{{movie.title}}</h4></a>
+                    <h5>Release Date: {{movie.release_date}}</h5>
                     <h4 class="smallheader">
                         <span class="label label-default label-as-badge">Action</span>
                         <span class="label label-default label-as-badge">Drama</span>
                     </h4>
                 </div>
             </div>
+            <!-- <img alt="No Poster Available !!!"
+                  ng-src="https://image.tmdb.org/t/p/w1280/{{movie.backdrop_path}}">-->
         </div>
-
-        <div class="col-xs-12 col-sm-6 col-md-4 placeholder">
-            <div class="thumbnail">
-                <div class="embed-responsive embed-responsive-4by3">
-                    <iframe src="https://www.youtube.com/embed/7SlILk2WMTI"></iframe>
-                </div>
-                <div>
-                    <a href="#"><h4 class="smallheader">Captain America: The Winter Soldier</h4></a>
-                    <div class="star-rating"><s><s><s><s><s></s></s></s></s></s></div>
-                    <h4 class="smallheader">
-                        <span class="label label-default label-as-badge">Action</span>
-                        <span class="label label-default label-as-badge">Drama</span>
-                    </h4>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-4 placeholder">
-            <div class="thumbnail">
-                <div class="embed-responsive embed-responsive-4by3">
-                    <iframe src="https://www.youtube.com/embed/FkTybqcX-Yo"></iframe>
-                </div>
-                <div>
-                    <a href="#"><h4 class="smallheader">Captain America: Civil War</h4></a>
-                    <h5>Release Date: March 11</h5>
-                    <h4 class="smallheader">
-                        <span class="label label-default label-as-badge">Action</span>
-                        <span class="label label-default label-as-badge">Drama</span>
-                    </h4>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xs-12 col-sm-6 col-md-4 placeholder">
-            <div class="thumbnail">
-                <div class="embed-responsive embed-responsive-4by3">
-                    <iframe src="https://www.youtube.com/embed/FkTybqcX-Yo"></iframe>
-                </div>
-                <div>
-                    <a href="#"><h4 class="smallheader">Captain America: Civil War</h4></a>
-                    <h5>Release Date: March 11</h5>
-                    <h4 class="smallheader">
-                        <span class="label label-default label-as-badge">Action</span>
-                        <span class="label label-default label-as-badge">Drama</span>
-                    </h4>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xs-12 col-sm-6 col-md-4 placeholder">
-            <div class="thumbnail">
-                <div class="embed-responsive embed-responsive-4by3">
-                    <iframe src="https://www.youtube.com/embed/FkTybqcX-Yo"></iframe>
-                </div>
-                <div>
-                    <a href="#"><h4 class="smallheader">Captain America: Civil War</h4></a>
-                    <h5>Release Date: March 11</h5>
-                    <h4 class="smallheader">
-                        <span class="label label-default label-as-badge">Action</span>
-                        <span class="label label-default label-as-badge">Drama</span>
-                    </h4>
-                </div>
-            </div>
-        </div>
-
-        <!--
-
-                <div class="col-xs-12 col-sm-6 col-md-4 placeholder">
-                    <div class="thumbnail">
-                        <div class="embed-responsive embed-responsive-4by3">
-                            <iframe src="https://www.youtube.com/embed/cMVxECWC-vk"></iframe>
-                        </div>
-                        <div>
-                            <a href="#"><h4 class="smallheader">Gods of Egypt</h4></a>
-                            <div class="star-rating"><s><s><s><s><s></s></s></s></s></s></div>
-                            <h4 class="smallheader">
-                                <span class="label label-default label-as-badge">Action</span>
-                                <span class="label label-default label-as-badge">Drama</span>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xs-12 col-sm-6 col-md-4 placeholder">
-                    <div class="thumbnail">
-                        <div class="embed-responsive embed-responsive-4by3">
-                            <iframe src="https://www.youtube.com/embed/iQXmlf3Sefg"></iframe>
-                        </div>
-                        <div>
-                            <a href="#"><h4 class="smallheader">The Witch</h4></a>
-                            <div class="star-rating"><s><s><s><s><s></s></s></s></s></s></div>
-                            <h4 class="smallheader">
-                                <span class="label label-default label-as-badge">Action</span>
-                                <span class="label label-default label-as-badge">Drama</span></h4>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xs-12 col-sm-6 col-md-4 placeholder">
-                    <div class="thumbnail">
-                        <div class="embed-responsive embed-responsive-4by3">
-                            <iframe src="https://www.youtube.com/embed/sGbxmsDFVnE"></iframe>
-                        </div>
-                        <div>
-                            <a href="#"><h4 class="smallheader">Star Wars: The Force Awakens</h4></a>
-                            <div class="star-rating"><s><s><s><s><s></s></s></s></s></s></div>
-                            <h4 class="smallheader">
-                                <span class="label label-default label-as-badge">Action</span>
-                                <span class="label label-default label-as-badge">Drama</span></h4>
-                        </div>
-                    </div>
-                </div>
-
-        -->
-
     </div>
 </div>

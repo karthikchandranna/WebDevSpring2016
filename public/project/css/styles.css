@@ -62,10 +62,10 @@ body {
 .placeholder {
     margin-bottom: 20px;
 }
-.placeholder img {
+/*.placeholder img {
     display: inline-block;
     border-radius: 50%;
-}
+}*/
 
 #searchbar {
     margin-bottom: 12px;

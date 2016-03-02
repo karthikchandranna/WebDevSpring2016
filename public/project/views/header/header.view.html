@@ -13,16 +13,12 @@
             </a>
         </div>
         <div id="searchbar" class="col-sm-7 col-md-7">
-            <form ng-submit="mySearch()">
-                <input type="text" class="form-control"  placeholder="Search..."/>
+            <form ng-submit="submit()">
+                <input type="text" ng-model="query" class="form-control" name="query" placeholder="Search..."/>
             </form>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <!--<li><a href="#">Register</a></li>
-                <li><a href="#">Login</a></li>
-                <li><a href="#" class="hidden">Username</a></li>
-                <li><a href="#" class="hidden">Logout</a></li>-->
                 <li ng-hide="currentUser"
                     ng-class="{'active': $location.url() == '/register'}">
                     <a href="#/register" data-toggle="collapse" data-target=".navbar-collapse.in">Register</a></li>
@@ -33,6 +29,9 @@
                     ng-class="{'active': $location.url() == '/profile'}">
                     <a href="#/profile" data-toggle="collapse"
                        data-target=".navbar-collapse.in">{{currentUser.username}}</a></li>
+                <li ng-show="currentUser.roles.indexOf('admin') >= 0"
+                    ng-class="{'active': $location.url() == '/admin'}">
+                    <a href="#/admin" data-toggle="collapse" data-target=".navbar-collapse.in">Admin</a></li>
                 <li ng-show="currentUser" ng-click="logout()">
                     <a href="#/home" data-toggle="collapse" data-target=".navbar-collapse.in">Logout</a></li>
             </ul>
