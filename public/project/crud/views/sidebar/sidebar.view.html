@@ -1,0 +1,12 @@
+<div class="container-fluid"  ng-controller="SidebarCrudController">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li ng-class="{'active': $location.url() == '/user'}"><a href="#/user">User</a></li>
+                <li ng-class="{'active': $location.url() == '/movie'}"><a href="#/movie">Movie</a></li>
+                <li ng-class="{'active': $location.url() == '/review'}"><a href="#/review">Review</a></li>
+                <li ng-class="{'active': $location.url() == '/cast'}"><a href="#/cast">Cast</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

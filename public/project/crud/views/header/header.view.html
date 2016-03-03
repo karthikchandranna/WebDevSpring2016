@@ -1,0 +1,26 @@
+<nav class="navbar navbar-inverse navbar-fixed-top" ng-controller="HeaderCrudController">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#/home">Filmster CRUD</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-class="{'active': $location.url() == '/user'}">
+                    <a href="#/user" data-toggle="collapse" data-target=".navbar-collapse.in">User</a></li>
+                <li ng-class="{'active': $location.url() == '/movie'}">
+                    <a href="#/movie" data-toggle="collapse" data-target=".navbar-collapse.in">Movie</a></li>
+                <li ng-class="{'active': $location.url() == '/review'}">
+                    <a href="#/review" data-toggle="collapse" data-target=".navbar-collapse.in">Review</a></li>
+                <li ng-class="{'active': $location.url() == '/cast'}">
+                    <a href="#/cast" data-toggle="collapse" data-target=".navbar-collapse.in">Cast</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
