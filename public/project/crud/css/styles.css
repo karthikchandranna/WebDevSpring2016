@@ -124,3 +124,8 @@ body {
     top: 6px;
     font-size: 1.2em;
 }
+
+/*No wrap */
+.nowrap {
+    white-space: nowrap;
+}
