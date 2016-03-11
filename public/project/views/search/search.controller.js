@@ -19,7 +19,7 @@
                 query, function (response) {
                     $scope.data = response;
                     console.log($scope.data);
-                    //getVideos();
+                    //getVideos(); Use .then instead
                 });
         }
 
