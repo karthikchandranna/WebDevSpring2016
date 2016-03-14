@@ -15,10 +15,16 @@
         var baseUrl = "https://api.themoviedb.org/3";
         return api;
 
-        function searchMovies(query, callback) {
+        /*function searchMovies(query, callback) {
             var moviesSearchUrl = baseUrl + '/search/movie?api_key=' + apikey + '&query=' + query;
             $http.get(moviesSearchUrl)
                 .success(callback);
+        }*/
+
+        function searchMovies(query, callback) {
+            var moviesSearchUrl = baseUrl + '/search/movie?api_key=' + apikey + '&query=' + query;
+            return $http.get(moviesSearchUrl);
+                //.success(callback);
         }
 
         function findMovieByID(id, callback) {
@@ -35,8 +41,8 @@
 
         function fetchVideoById(id, callback) {
             var videoUrl = baseUrl + '/movie/' + id + '/videos?api_key=' + apikey;
-            $http.get(videoUrl)
-                .success(callback);
+            return $http.get(videoUrl);
+                //.success(callback);
         }
     }
 })();

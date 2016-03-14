@@ -9,8 +9,11 @@
                     <img style="height: 375px; width: 250px; display: block;" alt="No Poster Available !!!"
                          ng-src="https://image.tmdb.org/t/p/w342/{{movie.poster_path}}">
                 </a>
+                <!--<div class="embed-responsive embed-responsive-4by3">
+                    <iframe ng-src="{{movie.video_url}}"></iframe>
+                </div>-->
                 <div class="caption">
-                    <a href="#/movie/{{movie.id}}"><h4 class="smallheader">{{movie.title}}</h4></a>
+                    <a href="#/movie/{{movie.id}}"><h4 class="smallheader">{{movie.title| limitTo:30}}</h4></a>
                     <h5>Release Date: {{movie.release_date}}</h5>
                     <h4 class="smallheader">
                         <span class="label label-default label-as-badge">Action</span>
