@@ -1,4 +1,5 @@
 var mock = require("./user.mock.json");
+var uuid = require('node-uuid');
 module.exports = function() {
     var api = {
         createUser: createUser,
@@ -13,7 +14,7 @@ module.exports = function() {
     return api;
 
     function createUser(user) {
-        user._id = "ID_" + (new Date()).getTime();
+        user._id = uuid.v1();
         mock.push(user);
         return mock;
     }
@@ -24,7 +25,7 @@ module.exports = function() {
 
     function findUserById(userId) {
         for(var u in mock) {
-            if( mock[u]._id === userId ) {
+            if( mock[u]._id == userId ) {
                 return mock[u];
             }
         }
@@ -34,14 +35,14 @@ module.exports = function() {
     function updateUser(userId, user) {
         var index = -1;
         for (var u in mock) {
-            if (mock[u]._id === userId) {
+            if (mock[u]._id == userId) {
                 index = u;
                 break;
             }
         }
         if (index > -1) {
             mock[index] = {
-                _id: userId,
+                _id: parseInt(userId, 10),
                 firstName: user.firstName,
                 lastName: user.lastName,
                 username: user.username,
@@ -55,7 +56,7 @@ module.exports = function() {
     function deleteUser(userId) {
         var index = -1;
         for (var u in mock) {
-            if (mock[u]._id === userId) {
+            if (mock[u]._id == userId) {
                 index = u;
                 break;
             }
@@ -69,7 +70,7 @@ module.exports = function() {
 
     function findUserByUsername(username) {
         for(var u in mock) {
-            if( mock[u].username === username ) {
+            if( mock[u].username == username ) {
                 return mock[u];
             }
         }

@@ -30,7 +30,7 @@ module.exports = function() {
     function findAllFormsForUser(userId) {
         var userForms = [];
         for (var f in mock) {
-            if (mock[f].userId === userId) {
+            if (mock[f].userId == userId) {
                 userForms.push(mock[f]);
             }
         }
@@ -39,7 +39,7 @@ module.exports = function() {
 
     function findFormById(formId) {
         for(var f in mock) {
-            if( mock[f]._id === formId ) {
+            if( mock[f]._id == formId ) {
                 return mock[f];
             }
         }
@@ -49,7 +49,7 @@ module.exports = function() {
     function updateForm(formId, newForm) {
         var index = -1;
         for (var f in mock) {
-            if (mock[f]._id === formId) {
+            if (mock[f]._id == formId) {
                 index = f;
                 break;
             }
@@ -69,7 +69,7 @@ module.exports = function() {
     function deleteForm(formId) {
         var index = -1;
         for (var f in mock) {
-            if (mock[f]._id === formId) {
+            if (mock[f]._id == formId) {
                 index = f;
                 break;
             }

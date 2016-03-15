@@ -14,7 +14,7 @@ module.exports = function() {
     function findFormIndex(formId) {
         var index = -1;
         for (var f in forms) {
-            if (forms[f]._id === formId) {
+            if (forms[f]._id == formId) {
                 index = f;
                 break;
             }
@@ -45,7 +45,7 @@ module.exports = function() {
         var index = findFormIndex(formId);
         if(index !== -1) {
             for(var f in forms[index].fields) {
-                if (forms[index].fields[f]._id === fieldId) {
+                if (forms[index].fields[f]._id == fieldId) {
                     return forms[index].fields[f];
                 }
             }
@@ -58,7 +58,7 @@ module.exports = function() {
         if(index !== -1) {
             var i = -1;
             for (var f in forms[index].fields) {
-                if (forms[index].fields[f]._id === fieldId) {
+                if (forms[index].fields[f]._id == fieldId) {
                     i = f;
                     break;
                 }
@@ -76,7 +76,7 @@ module.exports = function() {
         if(index !== -1) {
             var i = -1;
             for (var f in forms[index].fields) {
-                if (forms[index].fields[f]._id === fieldId) {
+                if (forms[index].fields[f]._id == fieldId) {
                     i = f;
                     break;
                 }
