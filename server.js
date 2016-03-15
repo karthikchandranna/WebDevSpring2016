@@ -22,7 +22,6 @@ app.get('/json', function (req, res) {
         title: 'Java 101',
         seats: 23,
         start: new Date()
-
     };
     res.json(course);
 });
