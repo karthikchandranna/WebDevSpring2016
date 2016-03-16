@@ -16,7 +16,7 @@ module.exports = function() {
     function createUser(user) {
         user._id = uuid.v1();
         mock.push(user);
-        return mock;
+        return user;
     }
 
     function findAllUsers() {
@@ -42,7 +42,7 @@ module.exports = function() {
         }
         if (index > -1) {
             mock[index] = {
-                _id: parseInt(userId, 10),
+                _id: userId,
                 firstName: user.firstName,
                 lastName: user.lastName,
                 username: user.username,

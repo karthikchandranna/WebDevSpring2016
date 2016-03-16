@@ -31,13 +31,19 @@
                 return;
             }
             var userDB = UserService.findUserByUsername(user.username);
-            if (userDB !== null) {
+            if (userDB == null) {
                 $scope.message = "User already exists";
                 return;
             }
-            UserService.createUser($scope.user, function (response) {
-                $location.url("/profile");
-            });
+            UserService
+                .createUser($scope.user)
+                .then(function(response) {
+                    var currentUser = response.data;
+                    if(currentUser != null) {
+                        UserService.setCurrentUser(currentUser);
+                        $location.url("/profile");
+                    }
+                });
         }
     }
 })();
