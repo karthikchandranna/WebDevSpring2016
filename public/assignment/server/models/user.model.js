@@ -33,22 +33,15 @@ module.exports = function() {
     }
 
     function updateUser(userId, user) {
-        var index = -1;
         for (var u in mock) {
             if (mock[u]._id == userId) {
-                index = u;
-                break;
+                mock[u].firstName = user.firstName;
+                mock[u].lastName = user.lastName;
+                mock[u].username = user.username;
+                mock[u].password = user.password;
+                mock[u].email = user.email;
+                return mock[u];
             }
-        }
-        if (index > -1) {
-            mock[index] = {
-                _id: userId,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                username: user.username,
-                password: user.password
-            };
-            return mock;
         }
         return null;
     }

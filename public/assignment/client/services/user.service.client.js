@@ -15,7 +15,8 @@
             findAllUsers: findAllUsers,
             createUser: createUser,
             deleteUserById: deleteUserById,
-            updateUser: updateUser
+            updateUser: updateUser,
+            logout: logout
         };
         return api;
 
@@ -53,6 +54,10 @@
 
         function updateUser(userId, user) {
             return $http.put ("/api/assignment/user/" + userId, user);
+        }
+
+        function logout() {
+            return $http.post("/api/assignment/logout");
         }
     }
 })();

@@ -4,44 +4,50 @@
         .module("FormBuilderApp")
         .controller("RegisterController", RegisterController);
 
-    function RegisterController($location, $scope, UserService) {
-        $scope.message = null;
-        $scope.register = register;
+    function RegisterController($location, UserService) {
+        var vm = this;
+        vm.message = null;
+        vm.register = register;
 
         function register(user) {
-            $scope.message = null;
+            vm.message = null;
             if (user == null) {
-                $scope.message = "Please fill in the required fields";
+                vm.message = "Please fill in the required fields";
                 return;
             }
             if (!user.username) {
-                $scope.message = "Please provide a username";
+                vm.message = "Please provide a username";
                 return;
             }
             if (!user.password || !user.password2) {
-                $scope.message = "Please provide a password";
+                vm.message = "Please provide a password";
                 return;
             }
             if (user.password !== user.password2) {
-                $scope.message = "Passwords must match";
+                vm.message = "Passwords must match";
                 return;
             }
             if (!user.email) {
-                $scope.message = "Please provide a valid email";
+                vm.message = "Please provide a valid email";
                 return;
             }
-            var userDB = UserService.findUserByUsername(user.username);
-            if (userDB == null) {
-                $scope.message = "User already exists";
-                return;
-            }
+            var userDB;
             UserService
-                .createUser($scope.user)
-                .then(function(response) {
-                    var currentUser = response.data;
-                    if(currentUser != null) {
-                        UserService.setCurrentUser(currentUser);
-                        $location.url("/profile");
+                .findUserByUsername(user.username)
+                .then(function(response){
+                    if (response.data) {
+                        vm.message = "User already exists";
+                    }
+                    else{
+                        UserService
+                            .createUser(vm.user)
+                            .then(function(response) {
+                                var currentUser = response.data;
+                                if(currentUser != null) {
+                                    UserService.setCurrentUser(currentUser);
+                                    $location.url("/profile");
+                                }
+                            });
                     }
                 });
         }

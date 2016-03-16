@@ -49,6 +49,7 @@ module.exports = function(app, userModel) {
         var userId = req.params.id;
         var user = req.body;
         user = userModel.updateUser(userId, user);
+        req.session.currentUser = user;
         res.json(user);
     }
 

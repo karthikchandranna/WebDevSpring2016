@@ -4,35 +4,38 @@
         .module("FormBuilderApp")
         .controller("LoginController", LoginController);
 
-    function LoginController($scope, $location, UserService) {
-        $scope.message = null;
-        $scope.login = login;
+    function LoginController($location, UserService) {
+        var vm = this;
+        vm.message = null;
+        vm.login = login;
 
         function login(user) {
-            $scope.message = null;
+            vm.message = null;
             if (user == null) {
-                $scope.message = "Please fill in the required fields";
+                vm.message = "Please fill in the required fields";
                 return;
             }
             if (!user.username) {
-                $scope.message = "Please provide a username";
+                vm.message = "Please provide a username";
                 return;
             }
             if (!user.password) {
-                $scope.message = "Please provide a password";
+                vm.message = "Please provide a password";
                 return;
             }
             var username = user.username;
             var password = user.password;
             var newUser;
-            UserService.findUserByCredentials(username, password, function (response) {
-                UserService.setCurrentUser(response);
-                newUser = response;
-                $location.url("/profile");
-            });
-            if (!newUser) {
-                $scope.message = "Invalid login credentials";
-            }
+            UserService
+                .findUserByCredentials(username, password)
+                .then(function (response) {
+                    if(response.data) {
+                        UserService.setCurrentUser(response.data);
+                        $location.url("/profile");
+                    }
+                    else
+                        vm.message = "Invalid login credentials";
+                });
         }
     }
 })();
