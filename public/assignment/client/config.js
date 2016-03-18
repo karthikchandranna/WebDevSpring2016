@@ -40,7 +40,12 @@
                 }
             })
             .when("/fields", {
-                templateUrl: "views/forms/fields.view.html"
+                templateUrl: "views/forms/fields.view.html",
+                controller: "FieldController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
             })
             .otherwise({
                 redirectTo: "/home"
