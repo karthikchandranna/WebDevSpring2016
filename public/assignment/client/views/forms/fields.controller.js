@@ -7,6 +7,7 @@
         var vm = this;
         vm.addField = addField;
         vm.renderModal = renderModal;
+        vm.editField = editField;
         vm.field = {};
         vm.fields = [
             {"_id":"1",label:"Text", placeholder:"TEXT", type:"TEXT"},
@@ -66,12 +67,13 @@
         }
 
         function renderModal(id) {
-            for (var f in vm.fields) {
+            var f;
+            for (f in vm.fields) {
                 if (vm.fields[f]._id === id) {
-                    vm.field = vm.fields[f];
                     break;
                 }
             }
+            vm.field = angular.copy(vm.fields[f]);
             if(vm.field.options) {
                 vm.field.optionsStr = "";
                 for (var o in vm.field.options) {
@@ -80,6 +82,17 @@
                 }
             }
             $("#myModal").modal();
+        }
+
+        function editField(newField) {
+            console.log("okay triggered");
+            var index;
+            for (index in vm.fields) {
+                if (vm.fields[index]._id === newField._id) {
+                    break;
+                }
+            }
+            vm.fields[index] = newField;
         }
     }
 })();
