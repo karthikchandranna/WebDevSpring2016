@@ -6,26 +6,28 @@
     function FieldController() {
         var vm = this;
         vm.addField = addField;
+        vm.renderModal = renderModal;
+        vm.field = {};
         vm.fields = [
-            {label:"TEXT", placeholder:"TEXT", type:"TEXT"},
-            {label:"TEXTAREA", placeholder:"TEXTAREA", type:"TEXTAREA"},
-            {label:"DATE", placeholder:"DATE", type:"DATE"},
-            {label:"OPTIONS", placeholder:"OPTIONS", type:"OPTIONS",
+            {"_id":"1",label:"Text", placeholder:"TEXT", type:"TEXT"},
+            {"_id":"2",label:"TextArea", placeholder:"TEXTAREA", type:"TEXTAREA"},
+            {"_id":"3",label:"Date", placeholder:"DATE", type:"DATE"},
+            {"_id":"4",label:"Dropdown", placeholder:"OPTIONS", type:"OPTIONS",
                 options:[
                     {"label": "Option 1", "value": "OPTION_1"},
                     {"label": "Option 2", "value": "OPTION_2"}]},
-            {label:"CHECKBOXES", placeholder:"CHECKBOXES", type:"CHECKBOXES",
+            {"_id":"5",label:"Checkbox", placeholder:"CHECKBOXES", type:"CHECKBOXES",
                 options:[
                     {"label": "Option 1", "value": "OPTION_1"},
                     {"label": "Option 2", "value": "OPTION_2"}]},
-            {label:"RADIOS", placeholder:"RADIOS", type:"RADIOS",
+            {"_id":"6",label:"Radio Button", placeholder:"RADIOS", type:"RADIOS",
                 options:[
                     {"label": "Option 1", "value": "OPTION_1"},
                     {"label": "Option 2", "value": "OPTION_2"}]}];
 
         function addField(fieldType) {
             if (!fieldType) return;
-            var field = {"type":fieldType};
+            var field = {"_id":(new Date()).getTime(), "type":fieldType};
             switch(fieldType) {
                 case "TEXT":
                 case "TEXTAREA":
@@ -60,8 +62,24 @@
                     ];
                     break;
             }
-            console.log(field);
             vm.fields.push(field);
+        }
+
+        function renderModal(id) {
+            for (var f in vm.fields) {
+                if (vm.fields[f]._id === id) {
+                    vm.field = vm.fields[f];
+                    break;
+                }
+            }
+            if(vm.field.options) {
+                vm.field.optionsStr = "";
+                for (var o in vm.field.options) {
+                    vm.field.optionsStr += vm.field.options[o].label.toString() + ":" +
+                        vm.field.options[o].value.toString() + "\n";
+                }
+            }
+            $("#myModal").modal();
         }
     }
 })();
