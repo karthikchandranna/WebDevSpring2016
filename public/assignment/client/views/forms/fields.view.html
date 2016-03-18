@@ -7,17 +7,8 @@
     <div class="tab-content">
         <div id="fields" class="tab-pane fade in active">
             <br/>
-            <ul id="sortable">
-                <li>Item 1</li>
-                <li>Item 2</li>
-                <li>Item 3</li>
-                <li>Item 4</li>
-                <li>Item 5</li>
-                <li>Item 6</li>
-                <li>Item 7</li>
-            </ul>
-            <ul  id="sortable1" ng-repeat="field in model.fields" class="list-group">
-                <li class="list-group-item">
+            <ul  ui-sortable ng-model="model.fields" class="list-group">
+                <li class="list-group-item" ng-repeat="field in model.fields" >
                     <label> {{field.label}} </label>
                     <div class="row" ng-switch on="field.type">
                         <div class="col-sm-6 col-xs-8" ng-switch-when="TEXT">
@@ -120,7 +111,7 @@
                     <input type="text" class="form-control" ng-model="model.field.label">
                     <br/>
                     <label>Options</label>
-                    <textarea rows="5" class="form-control">{{model.field.optionsStr}}</textarea>
+                    <textarea rows="5" class="form-control" ng-model="model.field.optionsStr"></textarea>
                 </div>
             </div>
             <div class="modal-footer">

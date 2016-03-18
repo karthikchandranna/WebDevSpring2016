@@ -8,6 +8,7 @@
         vm.addField = addField;
         vm.renderModal = renderModal;
         vm.editField = editField;
+        vm.removeField = removeField;
         vm.field = {};
         vm.fields = [
             {"_id":"1",label:"Text", placeholder:"TEXT", type:"TEXT"},
@@ -66,10 +67,10 @@
             vm.fields.push(field);
         }
 
-        function renderModal(id) {
+        function renderModal(fieldId) {
             var f;
             for (f in vm.fields) {
-                if (vm.fields[f]._id === id) {
+                if (vm.fields[f]._id === fieldId) {
                     break;
                 }
             }
@@ -85,7 +86,18 @@
         }
 
         function editField(newField) {
-            console.log("okay triggered");
+
+            if(newField.optionsStr) {
+                var newOptions = [];
+                var optionLine = vm.field.optionsStr.split("\n");
+                for(var o in optionLine) {
+                    var items = optionLine[o].split(":");
+                    var option = {"label": items[0], "value": items[1]};
+                    newOptions.push(option);
+                }
+                newField.options = newOptions;
+                delete newField.optionsStr;
+            }
             var index;
             for (index in vm.fields) {
                 if (vm.fields[index]._id === newField._id) {
@@ -93,6 +105,16 @@
                 }
             }
             vm.fields[index] = newField;
+        }
+
+        function removeField(fieldId) {
+            var f;
+            for (f in vm.fields) {
+                if (vm.fields[f]._id === fieldId) {
+                    break;
+                }
+            }
+            vm.fields.splice(f,1);
         }
     }
 })();
