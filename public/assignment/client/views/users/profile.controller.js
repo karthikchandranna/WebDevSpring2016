@@ -4,7 +4,7 @@
         .module("FormBuilderApp")
         .controller("ProfileController", ProfileController);
 
-    function ProfileController($location, UserService) {
+    function ProfileController(UserService) {
         var vm = this;
         vm.error = null;
         vm.message = null;

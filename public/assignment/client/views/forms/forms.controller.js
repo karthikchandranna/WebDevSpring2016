@@ -3,32 +3,39 @@
     angular.module("FormBuilderApp")
         .controller("FormController", FormController);
 
-    function FormController($scope, $location, FormService, UserService) {
+    function FormController(FormService, UserService) {
 
-        $scope.currentUser = UserService.getCurrentUser();
-        if (!$scope.currentUser) {
-            $location.url("/home");
-        }
-        else {
-            updateUserFormsList();
-        }
-
+        var vm = this;
         //event handlers declaration
-        $scope.addForm = addForm;
-        $scope.updateForm = updateForm;
-        $scope.deleteForm = deleteForm;
-        $scope.selectForm = selectForm;
+        vm.addForm = addForm;
+        vm.updateForm = updateForm;
+        vm.deleteForm = deleteForm;
+        vm.selectForm = selectForm;
+        function init() {
+            UserService
+                .getCurrentUser()
+                .then(function (response) {
+                    vm.currentUser = response.data;
+                    updateUserFormsList();
+                });
+        }
 
         function updateUserFormsList() {
-            FormService.findAllFormsForUser($scope.currentUser._id, function (response) {
-                $scope.forms = response;
+            FormService
+                .findAllFormsForUser(vm.currentUser._id)
+                .then(function (response) {
+                    vm.forms = response;
             });
         }
 
+        return init();
+
         function addForm(form) {
             if (form && form.title && !form._id) {
-                FormService.createFormForUser($scope.currentUser._id, form, function (response) {
-                    $scope.form = {};
+                FormService
+                    .createFormForUser(vm.currentUser._id, form)
+                    .then(function () {
+                    vm.form = {};
                     updateUserFormsList();
                 })
             }
@@ -36,27 +43,31 @@
 
         function updateForm(form) {
             if (form && form._id) {
-                FormService.updateFormById(form._id, form, function (response) {
-                    $scope.form = {};
+                FormService
+                    .updateFormById(form._id, form)
+                    .then(function () {
+                    vm.form = {};
                     updateUserFormsList();
                 })
             }
         }
 
         function deleteForm(index) {
-            FormService.deleteFormById($scope.forms[index]._id, function (response) {
-                if ($scope.form._id && $scope.forms[index]._id === $scope.form._id) {
-                    $scope.form = {};
+            FormService
+                .deleteFormById(vm.forms[index]._id)
+                .then(function () {
+                if (vm.form._id && vm.forms[index]._id === vm.form._id) {
+                    vm.form = {};
                 }
                 updateUserFormsList();
             })
         }
 
         function selectForm(index) {
-            $scope.form = {
-                _id: $scope.forms[index]._id,
-                title: $scope.forms[index].title,
-                userId:$scope.forms[index].userId
+            vm.form = {
+                _id: vm.forms[index]._id,
+                title: vm.forms[index].title,
+                userId:vm.forms[index].userId
             };
         }
     }
