@@ -47,6 +47,14 @@
                     checkLoggedIn: checkLoggedIn
                 }
             })
+            .when("/form/:formId/fields", {
+                templateUrl: "views/forms/fields.view.html",
+                controller: "FieldController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
+            })
             .otherwise({
                 redirectTo: "/home"
             });
@@ -71,4 +79,38 @@
 
         return deferred.promise;
     }
+
+    /*function checkUserForms(UserService, $q, $location, FormService, $routeParams) {
+
+        var deferred = $q.defer();
+        var currentUser;
+        var formId = $routeParams.formId;
+        console.log(formId);
+        UserService
+            .getCurrentUser()
+            .then(function (response) {
+                currentUser = response.data;
+                console.log(currentUser);
+                FormService
+                    .findAllFormsForUser(currentUser._id)
+                    .then(function(response) {
+                        var forms = response.data;
+                        console.log(forms);
+                        var validFrom = false;
+                        for (var f in forms) {
+                            if(forms[f]._id == formId) {
+                                validFrom = true;
+                                break;
+                            }
+                        }
+                        if(validFrom) {
+                            deferred.resolve();
+                        } else {
+                            deferred.reject();
+                            $location.url("/home");
+                        }
+                    });
+            });
+        return deferred.promise;
+    }*/
 })();

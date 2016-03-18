@@ -27,8 +27,8 @@
                     </thead>
                     <tbody>
 
-                    <tr ng-repeat="f in model.forms">
-                        <td><a href="#/fields">{{f.title}}</a></td>
+                    <tr ng-repeat="form in model.forms">
+                        <td><a href="#/form/{{form._id}}/fields">{{form.title}}</a></td>
                         <td><a ng-click="model.deleteForm($index)">
                                 <span class="glyphicon glyphicon-remove" aria-hidden=true></span></a>&nbsp&nbsp
                             <a ng-click="model.selectForm($index)">

@@ -3,7 +3,7 @@
     angular
         .module("FormBuilderApp")
         .controller("FieldController", FieldController);
-    function FieldController() {
+    function FieldController($routeParams, FieldService, UserService) {
         var vm = this;
         vm.addField = addField;
         vm.renderModal = renderModal;
@@ -27,14 +27,37 @@
                     {"label": "Option 1", "value": "OPTION_1"},
                     {"label": "Option 2", "value": "OPTION_2"}]}];
 
+        function init() {
+            vm.formId = $routeParams.formId;
+            UserService
+                .getCurrentUser()
+                .then(function (response) {
+                    vm.currentUser = response.data;
+                    updateFormFieldsList();
+                });
+        }
+        return init();
+
+        function updateFormFieldsList() {
+            FieldService
+                .getFieldsForForm(vm.formId)
+                .then(function (response) {
+                    vm.fields = response.data;
+                });
+        }
+
         function addField(fieldType) {
             if (!fieldType) return;
-            var field = {"_id":(new Date()).getTime(), "type":fieldType};
+            var field = {"type":fieldType};
             switch(fieldType) {
                 case "TEXT":
                 case "TEXTAREA":
                     field.label="New Text Field";
                     field.placeholder="New Text Field";
+                    break;
+                case "EMAIL":
+                    field.label="New Email Field";
+                    field.placeholder="New Email Field";
                     break;
                 case "DATE":
                     field.label = "New Date Field";
@@ -64,7 +87,12 @@
                     ];
                     break;
             }
-            vm.fields.push(field);
+            FieldService
+                .createFieldForForm(vm.formId, field)
+                .then(function (response) {
+                    vm.fields = response.data;
+                });
+            //vm.fields.push(field);
         }
 
         function renderModal(fieldId) {
@@ -108,13 +136,18 @@
         }
 
         function removeField(fieldId) {
-            var f;
-            for (f in vm.fields) {
+            //var f;
+            FieldService
+                .deleteFieldFromForm(vm.formId, fieldId)
+                .then(function (response) {
+                    vm.fields = response.data;
+                });
+            /*for (f in vm.fields) {
                 if (vm.fields[f]._id === fieldId) {
                     break;
                 }
             }
-            vm.fields.splice(f,1);
+            vm.fields.splice(f,1);*/
         }
     }
 })();

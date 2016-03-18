@@ -9,8 +9,8 @@ module.exports = function(app, fieldModel) {
     function createFieldForForm(req, res) {
         var field = req.body;
         var formId = req.params.formId;
-        field = fieldModel.createFieldForForm(formId, field);
-        res.json(field);
+        var fields = fieldModel.createFieldForForm(formId, field);
+        res.json(fields);
     }
 
     function getFieldsForForm (req, res) {
@@ -41,11 +41,8 @@ module.exports = function(app, fieldModel) {
     function deleteField (req, res) {
         var formId = req.params.formId;
         var fieldId = req.params.fieldId;
-        if(fieldModel.deleteFieldFromForm(formId, fieldId)) {
-            res.send(200);
-            return;
-        }
-        res.json ({message: "Field not found"});
+        var fields = fieldModel.deleteFieldFromForm(formId, fieldId);
+        res.json(fields);
     }
 
 };

@@ -28,7 +28,7 @@ module.exports = function() {
             var newField = JSON.parse(JSON.stringify(field));
             newField._id = uuid.v1();
             forms[index].fields.push(newField);
-            return newField;
+            return forms[index].fields;
         }
         return null;
     }
@@ -83,10 +83,10 @@ module.exports = function() {
             }
             if (i > -1) {
                 forms[index].fields.splice(i, 1);
-                return true;
+                return forms[index].fields;
             }
         }
-        return false;
+        return null;
     }
 
 };
