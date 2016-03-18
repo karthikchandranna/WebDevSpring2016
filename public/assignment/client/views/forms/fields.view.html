@@ -7,7 +7,16 @@
     <div class="tab-content">
         <div id="fields" class="tab-pane fade in active">
             <br/>
-            <ul  id="sortable" ng-repeat="field in model.fields" class="list-group">
+            <ul id="sortable">
+                <li>Item 1</li>
+                <li>Item 2</li>
+                <li>Item 3</li>
+                <li>Item 4</li>
+                <li>Item 5</li>
+                <li>Item 6</li>
+                <li>Item 7</li>
+            </ul>
+            <ul  id="sortable1" ng-repeat="field in model.fields" class="list-group">
                 <li class="list-group-item">
                     <label> {{field.label}} </label>
                     <div class="row" ng-switch on="field.type">
