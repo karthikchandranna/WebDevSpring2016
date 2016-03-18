@@ -24,7 +24,7 @@
             FormService
                 .findAllFormsForUser(vm.currentUser._id)
                 .then(function (response) {
-                    vm.forms = response;
+                    vm.forms = response.data;
             });
         }
 
