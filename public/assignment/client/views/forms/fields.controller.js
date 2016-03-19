@@ -9,6 +9,7 @@
         vm.renderModal = renderModal;
         vm.updateField = updateField;
         vm.removeField = removeField;
+        vm.updateFields = updateFields;
         vm.field = {};
 
         function init() {
@@ -26,19 +27,36 @@
                 });
         }
 
-        /*
-         $scope.$watch('vm.fields', function (newValue, oldValue) {
-         if(Object.keys(newValue).length !== 0 && Object.keys(oldValue).length !== 0 ){
-         FormService
-         .sortFields(vm.formId,newValue)
-         .then(function (response) {
-         vm.fields = response.data;
-         });
-         }
-         }, true);
-         */
+        var sortableEle;
+
+        vm.dragStart = function(e, ui) {
+            ui.item.data('start', ui.item.index());
+        };
+        vm.dragEnd = function(e, ui) {
+            var start = ui.item.data('start'),
+                end = ui.item.index();
+
+            vm.fields.splice(end, 0,
+                vm.fields.splice(start, 1)[0]);
+
+            vm.$apply();
+        };
+
+        sortableEle = $('#sortable').sortable({
+            start: vm.dragStart,
+            update: vm.dragEnd
+        });
 
         return init();
+
+        function updateFields() {
+            FormService
+                .sortFields(vm.formId,vm.fields)
+                .then(function (response) {
+                    vm.fields = response.data;
+                });
+        }
+
 
         function updateFormFieldsList() {
             FieldService

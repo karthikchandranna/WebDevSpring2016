@@ -7,7 +7,7 @@
     <div class="tab-content">
         <div id="fields" class="tab-pane fade in active">
             <br/>
-            <ul ui-sortable ng-model="model.fields" class="list-group">
+            <ul ui-sortable="{stop: model.updateFields}" id="sortable" ng-model="model.fields" class="list-group">
                 <li class="list-group-item" ng-repeat="field in model.fields" >
                     <label> {{field.label}} </label>
                     <div class="row" ng-switch on="field.type">
@@ -53,6 +53,7 @@
                     </div>
                 </li>
             </ul>
+            <pre ng-bind="model.fields|json"></pre>
             <hr class="divider">
             <div class="form-group">
                 <div class="row">

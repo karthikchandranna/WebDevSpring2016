@@ -36,7 +36,7 @@
         }
 
         function sortFields(formId,fields){
-            return $http.put("/api/assignment/form/" + formId + "/field", fields);
+            return $http.put("/api/assignment/form/" + formId + "/field/", fields);
         }
     }
 })();
