@@ -1,4 +1,3 @@
-/*
 (function () {
     "use strict";
     angular.module("FormBuilderApp")
@@ -7,7 +6,6 @@
     function HomeController(UserService) {
 
         var vm = this;
-
         function init() {
             UserService
                 .getCurrentUser()
@@ -17,4 +15,4 @@
         }
         return init();
     }
-})();*/
+})();

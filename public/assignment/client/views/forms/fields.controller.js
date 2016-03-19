@@ -3,29 +3,13 @@
     angular
         .module("FormBuilderApp")
         .controller("FieldController", FieldController);
-    function FieldController($routeParams, FieldService, UserService) {
+    function FieldController($routeParams, FieldService, UserService, FormService) {
         var vm = this;
         vm.addField = addField;
         vm.renderModal = renderModal;
-        vm.editField = editField;
+        vm.updateField = updateField;
         vm.removeField = removeField;
         vm.field = {};
-        vm.fields = [
-            {"_id":"1",label:"Text", placeholder:"TEXT", type:"TEXT"},
-            {"_id":"2",label:"TextArea", placeholder:"TEXTAREA", type:"TEXTAREA"},
-            {"_id":"3",label:"Date", placeholder:"DATE", type:"DATE"},
-            {"_id":"4",label:"Dropdown", placeholder:"OPTIONS", type:"OPTIONS",
-                options:[
-                    {"label": "Option 1", "value": "OPTION_1"},
-                    {"label": "Option 2", "value": "OPTION_2"}]},
-            {"_id":"5",label:"Checkbox", placeholder:"CHECKBOXES", type:"CHECKBOXES",
-                options:[
-                    {"label": "Option 1", "value": "OPTION_1"},
-                    {"label": "Option 2", "value": "OPTION_2"}]},
-            {"_id":"6",label:"Radio Button", placeholder:"RADIOS", type:"RADIOS",
-                options:[
-                    {"label": "Option 1", "value": "OPTION_1"},
-                    {"label": "Option 2", "value": "OPTION_2"}]}];
 
         function init() {
             vm.formId = $routeParams.formId;
@@ -35,7 +19,29 @@
                     vm.currentUser = response.data;
                     updateFormFieldsList();
                 });
+            FormService
+                .getFormById(vm.formId)
+                .then(function (response) {
+                    vm.form = response.data;
+                });
         }
+
+/*
+        $scope.$watch('vm.fields', function (newValue, oldValue) {
+            if(Object.keys(newValue).length !== 0 && Object.keys(oldValue).length !== 0 ){
+                console.log("New Value:");
+                console.log(newValue);
+                console.log("Old Value:");
+                console.log(oldValue);
+                FormService
+                    .sortFields(vm.formId,newValue)
+                    .then(function (response) {
+                        vm.fields = response.data;
+                    });
+            }
+        }, true);
+*/
+
         return init();
 
         function updateFormFieldsList() {
@@ -92,7 +98,6 @@
                 .then(function (response) {
                     vm.fields = response.data;
                 });
-            //vm.fields.push(field);
         }
 
         function renderModal(fieldId) {
@@ -113,7 +118,7 @@
             $("#myModal").modal();
         }
 
-        function editField(newField) {
+        function updateField(newField) {
 
             if(newField.optionsStr) {
                 var newOptions = [];
@@ -126,28 +131,20 @@
                 newField.options = newOptions;
                 delete newField.optionsStr;
             }
-            var index;
-            for (index in vm.fields) {
-                if (vm.fields[index]._id === newField._id) {
-                    break;
-                }
-            }
-            vm.fields[index] = newField;
+
+            FieldService
+                .updateField(vm.formId, newField._id, newField)
+                .then(function (response) {
+                    vm.fields = response.data;
+                });
         }
 
         function removeField(fieldId) {
-            //var f;
             FieldService
                 .deleteFieldFromForm(vm.formId, fieldId)
                 .then(function (response) {
                     vm.fields = response.data;
                 });
-            /*for (f in vm.fields) {
-                if (vm.fields[f]._id === fieldId) {
-                    break;
-                }
-            }
-            vm.fields.splice(f,1);*/
         }
     }
 })();

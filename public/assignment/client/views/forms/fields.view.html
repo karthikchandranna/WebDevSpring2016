@@ -1,13 +1,13 @@
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-    <h1 class="page-header">Forms</h1>
+    <h1 class="page-header">Forms : {{model.form.title}}</h1>
     <ul class="nav nav-tabs">
-        <li role="presentation"><a href="#/forms">Forms</a></li>
+        <li role="presentation"><a href="#/forms">Form</a></li>
         <li role="presentation" class="active"><a href="#/fields">Fields</a></li>
     </ul>
     <div class="tab-content">
         <div id="fields" class="tab-pane fade in active">
             <br/>
-            <ul  ui-sortable ng-model="model.fields" class="list-group">
+            <ul ui-sortable ng-model="model.fields" class="list-group">
                 <li class="list-group-item" ng-repeat="field in model.fields" >
                     <label> {{field.label}} </label>
                     <div class="row" ng-switch on="field.type">
@@ -78,6 +78,7 @@
             </div>
         </div>
     </div>
+    <br/><br/><br/>
 </div>
 
 <!-- Modal -->
@@ -126,7 +127,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button ng-click="model.editField(model.field)" type="button"
+                <button ng-click="model.updateField(model.field)" type="button"
                         data-dismiss="modal" class="btn btn-primary">Ok</button>
             </div>
         </div>

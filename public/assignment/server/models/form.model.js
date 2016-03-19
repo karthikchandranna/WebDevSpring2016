@@ -8,7 +8,8 @@ module.exports = function() {
         findFormById: findFormById,
         updateForm: updateForm,
         deleteForm: deleteForm,
-        findFormByTitle: findFormByTitle
+        findFormByTitle: findFormByTitle,
+        sortFields: sortFields
     };
     return api;
 
@@ -86,6 +87,15 @@ module.exports = function() {
             if( mock[f].title === title ) {
                 return mock[f];
             }
+        }
+        return null;
+    }
+
+    function sortFields(formId,fields){
+        var form = findFormById(formId);
+        if(form){
+            form.fields = fields;
+            return updateForm(formId, form).fields;
         }
         return null;
     }

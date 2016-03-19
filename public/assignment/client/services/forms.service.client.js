@@ -9,7 +9,9 @@
             createFormForUser: createFormForUser,
             findAllFormsForUser: findAllFormsForUser,
             deleteFormById: deleteFormById,
-            updateFormById: updateFormById
+            updateFormById: updateFormById,
+            getFormById: getFormById,
+            sortFields: sortFields
         };
         return api;
 
@@ -25,8 +27,16 @@
             return $http.delete ("/api/assignment/form/" + formId);
         }
 
+        function getFormById(formId) {
+            return $http.get ("/api/assignment/form/" + formId);
+        }
+
         function updateFormById(formId, newForm) {
             return $http.put ("/api/assignment/form/" + formId, newForm);
+        }
+
+        function sortFields(formId,fields){
+            return $http.put("/api/assignment/form/" + formId + "/field", fields);
         }
     }
 })();

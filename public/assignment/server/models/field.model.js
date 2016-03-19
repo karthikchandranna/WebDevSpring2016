@@ -65,7 +65,7 @@ module.exports = function() {
             }
             if (i > -1) {
                 forms[index].fields[i] = JSON.parse(JSON.stringify(field));
-                return forms[index].fields[i];
+                return forms[index].fields;
             }
         }
         return null;
@@ -88,5 +88,4 @@ module.exports = function() {
         }
         return null;
     }
-
 };

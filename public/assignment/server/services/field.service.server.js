@@ -30,9 +30,9 @@ module.exports = function(app, fieldModel) {
         var formId = req.params.formId;
         var fieldId = req.params.fieldId;
         var field = req.body;
-        field = fieldModel.updateField(formId, fieldId, field);
-        if(field) {
-            res.json(field);
+        var fields = fieldModel.updateField(formId, fieldId, field);
+        if(fields) {
+            res.json(fields);
             return;
         }
         res.json({message: "Field not found"});
@@ -42,7 +42,11 @@ module.exports = function(app, fieldModel) {
         var formId = req.params.formId;
         var fieldId = req.params.fieldId;
         var fields = fieldModel.deleteFieldFromForm(formId, fieldId);
-        res.json(fields);
+        if(fields) {
+            res.json(fields);
+            return;
+        }
+        res.json({message: "Field not found"});
     }
 
 };

@@ -4,6 +4,7 @@ module.exports = function(app, formModel) {
     app.get("/api/assignment/user/:userId/form", getFormsForUser);
     app.get("/api/assignment/form/:formId", getFormById);
     app.put("/api/assignment/form/:formId", updateForm);
+    app.put("/api/assignment/form/:formId/field/", sortFields);
     app.delete("/api/assignment/form/:formId", deleteForm);
 
     function createFormForUser (req, res) {
@@ -44,4 +45,12 @@ module.exports = function(app, formModel) {
         }
         res.json ({message: "Form not found"});
     }
+
+
+    function sortFields(req,res){
+        var formId = req.params.formId;
+        var fields = req.body;
+        res.json(formModel.sortFields(formId,fields));
+    }
+
 };
