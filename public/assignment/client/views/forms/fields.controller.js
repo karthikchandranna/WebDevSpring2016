@@ -29,10 +29,6 @@
 /*
         $scope.$watch('vm.fields', function (newValue, oldValue) {
             if(Object.keys(newValue).length !== 0 && Object.keys(oldValue).length !== 0 ){
-                console.log("New Value:");
-                console.log(newValue);
-                console.log("Old Value:");
-                console.log(oldValue);
                 FormService
                     .sortFields(vm.formId,newValue)
                     .then(function (response) {
