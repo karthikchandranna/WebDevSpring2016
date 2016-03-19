@@ -27,7 +27,10 @@ module.exports = function() {
         if(index !== -1) {
             var newField = JSON.parse(JSON.stringify(field));
             newField._id = uuid.v1();
-            forms[index].fields.push(newField);
+            if(forms[index].fields)
+                forms[index].fields.push(newField);
+            else
+                forms[index].fields = [newField];
             return forms[index].fields;
         }
         return null;
