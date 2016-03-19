@@ -26,17 +26,17 @@
                 });
         }
 
-/*
-        $scope.$watch('vm.fields', function (newValue, oldValue) {
-            if(Object.keys(newValue).length !== 0 && Object.keys(oldValue).length !== 0 ){
-                FormService
-                    .sortFields(vm.formId,newValue)
-                    .then(function (response) {
-                        vm.fields = response.data;
-                    });
-            }
-        }, true);
-*/
+        /*
+         $scope.$watch('vm.fields', function (newValue, oldValue) {
+         if(Object.keys(newValue).length !== 0 && Object.keys(oldValue).length !== 0 ){
+         FormService
+         .sortFields(vm.formId,newValue)
+         .then(function (response) {
+         vm.fields = response.data;
+         });
+         }
+         }, true);
+         */
 
         return init();
 
@@ -120,9 +120,11 @@
                 var newOptions = [];
                 var optionLine = vm.field.optionsStr.split("\n");
                 for(var o in optionLine) {
-                    var items = optionLine[o].split(":");
-                    var option = {"label": items[0], "value": items[1]};
-                    newOptions.push(option);
+                    if (optionLine[o]) {
+                        var items = optionLine[o].split(":");
+                        var option = {"label": items[0], "value": items[1]};
+                        newOptions.push(option);
+                    }
                 }
                 newField.options = newOptions;
                 delete newField.optionsStr;
