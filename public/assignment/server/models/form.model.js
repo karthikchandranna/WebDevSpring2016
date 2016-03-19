@@ -93,7 +93,6 @@ module.exports = function() {
 
     function sortFields(formId,fields){
         var form = findFormById(formId);
-        console.log(form);
         if(form){
             form.fields = fields;
             return updateForm(formId, form).fields;
