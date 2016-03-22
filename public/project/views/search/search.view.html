@@ -2,16 +2,20 @@
     <h1 class="page-header">Search Results for {{query}}</h1>
 
     <div class="row placeholders">
-        <div class="col-xs-12 col-sm-6 col-md-4 placeholder" ng-repeat="movie in data.results">
+        <div class="col-xs-12 col-sm-6 col-md-4 placeholder" ng-repeat="movie in movies">
 
-            <div class="thumbnail" style="display: inline-block">
-                <a href="#/movie/{{movie.id}}">
+            <div class="thumbnail">
+                <!--<a href="#/movie/{{movie.id}}">
                     <img style="height: 375px; width: 250px; display: block;" alt="No Poster Available !!!"
                          ng-src="https://image.tmdb.org/t/p/w342/{{movie.poster_path}}">
-                </a>
-                <!--<div class="embed-responsive embed-responsive-4by3">
-                    <iframe ng-src="{{movie.video_url}}"></iframe>
-                </div>-->
+                </a>-->
+                <div class="embed-responsive embed-responsive-4by3">
+                    <!--<video controls poster="https://image.tmdb.org/t/p/w342/{{movie.poster_path}}">
+                        <source ng-src="{{movie.video_url}}">
+                        Your browser does not support the video tag.
+                    </video>-->
+                    <iframe ng-src="{{movie.video_url}}" ></iframe>
+                </div>
                 <div class="caption">
                     <a href="#/movie/{{movie.id}}"><h4 class="smallheader">{{movie.title| limitTo:30}}</h4></a>
                     <h5>Release Date: {{movie.release_date}}</h5>
