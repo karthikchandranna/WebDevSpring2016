@@ -11,13 +11,16 @@
         $scope.logout = logout;
 
         function logout() {
-            UserService.setCurrentUser(null);
-            $location.url("/home");
+            UserService
+                .logout()
+                .then(function(){
+                    UserService.setCurrentUser(null);
+                    $location.url("/home");
+                });
         }
 
         function submit(){
             if($scope.query) {
-                console.log($scope.query);
                 $location.url("/search/"+$scope.query);
                 $scope.query = '';
             }
