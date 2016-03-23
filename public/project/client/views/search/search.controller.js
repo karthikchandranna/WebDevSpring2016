@@ -8,10 +8,16 @@
         $scope.search = search;
         $scope.query = $routeParams.query;
         $scope.fetchAllVideos = fetchAllVideos;
+        $scope.genreName = genreName;
 
-        if ($scope.query) {
-            search($scope.query);
+        function init() {
+            if ($scope.query) {
+                search($scope.query);
+                getGenres();
+            }
         }
+
+        return init();
 
         function search(query) {
             MovieService
@@ -34,5 +40,21 @@
                 }
             }
         }
+
+        function getGenres() {
+            MovieService
+                .getGenres()
+                .then(function (response){
+                    $scope.genres = response.data.genres;
+                })
+        }
+
+        function genreName(id) {
+            for (var genre in $scope.genres) {
+                if ($scope.genres[genre].id === id){
+                    return $scope.genres[genre].name;
+                }
+            }
+        };
     }
 })();

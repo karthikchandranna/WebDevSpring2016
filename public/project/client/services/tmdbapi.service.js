@@ -14,7 +14,8 @@
             getUpcomingMovies: getUpcomingMovies,
             getPopularMovies: getPopularMovies,
             getTopRatedMovies: getTopRatedMovies,
-            fetchAllVideos: fetchAllVideos
+            fetchAllVideos: fetchAllVideos,
+            getGenres: getGenres
         };
         var apikey = "a1aa62ec3ff2b05c1b0e804adce79c24";
         var baseUrl = "https://api.themoviedb.org/3";
@@ -47,7 +48,7 @@
         }
 
         function searchMovies(query) {
-            var moviesSearchUrl = baseUrl + '/search/movie?api_key=' + apikey + '&query=' + query;
+            var moviesSearchUrl = baseUrl + '/search/movie?api_key=' + apikey + '&query=' + query + '&language=en';
             return $http.get(moviesSearchUrl);
         }
 
@@ -74,6 +75,11 @@
                 return $http.get(videoUrl);
             });
             return $q.all(promises);
+        }
+
+        function getGenres() {
+            var url = baseUrl + '/genre/movie/list?api_key=' + apikey;
+            return $http.get(url);
         }
     }
 })();

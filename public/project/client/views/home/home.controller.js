@@ -5,7 +5,27 @@
         .controller("HomeController", HomeController);
 
     function HomeController($scope, MovieService, $sce) {
+
+        $scope.genreName = genreName;
+
         function init() {
+            getGenres();
+            getNowplayingMovies();
+            getUpcomingMovies();
+        }
+
+        return init();
+
+        function getGenres() {
+            MovieService
+                .getGenres()
+                .then(function (response){
+                    $scope.genres = response.data.genres;
+                    console.log($scope.genres);
+                })
+        }
+
+        function getNowplayingMovies() {
             MovieService
                 .getNowPlaying()
                 .then(function(response){
@@ -16,11 +36,14 @@
                             fetchAllNowPlayingVideos(resp);
                         });
                 });
+        }
 
+        function getUpcomingMovies() {
             MovieService
                 .getUpcomingMovies()
                 .then(function(response){
                     $scope.upcoming = response.data.results;
+                    console.log($scope.upcoming);
                     MovieService
                         .fetchAllVideos($scope.upcoming)
                         .then(function(resp){
@@ -28,8 +51,6 @@
                         });
                 });
         }
-
-        return init();
 
         function fetchAllUpComingVideos(resp) {
             var embedUrl = 'https://www.youtube.com/embed/';
@@ -48,5 +69,13 @@
                 }
             }
         }
+
+        function genreName(id) {
+            for (var genre in $scope.genres) {
+                if ($scope.genres[genre].id === id){
+                    return $scope.genres[genre].name;
+                }
+            }
+        };
     }
 })();
