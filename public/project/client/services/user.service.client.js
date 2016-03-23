@@ -4,7 +4,7 @@
         .module("FilmsterApp")
         .factory("UserService", UserService);
 
-    function UserService($rootScope) {
+    function UserService($rootScope, $http) {
 
         var model = {
             users: [
