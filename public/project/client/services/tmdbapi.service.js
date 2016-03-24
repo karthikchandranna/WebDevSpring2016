@@ -1,9 +1,9 @@
 (function(){
     angular
         .module("FilmsterApp")
-        .factory("MovieService", MovieService);
+        .factory("TmdbApiService", TmdbApiService);
 
-    function MovieService($http, $q){
+    function TmdbApiService($http, $q){
 
         var api = {
             searchMovies: searchMovies,

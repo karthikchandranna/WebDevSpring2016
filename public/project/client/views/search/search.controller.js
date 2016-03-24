@@ -4,7 +4,7 @@
         .module("FilmsterApp")
         .controller("SearchController", SearchController);
 
-    function SearchController($scope, $routeParams, MovieService, $sce) {
+    function SearchController($scope, $routeParams, TmdbApiService, $sce) {
         $scope.search = search;
         $scope.query = $routeParams.query;
         $scope.fetchAllVideos = fetchAllVideos;
@@ -20,11 +20,11 @@
         return init();
 
         function search(query) {
-            MovieService
+            TmdbApiService
                 .searchMovies(query)
                 .then(function(response){
                     $scope.movies = response.data.results;
-                    MovieService
+                    TmdbApiService
                         .fetchAllVideos($scope.movies)
                         .then(function(resp){
                             fetchAllVideos(resp);
@@ -42,7 +42,7 @@
         }
 
         function getGenres() {
-            MovieService
+            TmdbApiService
                 .getGenres()
                 .then(function (response){
                     $scope.genres = response.data.genres;

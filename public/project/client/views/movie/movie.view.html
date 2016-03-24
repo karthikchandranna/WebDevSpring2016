@@ -32,8 +32,8 @@
                             aria-labelledby="default-rating" ng-class="'rating-star'">
                 </uib-rating>
                 <h4>User's Rating</h4>
-                <uib-rating ng-model="movie.criticsRating" max=5 read-only="isReadonly" on-hover="hoveringOver(value)"
-                            on-leave="overStar = null" titles="['one','two','three','four','five']" ng-click="rate()"
+                <uib-rating ng-model="movie.usersRating" max=5 read-only="isReadonly" on-hover="hoveringOver(value)"
+                            on-leave="overStar = null" titles="['one','two','three','four','five']" ng-click="addRating()"
                             aria-labelledby="default-rating" ng-class="'rating-star changing-star'">
                 </uib-rating>
                 <span class="label" ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}"

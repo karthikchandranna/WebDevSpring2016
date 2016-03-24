@@ -4,7 +4,7 @@
         .module("FilmsterApp")
         .controller("HomeController", HomeController);
 
-    function HomeController($scope, MovieService, $sce) {
+    function HomeController($scope, TmdbApiService, $sce) {
 
         $scope.genreName = genreName;
 
@@ -17,7 +17,7 @@
         return init();
 
         function getGenres() {
-            MovieService
+            TmdbApiService
                 .getGenres()
                 .then(function (response){
                     $scope.genres = response.data.genres;
@@ -25,11 +25,11 @@
         }
 
         function getNowplayingMovies() {
-            MovieService
+            TmdbApiService
                 .getNowPlaying()
                 .then(function(response){
                     $scope.nowPlaying = response.data.results;
-                    MovieService
+                    TmdbApiService
                         .fetchAllVideos($scope.nowPlaying)
                         .then(function(resp){
                             fetchAllNowPlayingVideos(resp);
@@ -38,11 +38,11 @@
         }
 
         function getUpcomingMovies() {
-            MovieService
+            TmdbApiService
                 .getUpcomingMovies()
                 .then(function(response){
                     $scope.upcoming = response.data.results;
-                    MovieService
+                    TmdbApiService
                         .fetchAllVideos($scope.upcoming)
                         .then(function(resp){
                             fetchAllUpComingVideos(resp);
