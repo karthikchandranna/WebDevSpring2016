@@ -4,9 +4,9 @@
         .module("FilmsterApp")
         .controller("HomeController", HomeController);
 
-    function HomeController($scope, TmdbApiService, $sce) {
-
-        $scope.genreName = genreName;
+    function HomeController(TmdbApiService, $sce) {
+        var vm = this;
+        vm.genreName = genreName;
 
         function init() {
             getGenres();
@@ -20,7 +20,7 @@
             TmdbApiService
                 .getGenres()
                 .then(function (response){
-                    $scope.genres = response.data.genres;
+                    vm.genres = response.data.genres;
                 })
         }
 
@@ -28,9 +28,9 @@
             TmdbApiService
                 .getNowPlaying()
                 .then(function(response){
-                    $scope.nowPlaying = response.data.results;
+                    vm.nowPlaying = response.data.results;
                     TmdbApiService
-                        .fetchAllVideos($scope.nowPlaying)
+                        .fetchAllVideos(vm.nowPlaying)
                         .then(function(resp){
                             fetchAllNowPlayingVideos(resp);
                         });
@@ -41,9 +41,9 @@
             TmdbApiService
                 .getUpcomingMovies()
                 .then(function(response){
-                    $scope.upcoming = response.data.results;
+                    vm.upcoming = response.data.results;
                     TmdbApiService
-                        .fetchAllVideos($scope.upcoming)
+                        .fetchAllVideos(vm.upcoming)
                         .then(function(resp){
                             fetchAllUpComingVideos(resp);
                         });
@@ -54,7 +54,7 @@
             var embedUrl = 'https://www.youtube.com/embed/';
             for (var r in resp) {
                 if (resp[r].data.results.length > 0) {
-                    $scope.upcoming[r].video_url = $sce.trustAsResourceUrl(embedUrl + resp[r].data.results[0].key);
+                    vm.upcoming[r].video_url = $sce.trustAsResourceUrl(embedUrl + resp[r].data.results[0].key);
                 }
             }
         }
@@ -63,17 +63,17 @@
             var embedUrl = 'https://www.youtube.com/embed/';
             for (var r in resp) {
                 if (resp[r].data.results.length > 0) {
-                    $scope.nowPlaying[r].video_url = $sce.trustAsResourceUrl(embedUrl + resp[r].data.results[0].key);
+                    vm.nowPlaying[r].video_url = $sce.trustAsResourceUrl(embedUrl + resp[r].data.results[0].key);
                 }
             }
         }
 
         function genreName(id) {
-            for (var genre in $scope.genres) {
-                if ($scope.genres[genre].id === id){
-                    return $scope.genres[genre].name;
+            for (var genre in vm.genres) {
+                if (vm.genres[genre].id === id){
+                    return vm.genres[genre].name;
                 }
             }
-        };
+        }
     }
 })();

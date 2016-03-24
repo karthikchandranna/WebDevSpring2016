@@ -8,7 +8,8 @@
         $routeProvider
             .when("/home", {
                 templateUrl: "views/home/home.view.html",
-                controller: "HomeController"
+                controller: "HomeController",
+                controllerAs: "model"
             })
             .when("/register", {
                 templateUrl: "views/users/register.view.html",
@@ -34,24 +35,23 @@
             .when("/critic", {
                 templateUrl: "views/critic/critic.view.html"
             })
-            .when("/search", {
-                templateUrl: "views/search/search.view.html",
-                controller: "SearchController"
-            })
             .when("/search/:query", {
                 templateUrl: "views/search/search.view.html",
-                controller: "SearchController"
+                controller: "SearchController",
+                controllerAs: "model"
             })
             .when("/movie/:id", {
                 templateUrl: "views/movie/movie.view.html",
                 controller: "MovieController",
+                controllerAs: "model",
                 resolve: {
                     getLoggedIn: getLoggedIn
                 }
             })
             .when("/cast/:id", {
                 templateUrl: "views/cast/cast.view.html",
-                controller: "CastController"
+                controller: "CastController",
+                controllerAs: "model"
             })
             .otherwise({
                 redirectTo: "/home"

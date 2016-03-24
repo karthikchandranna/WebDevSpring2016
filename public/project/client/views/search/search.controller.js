@@ -4,15 +4,16 @@
         .module("FilmsterApp")
         .controller("SearchController", SearchController);
 
-    function SearchController($scope, $routeParams, TmdbApiService, $sce) {
-        $scope.search = search;
-        $scope.query = $routeParams.query;
-        $scope.fetchAllVideos = fetchAllVideos;
-        $scope.genreName = genreName;
+    function SearchController($routeParams, TmdbApiService, $sce) {
+        var vm = this;
+        vm.search = search;
+        vm.query = $routeParams.query;
+        vm.fetchAllVideos = fetchAllVideos;
+        vm.genreName = genreName;
 
         function init() {
-            if ($scope.query) {
-                search($scope.query);
+            if (vm.query) {
+                search(vm.query);
                 getGenres();
             }
         }
@@ -23,9 +24,9 @@
             TmdbApiService
                 .searchMovies(query)
                 .then(function(response){
-                    $scope.movies = response.data.results;
+                    vm.movies = response.data.results;
                     TmdbApiService
-                        .fetchAllVideos($scope.movies)
+                        .fetchAllVideos(vm.movies)
                         .then(function(resp){
                             fetchAllVideos(resp);
                         });
@@ -36,7 +37,7 @@
             var embedUrl = 'https://www.youtube.com/embed/';
             for (var r in resp) {
                 if(resp[r].data.results.length > 0) {
-                    $scope.movies[r].video_url = $sce.trustAsResourceUrl(embedUrl + resp[r].data.results[0].key);
+                    vm.movies[r].video_url = $sce.trustAsResourceUrl(embedUrl + resp[r].data.results[0].key);
                 }
             }
         }
@@ -45,14 +46,14 @@
             TmdbApiService
                 .getGenres()
                 .then(function (response){
-                    $scope.genres = response.data.genres;
+                    vm.genres = response.data.genres;
                 })
         }
 
         function genreName(id) {
-            for (var genre in $scope.genres) {
-                if ($scope.genres[genre].id === id){
-                    return $scope.genres[genre].name;
+            for (var genre in vm.genres) {
+                if (vm.genres[genre].id === id){
+                    return vm.genres[genre].name;
                 }
             }
         };

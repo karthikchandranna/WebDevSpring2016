@@ -3,17 +3,16 @@
         .module("FilmsterApp")
         .controller("MovieController", MovieController);
 
-    function MovieController($scope, $routeParams, $sce, TmdbApiService, UserService, MovieService) {
-        $scope.id = $routeParams.id;
-        $scope.isReadonly = true;
-        $scope.hoveringOver = hoveringOver;
-        $scope.addRating = addRating;
+    function MovieController($routeParams, $sce, TmdbApiService, UserService, MovieService) {
+        var vm = this;
+        vm.id = $routeParams.id;
+        vm.isReadonly = true;
+        vm.hoveringOver = hoveringOver;
+        vm.addRating = addRating;
 
         function init() {
-
             setCurrentUser();
             getMovieDetails();
-
         }
 
         return init();
@@ -22,15 +21,15 @@
             UserService
                 .getCurrentUser()
                 .then(function (response) {
-                    $scope.currentUser = response.data;
-                    if($scope.currentUser) {
-                        $scope.isReadonly = false;
+                    vm.currentUser = response.data;
+                    if(vm.currentUser) {
+                        vm.isReadonly = false;
                     }
                 });
         }
 
         function getMovieDetails() {
-            TmdbApiService.findMovieByID($scope.id,
+            TmdbApiService.findMovieByID(vm.id,
                 function (response) {
                     if (response.videos.results.length > 0) {
                         var embedUrl = 'https://www.youtube.com/embed/';
@@ -38,33 +37,33 @@
                         response.untrusted_video_url = embedUrl + response.videos.results[0].key;
                     }
                     response.credits.cast.splice(8, response.credits.cast.length - 8);
-                    $scope.movie = response;
-                    $scope.movie.criticsRating = response.vote_average / 2;
+                    vm.movie = response;
+                    vm.movie.criticsRating = response.vote_average / 2;
                     getUsersRating();
                     getReviews();
                 });
         }
 
         function hoveringOver(value) {
-            $scope.overStar = value;
-            $scope.percent = 100 * (value /5);
+            vm.overStar = value;
+            vm.percent = 100 * (value /5);
         }
 
         function addRating() {
-            if(!$scope.isReadonly) {
+            if(!vm.isReadonly) {
                 MovieService
-                    .addRating($scope.currentUser._id, $scope.movie.id, $scope.movie.usersRating,$scope.movie)
+                    .addRating(vm.currentUser._id, vm.movie.id, vm.movie.usersRating,vm.movie)
                     .then(function (response) {
-                        $scope.movie.usersRating = parseFloat(response.data);
+                        vm.movie.usersRating = parseFloat(response.data);
                     });
             }
         }
 
         function getUsersRating() {
             MovieService
-                .getRating($scope.movie.id)
+                .getRating(vm.movie.id)
                 .then(function (response) {
-                    $scope.movie.usersRating = parseFloat(response.data);
+                    vm.movie.usersRating = parseFloat(response.data);
                 })
         }
 
