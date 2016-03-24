@@ -35,13 +35,13 @@
                     if (response.videos.results.length > 0) {
                         var embedUrl = 'https://www.youtube.com/embed/';
                         response.video_path = $sce.trustAsResourceUrl(embedUrl + response.videos.results[0].key);
+                        response.untrusted_video_url = embedUrl + response.videos.results[0].key;
                     }
                     response.credits.cast.splice(8, response.credits.cast.length - 8);
                     $scope.movie = response;
                     $scope.movie.criticsRating = response.vote_average / 2;
                     getUsersRating();
                     getReviews();
-                    console.log($scope.movie);
                 });
         }
 
@@ -51,20 +51,20 @@
         }
 
         function addRating() {
-            console.log($scope.movie.usersRating);
-            MovieService
-                .addRating($scope.currentUser._id, $scope.movie.id, $scope.movie.usersRating)
-                .then(function (response) {
-                    $scope.movie.usersRating = response.data;
-                });
+            if(!$scope.isReadonly) {
+                MovieService
+                    .addRating($scope.currentUser._id, $scope.movie.id, $scope.movie.usersRating,$scope.movie)
+                    .then(function (response) {
+                        $scope.movie.usersRating = parseFloat(response.data);
+                    });
+            }
         }
 
         function getUsersRating() {
             MovieService
                 .getRating($scope.movie.id)
                 .then(function (response) {
-                    console.log(response.data);
-                    $scope.movie.usersRating = response.data;
+                    $scope.movie.usersRating = parseFloat(response.data);
                 })
         }
 

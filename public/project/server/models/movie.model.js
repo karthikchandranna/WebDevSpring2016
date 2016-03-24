@@ -4,11 +4,20 @@ module.exports = function() {
 
     var api = {
         addRatingForMovie: addRatingForMovie,
-        getRatingForMovie: getRatingForMovie
+        getRatingForMovie: getRatingForMovie,
+        addMovieToDB: addMovieToDB
     };
     return api;
 
-    function addRatingForMovie(tmdbId, rating,userId) {
+    function addRatingForMovie(tmdbId, rating, userId, movie) {
+        isMovieInDB = false;
+        for (var m in movies) {
+            if (movies[m].tmdbId == tmdbId)
+                isMovieInDB = true;
+        }
+        if(!isMovieInDB) {
+            addMovieToDB(movie);
+        }
         for (var m in movies) {
             if (movies[m].tmdbId == tmdbId) {
                 var newRating = {"_id": uuid.v1(),"userId": userId, "value": parseInt(rating)};
@@ -25,7 +34,7 @@ module.exports = function() {
     function getRatingForMovie(tmdbId) {
         for (var m in movies) {
             if (movies[m].tmdbId == tmdbId) {
-                var rCount = movies[m].ratings.length();
+                var rCount = movies[m].ratings.length;
                 var ratingSum = 0.0;
                 for(var r in movies[m].ratings) {
                     ratingSum += parseFloat(movies[m].ratings[r].value);
@@ -34,5 +43,18 @@ module.exports = function() {
             }
         }
         return 0.0;
+    }
+
+    function addMovieToDB(movie) {
+        var newMovie = {
+            "_id": uuid.v1(),
+            "tmdbId": movie.id,
+            "title": movie.title,
+            "imageUrl": movie.poster_path,
+            "videoUrl": movie.untrusted_video_url,
+            "ratings": [],
+            "reviews": []
+        };
+        movies.push(newMovie);
     }
 };

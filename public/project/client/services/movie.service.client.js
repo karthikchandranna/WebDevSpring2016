@@ -11,13 +11,12 @@
         };
         return api;
 
-        function addRating(userId, tmdbId, rating) {
-            return $http.post("/api/project/movie/" + tmdbId + "/rating/" + rating + "/user/" + userId);
+        function addRating(userId, tmdbId, rating,movie) {
+            return $http.post("/api/project/movie/" + tmdbId + "/rating/" + rating + "/user/" + userId, movie);
         }
 
         function getRating(tmdbId) {
-            var res = $http.get("/api/project/movie/" + tmdbId + "/rating");
-            return res;
+            return $http.get("/api/project/movie/" + tmdbId + "/rating");
         }
     }
 })();
