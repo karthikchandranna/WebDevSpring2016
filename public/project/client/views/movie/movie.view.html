@@ -1,11 +1,11 @@
-<div id="myCarousel" class="carousel" data-ride="carousel" ng-controller="MovieController">
+<div id="myCarousel" class="carousel" data-ride="carousel">
     <div class="carousel-inner" role="listbox">
         <div class="item active">
             <iframe width="100%" height="100%" ng-src="{{movie.video_path}}" frameborder="0" allowfullscreen=""></iframe>
         </div>
     </div>
 </div>
-<div class="container-fluid" ng-controller="MovieController">
+<div class="container-fluid">
     <div class="row">
         <div class="col-xs-12 col-sm-4">
             <!--Use w300 and profile NO max-width: 75%; for the same effect-->
@@ -16,20 +16,30 @@
             <div class="col-xs-6 col-sm-4">
                 <h6>&nbsp</h6>
                 <h2 ng-repeat="genre in movie.genres | limitTo:2">
-                    <span class="label label-default label-as-badge" >
+                    <span class="label label-default label-as-badge">
                         {{genre.name}}
                     </span>
                 </h2>
                 <h2>&nbsp</h2>
+                <h2 ng-if="movie.genres.length<2">&nbsp</h2>
                 <h4>
                     <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp{{movie.runtime}} mins</h4>
             </div>
             <div class="col-xs-6 col-sm-4">
                 <h6>&nbsp</h6>
-                <h6>&nbsp</h6>
-                <div class="star-rating star-rating-big"><s><s><s><s><s></s></s></s></s></s></div>
-                <h2>&nbsp</h2>
-                <h2 ng-if="movie.genres.length>1">&nbsp</h2>
+                <h4>IMDB Rating</h4>
+                <uib-rating ng-model="movie.criticsRating" max="max" read-only="true" titles="['one','two','three','four','five']"
+                            aria-labelledby="default-rating" ng-class="'rating-star'">
+                </uib-rating>
+                <h4>User's Rating</h4>
+                <uib-rating ng-model="movie.criticsRating" max="max" read-only="false" on-hover="hoveringOver(value)"
+                            on-leave="overStar = null" titles="['one','two','three','four','five']"
+                            aria-labelledby="default-rating" ng-class="'rating-star'">
+                </uib-rating>
+                <span class="label" ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}"
+                      ng-show="overStar && !isReadonly">{{percent}}%</span>
+                <!--<div class="star-rating star-rating-big"><s><s><s><s><s></s></s></s></s></s></div>-->
+                <h5>&nbsp</h5>
                 <h4>Release Date:</h4>
                 <h4 ng-bind="movie.release_date | date: 'mediumDate'"></h4>
             </div>
@@ -84,5 +94,16 @@
                 </p>
             </div>
         </div>
+    </div>
+    <div>
+        <h4>Default</h4>
+        <uib-rating ng-model="rate" max="max" read-only="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['one','two','three']" aria-labelledby="default-rating"></uib-rating>
+        <span class="label" ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}" ng-show="overStar && !isReadonly">{{percent}}%</span>
+
+        <pre style="margin:15px 0;">Rate: <b>{{rate}}</b> - Readonly is: <i>{{isReadonly}}</i> - Hovering over: <b>{{overStar || "none"}}</b></pre>
+
+        <button type="button" class="btn btn-sm btn-danger" ng-click="rate = 0" ng-disabled="isReadonly">Clear</button>
+        <button type="button" class="btn btn-sm btn-default" ng-click="isReadonly = ! isReadonly">Toggle Readonly</button>
+        <hr />
     </div>
 </div>

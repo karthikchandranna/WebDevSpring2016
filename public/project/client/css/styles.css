@@ -183,6 +183,23 @@ body {
     content: "\2606";
 }
 
+/*
+ui.bootstrap.rating
+*/
+.rating-star {
+    font-size: x-large;
+    text-shadow: .05em .05em #aaa;
+    padding: 1px;
+    cursor: pointer;
+}
+.orange-star {
+    color: #fd0;
+}
+
+.grey-star {
+    color: #fd0;
+}
+
 h4.smallheader {
     margin-top: 10px;
     margin-bottom: 10px;

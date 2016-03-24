@@ -21,7 +21,6 @@
                 .getGenres()
                 .then(function (response){
                     $scope.genres = response.data.genres;
-                    console.log($scope.genres);
                 })
         }
 
@@ -43,7 +42,6 @@
                 .getUpcomingMovies()
                 .then(function(response){
                     $scope.upcoming = response.data.results;
-                    console.log($scope.upcoming);
                     MovieService
                         .fetchAllVideos($scope.upcoming)
                         .then(function(resp){

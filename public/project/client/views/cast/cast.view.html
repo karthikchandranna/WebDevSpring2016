@@ -9,7 +9,7 @@
             <h1 class="page-header">{{actor.name}}</h1>
             <h2>Actor</h2>
             <h2></h2>
-            <h3>Birthday: {{actor.birthday}}</h3>
+            <h3>Birthday: {{actor.birthday | date:'MMM d, y' }}</h3>
             <h3></h3>
             <h3>Place of Birth: {{actor.place_of_birth}}</h3>
         </div>
@@ -29,7 +29,7 @@
             <h2 class="page-header">Best Known For</h2>
             <h2></h2>
             <ul class="list-inline">
-                <li class="w92" ng-repeat="movie in actor.movie_credits.cast">
+                <li class="w92" ng-repeat="movie in actor.movie_credits.cast" ng-if="movie.poster_path">
                     <a href="#/movie/{{movie.id}}">
                         <img ng-src="https://image.tmdb.org/t/p/w92{{movie.poster_path}}"></a>
                     <a class="title" href="#/movie/{{movie.id}}">{{movie.title}}</a>
