@@ -42,17 +42,12 @@
                 templateUrl: "views/search/search.view.html",
                 controller: "SearchController"
             })
-            .when("/movie", {
-                templateUrl: "views/movie/movie.view.html",
-                controller: "MovieController"
-            })
             .when("/movie/:id", {
                 templateUrl: "views/movie/movie.view.html",
-                controller: "MovieController"
-            })
-            .when("/cast", {
-                templateUrl: "views/cast/cast.view.html",
-                controller: "CastController"
+                controller: "MovieController",
+                resolve: {
+                    getLoggedIn: getLoggedIn
+                }
             })
             .when("/cast/:id", {
                 templateUrl: "views/cast/cast.view.html",
@@ -78,6 +73,20 @@
                     $location.url("/home");
                 }
             });
+        return deferred.promise;
+    }
+
+    function getLoggedIn(UserService, $q) {
+        var deferred = $q.defer();
+
+        UserService
+            .getCurrentUser()
+            .then(function(response){
+                var currentUser = response.data;
+                UserService.setCurrentUser(currentUser);
+                deferred.resolve();
+            });
+
         return deferred.promise;
     }
 })();

@@ -11,7 +11,10 @@
                 </div>
                 <div class="caption">
                     <a href="#/movie/{{movie.id}}"><h4 class="smallheader">{{movie.title| limitTo:30}}</h4></a>
-                    <div class="star-rating"><s><s><s><s><s></s></s></s></s></s></div>
+                    <!--<div class="star-rating"><s><s><s><s><s></s></s></s></s></s></div>-->
+                    <uib-rating ng-model="movie.criticsRating" max=5 read-only="true" titles="['one','two','three','four','five']"
+                                aria-labelledby="default-rating" ng-class="'rating-star'" ng-init="movie.criticsRating=(movie.vote_average/2)">
+                    </uib-rating>
                     <h4 class="smallheader">
                         <span ng-repeat="id in movie.genre_ids | limitTo:2">
                             <span class="label label-default label-as-badge" >

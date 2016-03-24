@@ -25,16 +25,16 @@
                 <h4>
                     <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp{{movie.runtime}} mins</h4>
             </div>
-            <div class="col-xs-6 col-sm-4">
+            <div class="col-xs-6 col-sm-8">
                 <h6>&nbsp</h6>
                 <h4>IMDB Rating</h4>
-                <uib-rating ng-model="movie.criticsRating" max="max" read-only="true" titles="['one','two','three','four','five']"
+                <uib-rating ng-model="movie.criticsRating" max=5 read-only="true" titles="['one','two','three','four','five']"
                             aria-labelledby="default-rating" ng-class="'rating-star'">
                 </uib-rating>
                 <h4>User's Rating</h4>
-                <uib-rating ng-model="movie.criticsRating" max="max" read-only="false" on-hover="hoveringOver(value)"
-                            on-leave="overStar = null" titles="['one','two','three','four','five']"
-                            aria-labelledby="default-rating" ng-class="'rating-star'">
+                <uib-rating ng-model="movie.criticsRating" max=5 read-only="isReadonly" on-hover="hoveringOver(value)"
+                            on-leave="overStar = null" titles="['one','two','three','four','five']" ng-click="rate()"
+                            aria-labelledby="default-rating" ng-class="'rating-star changing-star'">
                 </uib-rating>
                 <span class="label" ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}"
                       ng-show="overStar && !isReadonly">{{percent}}%</span>
@@ -95,6 +95,7 @@
             </div>
         </div>
     </div>
+<!--
     <div>
         <h4>Default</h4>
         <uib-rating ng-model="rate" max="max" read-only="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['one','two','three']" aria-labelledby="default-rating"></uib-rating>
@@ -106,4 +107,5 @@
         <button type="button" class="btn btn-sm btn-default" ng-click="isReadonly = ! isReadonly">Toggle Readonly</button>
         <hr />
     </div>
+-->
 </div>

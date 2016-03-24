@@ -190,14 +190,16 @@ ui.bootstrap.rating
     font-size: x-large;
     text-shadow: .05em .05em #aaa;
     padding: 1px;
-    cursor: pointer;
-}
-.orange-star {
-    color: #fd0;
 }
 
-.grey-star {
-    color: #fd0;
+.changing-star {
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .rating-star {
+        font-size: medium;
+    }
 }
 
 h4.smallheader {
