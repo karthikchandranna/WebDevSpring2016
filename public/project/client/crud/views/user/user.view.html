@@ -1,4 +1,4 @@
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ng-controller="UserCrudController">
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
     <h1 class="page-header">User CRUD operations</h1>
     <div class="table-responsive">
         <table class="table table-striped table-hover table-bordered">
@@ -28,19 +28,19 @@
                 <th>&nbsp;</th>
             </tr>
             <tr>
-                <td><input ng-model="user.id" class="form-control"/></td>
-                <td><input ng-model="user.username" type="text" class="form-control"/></td>
-                <td><input ng-model="user.lastname" type="text" class="form-control"/></td>
-                <td><input ng-model="user.firstname" type="text" class="form-control"/></td>
-                <td><input ng-model="user.email" type="email" class="form-control"/></td>
-                <td><input ng-model="user.password" type="password" class="form-control"/></td>
-                <td><input ng-model="user.roles" ng-list type="text" class="form-control"/></td>
-                <td class="nowrap"><button ng-click="addUser(user)" class="btn btn-success"> Add</button>
-                    <button ng-click="updateUser(user)" class="btn btn-info">Update</button></td>
+                <td><input ng-model="model.user.id" type="text" class="form-control"/></td>
+                <td><input ng-model="model.user.username" type="text" class="form-control"/></td>
+                <td><input ng-model="model.user.lastname" type="text" class="form-control"/></td>
+                <td><input ng-model="model.user.firstname" type="text" class="form-control"/></td>
+                <td><input ng-model="model.user.email" type="email" class="form-control"/></td>
+                <td><input ng-model="model.user.password" type="password" class="form-control"/></td>
+                <td><input ng-model="model.user.roles" ng-list type="text" class="form-control"/></td>
+                <td class="nowrap"><button ng-click="model.addUser(model.user)" class="btn btn-success"> Add</button>
+                    <button ng-click="model.updateUser(model.user)" class="btn btn-info">Update</button></td>
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="user in users">
+            <tr ng-repeat="user in model.users">
                 <td class="text-right">{{user.id}}</td>
                 <td class="text-left">{{user.username}}</td>
                 <td class="text-left">{{user.lastname}}</td>
@@ -48,8 +48,8 @@
                 <td class="text-left">{{user.email}}</td>
                 <td class="text-left">{{user.password}}</td>
                 <td class="text-left">{{user.roles.join(", ")}}</td>
-                <td class="nowrap"><button ng-click="removeUser(user)" class="btn btn-danger">Delete</button>
-                    <button ng-click="selectUser(user)" class="btn btn-info">Select</button></td>
+                <td class="nowrap"><button ng-click="model.removeUser(user)" class="btn btn-danger">Delete</button>
+                    <button ng-click="model.selectUser(user)" class="btn btn-info">Select</button></td>
             </tr>
             </tbody>
         </table>

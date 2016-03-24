@@ -1,4 +1,4 @@
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ng-controller="ReviewCrudController">
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
     <h1 class="page-header">Review CRUD operations</h1>
     <div class="table-responsive">
         <table class="table table-striped table-hover table-bordered">
@@ -19,22 +19,22 @@
                 <th>&nbsp;</th>
             </tr>
             <tr>
-                <td><input ng-model="review.id" class="form-control"/></td>
-                <td><input ng-model="review.reviewerId" class="form-control"/></td>
-                <td><input ng-model="review.movieId" class="form-control"/></td>
-                <td><input ng-model="review.content" class="form-control"/></td>
-                <td class="nowrap"><button ng-click="addReview(review)" class="btn btn-success"> Add</button>
-                    <button ng-click="updateReview(review)" class="btn btn-info">Update</button></td>
+                <td><input ng-model="model.review.id" class="form-control"/></td>
+                <td><input ng-model="model.review.reviewerId" class="form-control"/></td>
+                <td><input ng-model="model.review.movieId" class="form-control"/></td>
+                <td><input ng-model="model.review.content" class="form-control"/></td>
+                <td class="nowrap"><button ng-click="model.addReview(model.review)" class="btn btn-success"> Add</button>
+                    <button ng-click="model.updateReview(model.review)" class="btn btn-info">Update</button></td>
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="review in reviews">
+            <tr ng-repeat="review in model.reviews">
                 <td class="text-right">{{review.id}}</td>
                 <td class="text-right">{{review.reviewerId}}</td>
                 <td class="text-right">{{review.movieId}}</td>
                 <td class="text-left">{{review.content}}</td>
-                <td class="nowrap"><button ng-click="removeReview(review)" class="btn btn-danger">Delete</button>
-                    <button ng-click="selectReview(review)" class="btn btn-info">Select</button></td>
+                <td class="nowrap"><button ng-click="model.removeReview(review)" class="btn btn-danger">Delete</button>
+                    <button ng-click="model.selectReview(review)" class="btn btn-info">Select</button></td>
             </tr>
             </tbody>
         </table>

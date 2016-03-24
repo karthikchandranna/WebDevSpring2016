@@ -2,45 +2,45 @@
     angular.module("FilmsterAppCrud")
         .controller("CastCrudController", CastCrudController);
 
-    function CastCrudController($scope){
-        var casts = [
+    function CastCrudController(){
+        var vm = this;
+        vm.casts = [
             {id:147, name: "Leonardo DiCaprio", role: "Actor", imageUrl:"/asjd54haskjd.jpg"},
             {id:258, name: "Megan Fox", role: "Actor", imageUrl:"/kjskza7sd6ik.jpg"},
             {id:369, name: "Steven Spielberg", role: "Director", imageUrl:"/jdhaiudygs7k.jpg"},
             {id:741, name: "Jessica Alba", role: "Actor", imageUrl:"/jkhcdas7dasy.jpg"}
         ];
-        $scope.casts = casts;
         //event handlers declaration
-        $scope.addCast = addCast;
-        $scope.removeCast = removeCast;
-        $scope.selectCast = selectCast;
-        $scope.updateCast = updateCast;
-        $scope.findAllCasts = findAllCasts;
+        vm.addCast = addCast;
+        vm.removeCast = removeCast;
+        vm.selectCast = selectCast;
+        vm.updateCast = updateCast;
+        vm.findAllCasts = findAllCasts;
 
         function addCast(cast) {
-            $scope.newCast = {
+            vm.newCast = {
                 id: cast.id,
                 name: cast.name,
                 role: cast.role,
                 imageUrl: cast.imageUrl
             };
-            $scope.cast = {};
-            $scope.casts.push($scope.newCast);
+            vm.cast = {};
+            vm.casts.push(vm.newCast);
 
         }
 
         function removeCast(cast) {
-            var index = $scope.casts.indexOf(cast);
-            if ($scope.cast && $scope.cast.id && cast.id === $scope.cast.id) {
-                $scope.cast = {};
-                $scope.selectedCastIndex = {};
+            var index = vm.casts.indexOf(cast);
+            if (vm.cast && vm.cast.id && cast.id === vm.cast.id) {
+                vm.cast = {};
+                vm.selectedCastIndex = {};
             }
-            $scope.casts.splice(index,1);
+            vm.casts.splice(index,1);
         }
 
         function selectCast(cast) {
-            $scope.selectedCastIndex = $scope.casts.indexOf(cast);
-            $scope.cast={
+            vm.selectedCastIndex = vm.casts.indexOf(cast);
+            vm.cast={
                 id: cast.id,
                 name: cast.name,
                 role: cast.role,
@@ -49,20 +49,20 @@
         }
 
         function updateCast(cast) {
-            if (cast && $scope.selectedCastIndex >= 0) {
-                $scope.casts[$scope.selectedCastIndex] = {
+            if (cast && vm.selectedCastIndex >= 0) {
+                vm.casts[vm.selectedCastIndex] = {
                     id: cast.id,
                     name: cast.name,
                     role: cast.role,
                     imageUrl: cast.imageUrl
                 };
-                $scope.cast = {};
-                $scope.selectedCastIndex = {};
+                vm.cast = {};
+                vm.selectedCastIndex = {};
             }
         }
 
         function findAllCasts() {
-            return $scope.casts;
+            return vm.casts;
         }
     }
 })();

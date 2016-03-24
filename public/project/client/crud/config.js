@@ -11,19 +11,23 @@
             })
             .when("/movie", {
                 templateUrl: "views/movie/movie.view.html",
-                controller: "MovieCrudController"
+                controller: "MovieCrudController",
+                controllerAs: "model"
             })
             .when("/user", {
                 templateUrl: "views/user/user.view.html",
-                controller: "UserCrudController"
+                controller: "UserCrudController",
+                controllerAs: "model"
             })
             .when("/review", {
                 templateUrl: "views/review/review.view.html",
-                controller: "ReviewCrudController"
+                controller: "ReviewCrudController",
+                controllerAs: "model"
             })
             .when("/cast", {
                 templateUrl: "views/cast/cast.view.html",
-                controller: "CastCrudController"
+                controller: "CastCrudController",
+                controllerAs: "model"
             })
             .otherwise({
                 redirectTo: "/home"

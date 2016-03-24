@@ -2,8 +2,9 @@
     angular.module("FilmsterAppCrud")
         .controller("ReviewCrudController", ReviewCrudController);
 
-    function ReviewCrudController($scope){
-        var reviews = [
+    function ReviewCrudController(){
+        var vm = this;
+        vm.reviews = [
             {id:1000, reviewerId: 111, movieId: 123, content:"Lorem ipsum dolor sit amet, consectetur adipiscing elit.\
             Nulla quam velit, vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit \
             elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique, tortor mauris molestie elit, et lacinia \
@@ -21,38 +22,37 @@
             elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique, tortor mauris molestie elit, et lacinia \
             ipsum quam nec dui. Quisque nec mauris sit amet elit iaculis pretium sit amet quis magna."}
         ];
-        $scope.reviews = reviews;
         //event handlers declaration
-        $scope.addReview = addReview;
-        $scope.removeReview = removeReview;
-        $scope.selectReview = selectReview;
-        $scope.updateReview = updateReview;
-        $scope.findAllReviews = findAllReviews;
+        vm.addReview = addReview;
+        vm.removeReview = removeReview;
+        vm.selectReview = selectReview;
+        vm.updateReview = updateReview;
+        vm.findAllReviews = findAllReviews;
 
         function addReview(review) {
-            $scope.newReview = {
+            vm.newReview = {
                 id: review.id,
                 reviewerId: review.reviewerId,
                 movieId: review.movieId,
                 content: review.content
             };
-            $scope.review = {};
-            $scope.reviews.push($scope.newReview);
+            vm.review = {};
+            vm.reviews.push(vm.newReview);
 
         }
 
         function removeReview(review) {
-            var index = $scope.reviews.indexOf(review);
-            if ($scope.review && $scope.review.id && review.id === $scope.review.id) {
-                $scope.review = {};
-                $scope.selectedReviewIndex = {};
+            var index = vm.reviews.indexOf(review);
+            if (vm.review && vm.review.id && review.id === vm.review.id) {
+                vm.review = {};
+                vm.selectedReviewIndex = {};
             }
-            $scope.reviews.splice(index,1);
+            vm.reviews.splice(index,1);
         }
 
         function selectReview(review) {
-            $scope.selectedReviewIndex = $scope.reviews.indexOf(review);
-            $scope.review={
+            vm.selectedReviewIndex = vm.reviews.indexOf(review);
+            vm.review={
                 id: review.id,
                 reviewerId: review.reviewerId,
                 movieId: review.movieId,
@@ -61,20 +61,20 @@
         }
 
         function updateReview(review) {
-            if (review && $scope.selectedReviewIndex >= 0) {
-                $scope.reviews[$scope.selectedReviewIndex] = {
+            if (review && vm.selectedReviewIndex >= 0) {
+                vm.reviews[vm.selectedReviewIndex] = {
                     id: review.id,
                     reviewerId: review.reviewerId,
                     movieId: review.movieId,
                     content: review.content
                 };
-                $scope.review = {};
-                $scope.selectedReviewIndex = {};
+                vm.review = {};
+                vm.selectedReviewIndex = {};
             }
         }
 
         function findAllReviews() {
-            return $scope.reviews;
+            return vm.reviews;
         }
     }
 })();

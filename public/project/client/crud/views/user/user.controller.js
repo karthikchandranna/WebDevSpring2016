@@ -2,8 +2,9 @@
     angular.module("FilmsterAppCrud")
         .controller("UserCrudController", UserCrudController);
 
-    function UserCrudController($scope){
-        var users = [
+    function UserCrudController(){
+        var vm = this;
+        vm.users = [
             {id:111, username: "dcraig", lastname: "Craig", firstname: "Daniel", email: "dcraig@filmster.com",
                 password: "djsajd68hdna", "roles": ["user", "admin"]},
             {id:222, username: "pbrosnan", lastname: "Brosnan", firstname: "Pierce", email: "pbrosnan@filmster.com",
@@ -13,16 +14,15 @@
             {id:444, username: "bpitt", lastname: "Pitt", firstname: "Brad", email: "bpitt@filmster.com",
                 password: "7fiuskdfsdfd", "roles": ["user", "critic", "admin"]}
         ];
-        $scope.users = users;
         //event handlers declaration
-        $scope.addUser = addUser;
-        $scope.removeUser = removeUser;
-        $scope.selectUser = selectUser;
-        $scope.updateUser = updateUser;
-        $scope.findAllUsers = findAllUsers;
+        vm.addUser = addUser;
+        vm.removeUser = removeUser;
+        vm.selectUser = selectUser;
+        vm.updateUser = updateUser;
+        vm.findAllUsers = findAllUsers;
 
         function addUser(user) {
-            $scope.newUser = {
+            vm.newUser = {
                 id: user.id,
                 username: user.username,
                 lastname: user.lastname,
@@ -31,22 +31,22 @@
                 password: user.password,
                 roles: user.roles
             };
-            $scope.user = {};
-            $scope.users.push($scope.newUser);
+            vm.user = {};
+            vm.users.push(vm.newUser);
         }
 
         function removeUser(user) {
-            var index = $scope.users.indexOf(user);
-            if ($scope.user && $scope.user.id && user.id === $scope.user.id) {
-                $scope.user = {};
-                $scope.selectedReviewIndex = {};
+            var index = vm.users.indexOf(user);
+            if (vm.user && vm.user.id && user.id === vm.user.id) {
+                vm.user = {};
+                vm.selectedReviewIndex = {};
             }
-            $scope.users.splice(index,1);
+            vm.users.splice(index,1);
         }
 
         function selectUser(user) {
-            $scope.selectedUserIndex = $scope.users.indexOf(user);
-            $scope.user={
+            vm.selectedUserIndex = vm.users.indexOf(user);
+            vm.user={
                 id: user.id,
                 username: user.username,
                 lastname: user.lastname,
@@ -58,8 +58,8 @@
         }
 
         function updateUser(user) {
-            if (user && $scope.selectedUserIndex >= 0) {
-                $scope.users[$scope.selectedUserIndex] = {
+            if (user && vm.selectedUserIndex >= 0) {
+                vm.users[vm.selectedUserIndex] = {
                     id: user.id,
                     username: user.username,
                     lastname: user.lastname,
@@ -68,13 +68,13 @@
                     password: user.password,
                     roles: user.roles
                 };
-                $scope.user = {};
-                $scope.selectedUserIndex = {};
+                vm.user = {};
+                vm.selectedUserIndex = {};
             }
         }
 
         function findAllUsers() {
-            return $scope.users;
+            return vm.users;
         }
     }
 })();

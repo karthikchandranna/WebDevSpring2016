@@ -1,4 +1,4 @@
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ng-controller="MovieCrudController">
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
     <h1 class="page-header">Movie CRUD operations</h1>
     <div class="table-responsive">
         <table class="table table-striped table-hover table-bordered">
@@ -25,26 +25,26 @@
                 <th>&nbsp;</th>
             </tr>
             <tr>
-                <td><input ng-model="movie.id" class="form-control"/></td>
-                <td><input ng-model="movie.title" class="form-control"/></td>
-                <td><input ng-model="movie.imageUrl" class="form-control"/></td>
-                <td><input ng-model="movie.tmdbId" class="form-control"/></td>
-                <td><input ng-model="movie.rating" class="form-control"/></td>
-                <td><input ng-model="movie.videoUrl" class="form-control"/></td>
-                <td class="nowrap"><button ng-click="addMovie(movie)" class="btn btn-success"> Add</button>
-                    <button ng-click="updateMovie(movie)" class="btn btn-info">Update</button></td>
+                <td><input ng-model="model.movie.id" class="form-control"/></td>
+                <td><input ng-model="model.movie.title" class="form-control"/></td>
+                <td><input ng-model="model.movie.imageUrl" class="form-control"/></td>
+                <td><input ng-model="model.movie.tmdbId" class="form-control"/></td>
+                <td><input ng-model="model.movie.rating" class="form-control"/></td>
+                <td><input ng-model="model.movie.videoUrl" class="form-control"/></td>
+                <td class="nowrap"><button ng-click="model.addMovie(model.movie)" class="btn btn-success"> Add</button>
+                    <button ng-click="model.updateMovie(model.movie)" class="btn btn-info">Update</button></td>
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="movie in movies">
+            <tr ng-repeat="movie in model.movies">
                 <td class="text-right">{{movie.id}}</td>
                 <td class="text-left">{{movie.title}}</td>
                 <td class="text-left">{{movie.imageUrl}}</td>
                 <td class="text-right">{{movie.tmdbId}}</td>
                 <td class="text-right">{{movie.rating}}</td>
                 <td class="text-left">{{movie.videoUrl}}</td>
-                <td class="nowrap"><button ng-click="removeMovie(movie)" class="btn btn-danger">Delete</button>
-                    <button ng-click="selectMovie(movie)" class="btn btn-info">Select</button></td>
+                <td class="nowrap"><button ng-click="model.removeMovie(movie)" class="btn btn-danger">Delete</button>
+                    <button ng-click="model.selectMovie(movie)" class="btn btn-info">Select</button></td>
             </tr>
             </tbody>
         </table>
