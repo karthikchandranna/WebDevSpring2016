@@ -76,6 +76,7 @@ module.exports = function(db, mongoose) {
 
     function updateForm(formId, newForm) {
         var deferred = q.defer();
+        newForm.updated = new Date();
         FormModel.update(
             {_id: formId},
             {$set: newForm},
