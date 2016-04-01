@@ -10,47 +10,75 @@ module.exports = function(app, formModel) {
     function createFormForUser (req, res) {
         var form = req.body;
         var userId = req.params.userId;
-        form = formModel.createFormForUser(userId, form);
-        res.json(form);
+        formModel.createFormForUser(userId, form)
+            .then(
+                function (form) {
+                    res.json(form);
+                },
+                function(err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
     function getFormsForUser (req, res) {
         var userId = req.params.userId;
-        var forms = formModel.findAllFormsForUser(userId);
-        res.json(forms);
+        formModel.findAllFormsForUser(userId)
+            .then(function (forms) {
+                res.json(forms);
+            },
+            function(err) {
+                res.status(400).send(err);
+            });
     }
 
     function getFormById (req, res) {
         var formId = req.params.formId;
-        var form = formModel.findFormById(formId);
-        res.json(form);
+        formModel.findFormById(formId)
+            .then(function(form) {
+                    res.json(form);
+                },
+                function(err) {
+                    res.status(400).send(err);
+                });
     }
 
     function updateForm (req, res) {
         var formId = req.params.formId;
         var form = req.body;
-        form = formModel.updateForm(formId, form);
-        if(form) {
-            res.json(form);
-            return;
-        }
-        res.json({message: "Form not found"});
+        formModel.updateForm(formId, form)
+            .then(
+                function(doc) {
+                    res.json(doc);
+                },
+                function(err) {
+                    res.status(400).send(err);
+                });
     }
 
     function deleteForm (req, res) {
         var formId = req.params.formId;
-        if(formModel.deleteForm(formId)) {
-            res.send(200);
-            return;
-        }
-        res.json ({message: "Form not found"});
+        formModel.deleteForm(formId)
+            .then(
+                function() {
+                    res.send(200);
+                },
+                function(err) {
+                    res.status(400).send(err);
+                });
     }
-
 
     function sortFields(req,res){
         var formId = req.params.formId;
         var fields = req.body;
-        res.json(formModel.sortFields(formId,fields));
+        formModel.sortFields(formId, fields)
+            .then(
+                function(form) {
+                    res.json(form);
+                },
+                function(err) {
+                    res.status(400).send(err);
+                });
     }
 
 };
