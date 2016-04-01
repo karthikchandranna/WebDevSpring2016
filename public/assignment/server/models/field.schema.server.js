@@ -13,6 +13,6 @@ module.exports = function (mongoose) {
                 value: "String"
             }
         ]
-    });
+    }, {collection: 'assignment.field'});
     return FieldSchema;
 };
