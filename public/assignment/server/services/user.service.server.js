@@ -11,19 +11,16 @@ module.exports = function(app, userModel) {
     function createUser (req, res) {
         var user = req.body;
         /*user = userModel.createUser(user);
-        req.session.currentUser = user;
-        res.json(user);*/
+         req.session.currentUser = user;
+         res.json(user);*/
 
-        user = userModel.createUser(user)
-            // handle model promise
+        userModel.createUser(user)
             .then(
-                // login user if promise resolved
-                function ( doc ) {
+                function (doc) {
                     req.session.currentUser = doc;
-                    res.json(user);
+                    res.json(doc);
                 },
-                // send error if promise rejected
-                function ( err ) {
+                function (err) {
                     res.status(400).send(err);
                 }
             );
@@ -31,34 +28,45 @@ module.exports = function(app, userModel) {
 
     function getUser (req, res) {
         if (Object.keys(req.query).length === 0) {
-            var users = userModel.findAllUsers(); // /api/assignment/user
-            res.json(users);
+            userModel.findAllUsers() // /api/assignment/user
+                .then(
+                    function (users) {
+                        res.json(users);
+                    },
+                    function ( err ) {
+                        res.status(400).send(err);
+                    });
+            //res.json(users);
         }
         else if (req.query.username) {
-            var user;
             if (req.query.password) {
                 var credentials = {
                     username: req.query.username,
                     password: req.query.password
                 };
                 /*user = userModel.findUserByCredentials(credentials); // /api/assignment/user?username=alice&password=wonderland
-                req.session.currentUser = user;*/
+                 req.session.currentUser = user;*/
 
-                user = userModel.findUserByCredentials(credentials)
+                userModel.findUserByCredentials(credentials)
                     .then(
                         function (doc) {
                             req.session.currentUser = doc;
                             res.json(doc);
                         },
-                        // send error if promise rejected
                         function ( err ) {
                             res.status(400).send(err);
                         })
             }
             else {
-                user = userModel.findUserByUsername(req.query.username);// /api/assignment/user?username=username
+                userModel.findUserByUsername(req.query.username)// /api/assignment/user?username=username
+                    .then(
+                        function (doc) {
+                            res.json(doc);
+                        },
+                        function ( err ) {
+                            res.status(400).send(err);
+                        })
             }
-            res.json(user);
         }
         else
             res.json(null);
@@ -66,19 +74,16 @@ module.exports = function(app, userModel) {
 
     function getUserById (req, res) {
         /*var userId = req.params.id;
-        var user = userModel.findUserById(userId);
-        res.json(user);*/
+         var user = userModel.findUserById(userId);
+         res.json(user);*/
 
         var userId = req.params.id;
 
-        // use model to find user by id
-        var user = userModel.findUserById(userId)
+        userModel.findUserById(userId)
             .then(
-                // return user if promise resolved
                 function (doc) {
                     res.json(doc);
                 },
-                // send error if promise rejected
                 function (err) {
                     res.status(400).send(err);
                 }
@@ -88,15 +93,29 @@ module.exports = function(app, userModel) {
     function updateUser (req, res) {
         var userId = req.params.id;
         var user = req.body;
-        user = userModel.updateUser(userId, user);
-        req.session.currentUser = user;
-        res.json(user);
+        userModel.updateUser(userId, user)
+            .then(
+                function (doc) {
+                    req.session.currentUser = doc;
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
     function deleteUser (req, res) {
         var userId = req.params.id;
-        var users = userModel.deleteUser(userId);
-        res.json(users);
+        userModel.deleteUser(userId)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
     function loggedin(req, res) {
@@ -107,5 +126,4 @@ module.exports = function(app, userModel) {
         req.session.destroy();
         res.send(200);
     }
-
 };
