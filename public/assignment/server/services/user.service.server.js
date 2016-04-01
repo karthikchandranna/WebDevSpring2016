@@ -10,9 +10,23 @@ module.exports = function(app, userModel) {
 
     function createUser (req, res) {
         var user = req.body;
-        user = userModel.createUser(user);
+        /*user = userModel.createUser(user);
         req.session.currentUser = user;
-        res.json(user);
+        res.json(user);*/
+
+        user = userModel.createUser(user)
+            // handle model promise
+            .then(
+                // login user if promise resolved
+                function ( doc ) {
+                    req.session.currentUser = doc;
+                    res.json(user);
+                },
+                // send error if promise rejected
+                function ( err ) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
     function getUser (req, res) {
@@ -27,8 +41,19 @@ module.exports = function(app, userModel) {
                     username: req.query.username,
                     password: req.query.password
                 };
-                user = userModel.findUserByCredentials(credentials); // /api/assignment/user?username=alice&password=wonderland
-                req.session.currentUser = user;
+                /*user = userModel.findUserByCredentials(credentials); // /api/assignment/user?username=alice&password=wonderland
+                req.session.currentUser = user;*/
+
+                user = userModel.findUserByCredentials(credentials)
+                    .then(
+                        function (doc) {
+                            req.session.currentUser = doc;
+                            res.json(doc);
+                        },
+                        // send error if promise rejected
+                        function ( err ) {
+                            res.status(400).send(err);
+                        })
             }
             else {
                 user = userModel.findUserByUsername(req.query.username);// /api/assignment/user?username=username
@@ -40,9 +65,24 @@ module.exports = function(app, userModel) {
     }
 
     function getUserById (req, res) {
-        var userId = req.params.id;
+        /*var userId = req.params.id;
         var user = userModel.findUserById(userId);
-        res.json(user);
+        res.json(user);*/
+
+        var userId = req.params.id;
+
+        // use model to find user by id
+        var user = userModel.findUserById(userId)
+            .then(
+                // return user if promise resolved
+                function (doc) {
+                    res.json(doc);
+                },
+                // send error if promise rejected
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
     function updateUser (req, res) {

@@ -1,6 +1,6 @@
-var mock = require("./form.mock.json");
+//var mock = require("./form.mock.json");
 var uuid = require('node-uuid');
-module.exports = function() {
+module.exports = function(db, mongoose) {
     var api = {
         createFormForUser: createFormForUser,
         findAllForms: findAllForms,
