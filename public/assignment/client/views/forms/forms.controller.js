@@ -67,7 +67,10 @@
             vm.form = {
                 _id: vm.forms[index]._id,
                 title: vm.forms[index].title,
-                userId:vm.forms[index].userId
+                userId: vm.forms[index].userId,
+                fields: vm.forms[index].fields,
+                created: vm.forms[index].created,
+                updated: vm.forms[index].updated
             };
         }
     }

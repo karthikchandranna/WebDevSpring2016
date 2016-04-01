@@ -53,7 +53,7 @@
             FormService
                 .sortFields(vm.formId,vm.fields)
                 .then(function (response) {
-                    vm.fields = response.data;
+                    vm.fields = response.data.fields;
                 });
         }
 
