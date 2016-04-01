@@ -6,11 +6,8 @@ var cookieParser  = require('cookie-parser');
 var session       = require('express-session');
 var mongoose      = require('mongoose');
 
-// create a default connection string
 var connectionString = 'mongodb://127.0.0.1:27017/cs5610spring2016exmpl1';
 
-// use remote connection string
-// if running in remote server
 if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
     connectionString = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
         process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
@@ -18,7 +15,6 @@ if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
         process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
         process.env.OPENSHIFT_APP_NAME;
 }
-
 var db = mongoose.connect(connectionString);
 
 app.use(bodyParser.json());// for parsing application/json
@@ -33,14 +29,6 @@ var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
 app.get('/hello', function(req, res){
     res.send('hello world');
-});
-app.get('/json', function (req, res) {
-    var course = {
-        title: 'Java 101',
-        seats: 23,
-        start: new Date()
-    };
-    res.json(course);
 });
 
 require("./public/assignment/server/app.js")(app, db, mongoose);

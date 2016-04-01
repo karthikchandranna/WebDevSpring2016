@@ -10,10 +10,6 @@ module.exports = function(app, userModel) {
 
     function createUser (req, res) {
         var user = req.body;
-        /*user = userModel.createUser(user);
-         req.session.currentUser = user;
-         res.json(user);*/
-
         userModel.createUser(user)
             .then(
                 function (doc) {
@@ -36,7 +32,6 @@ module.exports = function(app, userModel) {
                     function ( err ) {
                         res.status(400).send(err);
                     });
-            //res.json(users);
         }
         else if (req.query.username) {
             if (req.query.password) {
@@ -44,9 +39,6 @@ module.exports = function(app, userModel) {
                     username: req.query.username,
                     password: req.query.password
                 };
-                /*user = userModel.findUserByCredentials(credentials); // /api/assignment/user?username=alice&password=wonderland
-                 req.session.currentUser = user;*/
-
                 userModel.findUserByCredentials(credentials)
                     .then(
                         function (doc) {
@@ -73,12 +65,7 @@ module.exports = function(app, userModel) {
     }
 
     function getUserById (req, res) {
-        /*var userId = req.params.id;
-         var user = userModel.findUserById(userId);
-         res.json(user);*/
-
         var userId = req.params.id;
-
         userModel.findUserById(userId)
             .then(
                 function (doc) {
