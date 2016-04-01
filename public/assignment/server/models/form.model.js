@@ -74,9 +74,16 @@ module.exports = function(db, mongoose) {
         return deferred.promise;
     }
 
-    function updateForm(formId, newForm) {
+    function updateForm(formId, form) {
         var deferred = q.defer();
-        newForm.updated = new Date();
+        // create new form without an _id field
+        var newForm = {
+            userId: form.userId,
+            title: form.title,
+            fields: form.fields,
+            created: form.created,
+            updated: form.updated
+        };
         FormModel.update(
             {_id: formId},
             {$set: newForm},

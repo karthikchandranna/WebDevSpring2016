@@ -54,9 +54,18 @@ module.exports = function(db, mongoose) {
 
     function updateUser(userId, user) {
         var deferred = q.defer();
+        // create new user without an _id field
+        var newUser = {
+            username: user.username,
+            password: user.password,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            phones: user.phones
+        };
         UserModel.update (
             {_id: userId},
-            {$set: user},
+            {$set: newUser},
             function (err, doc) {
                 if(err) {
                     deferred.reject(err);
@@ -91,12 +100,12 @@ module.exports = function(db, mongoose) {
     function findUserByUsername(username) {
         var deferred = q.defer();
         UserModel.findOne({ username: username }, function(err, user) {
-                if (err) {
-                    deferred.reject(err);
-                } else {
-                    deferred.resolve(user);
-                }
-            });
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(user);
+            }
+        });
         return deferred.promise;
     }
 
