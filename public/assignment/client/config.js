@@ -54,9 +54,7 @@
     }
 
     function checkLoggedIn(UserService, $q, $location) {
-
         var deferred = $q.defer();
-
         UserService
             .getCurrentUser()
             .then(function(response) {
@@ -69,7 +67,6 @@
                     $location.url("/home");
                 }
             });
-
         return deferred.promise;
     }
 })();

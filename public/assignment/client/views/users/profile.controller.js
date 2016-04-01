@@ -17,7 +17,6 @@
                     vm.currentUser = response.data;
                 });
         }
-
         return init();
 
         function update (user) {
