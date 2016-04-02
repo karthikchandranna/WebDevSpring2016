@@ -27,6 +27,7 @@ module.exports = function(db, mongoose) {
     }
 
     function createField(field) {
+        var deferred = q.defer();
         FieldModel.create(field,
             function(err, doc) {
                 if(err) {

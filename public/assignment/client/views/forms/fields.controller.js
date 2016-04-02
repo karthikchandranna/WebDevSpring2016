@@ -79,6 +79,10 @@
                     field.label="New Email Field";
                     field.placeholder="New Email Field";
                     break;
+                case "PASSWORD":
+                    field.label="New Password Field";
+                    field.placeholder="New Password Field";
+                    break;
                 case "DATE":
                     field.label = "New Date Field";
                     break;
