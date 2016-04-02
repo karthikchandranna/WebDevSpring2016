@@ -137,7 +137,6 @@
         }
 
         function updateField(newField) {
-
             if(newField.optionsStr) {
                 var newOptions = [];
                 var optionLine = vm.field.optionsStr.split("\n");
@@ -151,7 +150,6 @@
                 newField.options = newOptions;
                 delete newField.optionsStr;
             }
-
             FieldService
                 .updateField(vm.formId, newField._id, newField)
                 .then(function (response) {
