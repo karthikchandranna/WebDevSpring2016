@@ -39,6 +39,10 @@
                 vm.error = "Please provide a valid email";
                 return;
             }
+            if (!user.phones) {
+                vm.error = "Please provide a valid phone number";
+                return;
+            }
             UserService
                 .updateUser(user._id, user)
                 .then(function (response) {

@@ -54,6 +54,11 @@ module.exports = function(db, mongoose) {
 
     function updateUser(userId, user) {
         var deferred = q.defer();
+        if(user.phones) {
+            if(user.phones && user.phones.indexOf(",")>-1) {
+                user.phones =  user.phones.split(",");
+            }
+        }
         // create new user without an _id field
         var newUser = {
             username: user.username,
