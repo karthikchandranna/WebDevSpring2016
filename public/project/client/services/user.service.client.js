@@ -32,7 +32,7 @@
         }
 
         function getProfile() {
-            return $http.get("/api/project/user/"+$rootScope.currentUser._id);
+            return $http.get("/api/project/profile/"+$rootScope.currentUser._id);
         }
 
         function findUserByUsername(username) {

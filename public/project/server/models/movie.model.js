@@ -5,19 +5,17 @@ module.exports = function(db, mongoose) {
     var Movie  = mongoose.model("Movie", MovieSchema);
 
     var api = {
-        addRatingForMovie: addRatingForMovie,
-        getRatingForMovie: getRatingForMovie,
         createMovie: createMovie,
         addReviewForMovie: addReviewForMovie,
         getReviewsForMovie: getReviewsForMovie,
         findMovieByTmdbID: findMovieByTmdbID,
         findMoviesByTmdbIDs: findMoviesByTmdbIDs,
-        userRatesMovie: userRatesMovie
+        userRatesMovie: userRatesMovie,
+        userReviewsMovie: userReviewsMovie
     };
     return api;
 
-    function userRatesMovie (userId, movie) {
-
+    function userRatesMovie (tmdbId, rating, userId, movie) {
         var deferred = q.defer();
         // find the movie by tmdb ID
         Movie.findOne({tmdbId: movie.id},
@@ -28,7 +26,7 @@ module.exports = function(db, mongoose) {
                 // if there's a movie
                 if (doc) {
                     // add user to ratings
-                    doc.ratings.push (userId);
+                    doc.ratings.push ({"userId": userId, "value": parseInt(rating)});
                     doc.save(function(err, doc){
                         if (err) {
                             deferred.reject(err);
@@ -40,7 +38,7 @@ module.exports = function(db, mongoose) {
                 else {
                     // if there's no movie, create a new instance
                     movie = new Movie({
-                        "tmdbId": movie.id,
+                        "tmdbId": tmdbId,
                         "title": movie.title,
                         "imageUrl": movie.poster_path,
                         "videoUrl": movie.untrusted_video_url,
@@ -48,7 +46,7 @@ module.exports = function(db, mongoose) {
                         "reviews": []
                     });
                     // add user to likes
-                    movie.ratings.push (userId);
+                    movie.ratings.push ({"userId": userId, "value": parseInt(rating)});
                     // save new instance
                     movie.save(function(err, doc) {
                         if (err) {
@@ -63,40 +61,50 @@ module.exports = function(db, mongoose) {
         return deferred.promise;
     }
 
-    function addRatingForMovie(tmdbId, rating, userId, movie) {
-        isMovieInDB = false;
-        for (var m in movies) {
-            if (movies[m].tmdbId == tmdbId)
-                isMovieInDB = true;
-        }
-        if(!isMovieInDB) {
-            addMovieToDB(movie);
-        }
-        for (var m in movies) {
-            if (movies[m].tmdbId == tmdbId) {
-                var newRating = {"userId": userId, "value": parseInt(rating)};
-                if(movies[m].ratings)
-                    movies[m].ratings.push(newRating);
-                else
-                    movies[m].ratings = [newRating];
-                break;
-            }
-        }
-        return getRatingForMovie(tmdbId);
-    }
-
-    function getRatingForMovie(tmdbId) {
-        for (var m in movies) {
-            if (movies[m].tmdbId == tmdbId) {
-                var rCount = movies[m].ratings.length;
-                var ratingSum = 0.0;
-                for(var r in movies[m].ratings) {
-                    ratingSum += parseFloat(movies[m].ratings[r].value);
+    function userReviewsMovie (tmdbId, review, userId, username, movie) {
+        var deferred = q.defer();
+        // find the movie by tmdb ID
+        Movie.findOne({tmdbId: movie.id},
+            function (err, doc) {
+                if (err) {
+                    deferred.reject(err);
                 }
-                return ratingSum/rCount;
-            }
-        }
-        return 0.0;
+                // if there's a movie
+                if (doc) {
+                    // add user to reviews
+                    doc.reviews.push ({"userId": userId, "username": username, "text": review});
+                    doc.save(function(err, doc){
+                        if (err) {
+                            deferred.reject(err);
+                        } else {
+                            deferred.resolve(doc);
+                        }
+                    });
+                }
+                else {
+                    // if there's no movie, create a new instance
+                    movie = new Movie({
+                        "tmdbId": tmdbId,
+                        "title": movie.title,
+                        "imageUrl": movie.poster_path,
+                        "videoUrl": movie.untrusted_video_url,
+                        "ratings": [],
+                        "reviews": []
+                    });
+                    // add user to reviews
+                    movie.reviews.push ({"userId": userId, "username": username, "text": review});
+                    // save new instance
+                    movie.save(function(err, doc) {
+                        if (err) {
+                            deferred.reject(err);
+                        } else {
+                            deferred.resolve(doc);
+                        }
+                    });
+                }
+            });
+
+        return deferred.promise;
     }
 
     function addReviewForMovie(tmdbId, review, userId, username, movie) {

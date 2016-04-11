@@ -7,9 +7,8 @@
 
         var api = {
             addRating: addRating,
-            getRating: getRating,
-            getReviews: getReviews,
-            addReview: addReview
+            addReview: addReview,
+            getMovieDetails: getMovieDetails
         };
         return api;
 
@@ -17,16 +16,12 @@
             return $http.post("/api/project/movie/" + tmdbId + "/rating/" + rating + "/user/" + userId, movie);
         }
 
-        function getRating(tmdbId) {
-            return $http.get("/api/project/movie/" + tmdbId + "/rating");
-        }
-
         function addReview(userId, username, tmdbId, review,movie) {
             return $http.post("/api/project/movie/" + tmdbId + "/review/" + review + "/user/" + userId + "/username/" + username, movie);
         }
 
-        function getReviews(tmdbId) {
-            return $http.get("/api/project/movie/" + tmdbId + "/review");
+        function getMovieDetails(tmdbId) {
+            return $http.get("/api/project/movie/" + tmdbId + "/details");
         }
     }
 })();

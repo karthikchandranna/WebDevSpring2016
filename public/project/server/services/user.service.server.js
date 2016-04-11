@@ -7,7 +7,7 @@ module.exports = function(app, userModel, movieModel) {
     app.delete("/api/project/user/:id", deleteUser);
     app.get("/api/project/loggedin", loggedin);
     app.post("/api/project/logout", logout);
-    app.get("/api/project/omdb/profile/:userId", profile);
+    app.get("/api/project/profile/:userId", profile);
 
     function createUser (req, res) {
         var user = req.body;

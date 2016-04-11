@@ -12,9 +12,10 @@
 
         function init() {
             UserService
-                .getCurrentUser()
+                .getProfile()
                 .then(function (response) {
                     vm.currentUser = response.data;
+                    console.log(vm.currentUser);
                 });
         }
 

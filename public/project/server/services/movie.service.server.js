@@ -1,38 +1,91 @@
-module.exports = function(app, movieModel) {
+module.exports = function(app, movieModel, userModel) {
+    app.get("/api/project/movie/:tmdbId/details", getMovieDetails);
+    app.post("/api/project/movie/:tmdbId/rating/:ratedValue/user/:userId", userRatesMovie);
+    app.post("/api/project/movie/:tmdbId/review/:reviewContent/user/:userId/username/:username", userReviewsMovie);
 
-    app.post("/api/project/movie/:tmdbId/rating/:ratedValue/user/:userId", addRating);
-    app.get("/api/project/movie/:tmdbId/rating", getRating);
-    app.post("/api/project/movie/:tmdbId/review/:reviewContent/user/:userId/username/:username", addReview);
-    app.get("/api/project/movie/:tmdbId/review", getReviews);
-
-    function addRating(req, res) {
+    function userRatesMovie(req, res) {
         var tmdbId = req.params.tmdbId;
         var rating = req.params.ratedValue;
         var userId = req.params.userId;
         var movie = req.body;
-        var newRating = movieModel.addRatingForMovie(tmdbId, rating, userId, movie);
-        res.json(newRating);
+        userModel
+            .userRatesMovie(userId, movie)
+            // add movie to user ratings
+            .then(
+                function (user) {
+                    return movieModel.userRatesMovie(tmdbId, rating,userId, movie);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            )
+            // add user to movie ratings
+            .then(
+                function (movie) {
+                    movie.totalRatings = calculateRatingsForMovie(movie);
+                    res.json(movie);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
-    function getRating(req, res) {
-        var tmdbId = req.params.tmdbId;
-        var rating = movieModel.getRatingForMovie(tmdbId);
-        res.json(rating);
-    }
-
-    function addReview(req, res) {
+    function userReviewsMovie(req, res) {
         var tmdbId = req.params.tmdbId;
         var review = req.params.reviewContent;
         var userId = req.params.userId;
         var username = req.params.username;
         var movie = req.body;
-        var reviews = movieModel.addReviewForMovie(tmdbId, review, userId, username, movie);
-        res.json(reviews);
+        userModel
+            .userReviewsMovie(userId, movie)
+            // add movie to user reviews
+            .then(
+                function (user) {
+                    return movieModel.userReviewsMovie(tmdbId, review, userId, username, movie);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            )
+            // add user to movie reviews
+            .then(
+                function (movie) {
+                    res.json(movie);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
-    function getReviews(req, res) {
+    function getMovieDetails(req, res) {
         var tmdbId = req.params.tmdbId;
-        var reviews = movieModel.getReviewsForMovie(tmdbId);
-        res.json(reviews);
+        var movie = null;
+        movieModel
+            .findMovieByTmdbID(tmdbId)
+            .then (
+                function (doc) {
+                    movie = doc;
+                    if (doc) {
+                        doc.totalRatings = calculateRatingsForMovie(doc);
+                        res.json(doc);
+                    } else {
+                        res.json ({});
+                    }
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            )
+    }
+
+    function calculateRatingsForMovie(movie) {
+        var rCount = movie.ratings.length;
+        var ratingSum = 0.0;
+        for(var r in movie.ratings) {
+            ratingSum += parseFloat(movie.ratings[r].value);
+        }
+        return ratingSum/rCount;
     }
 };

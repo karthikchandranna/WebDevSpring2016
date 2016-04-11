@@ -42,8 +42,14 @@
                     response.credits.cast.splice(8, response.credits.cast.length - 8);
                     vm.movie = response;
                     vm.movie.criticsRating = response.vote_average / 2;
-                    getUsersRating();
-                    getReviews();
+
+                    MovieService
+                        .getMovieDetails(vm.movie.id)
+                        .then(function (response) {
+                            vm.movie.usersRating = parseFloat(response.data.totalRatings);
+                            vm.movie.userReviews = response.data.reviews;
+                            vm.movie.ratings = response.data.ratings;
+                        })
                 });
         }
 
@@ -62,14 +68,6 @@
             }
         }
 
-        function getUsersRating() {
-            MovieService
-                .getRating(vm.movie.id)
-                .then(function (response) {
-                    vm.movie.usersRating = parseFloat(response.data);
-                })
-        }
-
         function addReview() {
             //console.log(vm.movie.reviewContent);
             MovieService
@@ -79,14 +77,6 @@
                     vm.movie.reviewContent = null;
                 });
 
-        }
-
-        function getReviews() {
-            MovieService
-                .getReviews(vm.movie.id)
-                .then(function (response) {
-                    vm.movie.userReviews = response.data;
-                })
         }
     }
 })();
