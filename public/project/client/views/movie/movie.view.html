@@ -32,12 +32,12 @@
                             aria-labelledby="default-rating" ng-class="'rating-star'">
                 </uib-rating>
                 <h4>User's Rating</h4>
-                <uib-rating ng-model="model.movie.usersRating" max=5 read-only="isReadonly" on-hover="model.hoveringOver(value)"
+                <uib-rating ng-model="model.movie.usersRating" max=5 read-only="model.isReadonly" on-hover="model.hoveringOver(value)"
                             on-leave="overStar = null" titles="['one','two','three','four','five']" ng-click="model.addRating()"
                             aria-labelledby="default-rating" ng-class="'rating-star changing-star'">
                 </uib-rating>
-                <span class="label" ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}"
-                      ng-show="overStar && !isReadonly">{{percent}}%</span>
+                <span class="label" ng-class="{'label-warning': model.percent<30, 'label-info': model.percent>=30 && model.percent<70, 'label-success': model.percent>=70}"
+                      ng-if="model.overStar && !model.isReadonly">{{model.percent}}%</span>
                 <!--<div class="star-rating star-rating-big"><s><s><s><s><s></s></s></s></s></s></div>-->
                 <h5>&nbsp</h5>
                 <h4>Release Date:</h4>
@@ -69,29 +69,30 @@
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-sm-offset-4">
             <h3 class="page-header">Reviews</h3>
-            <div ng-if="model.movie.reviews.results.length">
+            <div class="tab-pane" ng-if="model.movie.reviews.results.length">
                 <h4>Critics</h4>
                 <div ng-repeat="review in model.movie.reviews.results">
-                    {{review.author}}
+                    <span style="font-size:1.5em;" class="glyphicon glyphicon-user" aria-hidden=true>&nbsp;{{review.author}}</span>
+                    <!--<h5>{{review.author}}</h5>-->
                     <p >{{review.content}}</p>
                 </div>
             </div>
-            <h4>Users</h4>
-            <div>
-                User1
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec,
-                    mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed
-                    eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec mauris sit
-                    amet elit iaculis pretium sit amet quis magna.
-                </p>
-            </div>
-            <div>
-                User2
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec,
-                    mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed
-                    eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec mauris sit
-                    amet elit iaculis pretium sit amet quis magna.
-                </p>
+            <div class="tab-pane" ng-if="model.movie.userReviews.length">
+                <h4>Users</h4>
+                <div class="form-group">
+                    <textarea ng-model="model.movie.reviewContent" ng-disabled="model.isReadonly" rows="2"
+                              class="form-control" placeholder="{{model.reviewMsg}}"></textarea>
+                    <button ng-click="model.addReview()" class="btn btn-primary btn-block"
+                            ng-disabled="model.isReadonly" type="button">Submit</button>
+                </div>
+<!--
+                <textarea ng-model="reviewContent" ng-disabled="model.isReadonly" rows="2" class="form-control" placeholder="{{model.reviewMsg}}"
+                          ng-keypress="($event.which === 13)?model.addReview(reviewContent):0"></textarea>
+-->
+                <div ng-repeat="userReview in model.movie.userReviews" >
+                    <span style="font-size:1.5em;" class=" glyphicon glyphicon-user" aria-hidden=true>&nbsp;{{userReview.username}}</span>
+                    <p>{{userReview.text}}</p>
+                </div>
             </div>
         </div>
     </div>

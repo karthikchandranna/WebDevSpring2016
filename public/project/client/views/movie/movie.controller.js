@@ -7,8 +7,10 @@
         var vm = this;
         vm.id = $routeParams.id;
         vm.isReadonly = true;
+        vm.reviewMsg = "Login to write a review";
         vm.hoveringOver = hoveringOver;
         vm.addRating = addRating;
+        vm.addReview = addReview;
 
         function init() {
             setCurrentUser();
@@ -24,6 +26,7 @@
                     vm.currentUser = response.data;
                     if(vm.currentUser) {
                         vm.isReadonly = false;
+                        vm.reviewMsg = "Write a Review";
                     }
                 });
         }
@@ -67,8 +70,23 @@
                 })
         }
 
+        function addReview() {
+            console.log(vm.movie.reviewContent);
+            MovieService
+                .addReview(vm.currentUser._id,vm.currentUser.username, vm.movie.id, vm.movie.reviewContent,vm.movie)
+                .then(function (response) {
+                    vm.movie.userReviews = response.data;
+                    vm.movie.reviewContent = null;
+                });
+
+        }
+
         function getReviews() {
-            // TODO
+            MovieService
+                .getReviews(vm.movie.id)
+                .then(function (response) {
+                    vm.movie.userReviews = response.data;
+                })
         }
     }
 })();
