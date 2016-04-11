@@ -65,33 +65,31 @@
             </ul>
         </div>
     </div>
-
+    <!--<ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a ng-href="#/movie/{{model.movie.id}}#review1">Home</a></li>
+        <li role="presentation"><a ng-href="#/movie/{{model.movie.id}}#review2">Profile</a></li>
+        <li role="presentation"><a href="#">Messages</a></li>
+    </ul>-->
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-sm-offset-4">
-            <h3 class="page-header">Reviews</h3>
-            <div class="tab-pane" ng-if="model.movie.reviews.results.length">
-                <h4>Critics</h4>
-                <div ng-repeat="review in model.movie.reviews.results">
-                    <span style="font-size:1.5em;" class="glyphicon glyphicon-user" aria-hidden=true>&nbsp;{{review.author}}</span>
-                    <!--<h5>{{review.author}}</h5>-->
-                    <p >{{review.content}}</p>
-                </div>
-            </div>
-            <div class="tab-pane" ng-if="model.movie.userReviews.length">
-                <h4>Users</h4>
+            <div id="review2" class="tab-pane" ng-if="model.movie.userReviews.length">
+                <h3 class="page-header">User Reviews</h3>
                 <div class="form-group">
                     <textarea ng-model="model.movie.reviewContent" ng-disabled="model.isReadonly" rows="2"
                               class="form-control" placeholder="{{model.reviewMsg}}"></textarea>
                     <button ng-click="model.addReview()" class="btn btn-primary btn-block"
                             ng-disabled="model.isReadonly" type="button">Submit</button>
                 </div>
-<!--
-                <textarea ng-model="reviewContent" ng-disabled="model.isReadonly" rows="2" class="form-control" placeholder="{{model.reviewMsg}}"
-                          ng-keypress="($event.which === 13)?model.addReview(reviewContent):0"></textarea>
--->
                 <div ng-repeat="userReview in model.movie.userReviews" >
                     <span style="font-size:1.5em;" class=" glyphicon glyphicon-user" aria-hidden=true>&nbsp;{{userReview.username}}</span>
                     <p>{{userReview.text}}</p>
+                </div>
+            </div>
+            <div id="review1" class="tab-pane" ng-if="model.movie.reviews.results.length">
+                <h3 class="page-header">Critic Reviews</h3>
+                <div ng-repeat="review in model.movie.reviews.results">
+                    <span style="font-size:1.5em;" class="glyphicon glyphicon-user" aria-hidden=true>&nbsp;{{review.author}}</span>
+                    <p >{{review.content}}</p>
                 </div>
             </div>
         </div>

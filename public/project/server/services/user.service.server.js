@@ -1,4 +1,4 @@
-module.exports = function(app, userModel) {
+module.exports = function(app, userModel, movieModel) {
 
     app.post("/api/project/user", createUser);//register
     app.get("/api/project/user", getUser);//login
@@ -7,33 +7,59 @@ module.exports = function(app, userModel) {
     app.delete("/api/project/user/:id", deleteUser);
     app.get("/api/project/loggedin", loggedin);
     app.post("/api/project/logout", logout);
+    app.get("/api/project/omdb/profile/:userId", profile);
 
     function createUser (req, res) {
         var user = req.body;
-        user = userModel.createUser(user);
-        req.session.currentUser = user;
-        res.json(user);
+        userModel.createUser(user)
+            .then(
+                function (doc) {
+                    req.session.currentUser = doc;
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
     function getUser (req, res) {
         if (Object.keys(req.query).length === 0) {
-            var users = userModel.findAllUsers(); // /api/project/user
-            res.json(users);
+            userModel.findAllUsers() // /api/project/user
+                .then(
+                    function (users) {
+                        res.json(users);
+                    },
+                    function ( err ) {
+                        res.status(400).send(err);
+                    });
         }
         else if (req.query.username) {
-            var user;
             if (req.query.password) {
                 var credentials = {
                     username: req.query.username,
                     password: req.query.password
                 };
-                user = userModel.findUserByCredentials(credentials); // /api/project/user?username=alice&password=wonderland
-                req.session.currentUser = user;
+                userModel.findUserByCredentials(credentials)// /api/project/user?username=alice&password=wonderland
+                    .then(
+                        function (doc) {
+                            req.session.currentUser = doc;
+                            res.json(doc);
+                        },
+                        function ( err ) {
+                            res.status(400).send(err);
+                        })
             }
             else {
-                user = userModel.findUserByUsername(req.query.username);// /api/project/user?username=username
+                userModel.findUserByUsername(req.query.username)// /api/assignment/user?username=username
+                    .then(
+                        function (doc) {
+                            res.json(doc);
+                        },
+                        function ( err ) {
+                            res.status(400).send(err);
+                        })
             }
-            res.json(user);
         }
         else
             res.json(null);
@@ -41,22 +67,43 @@ module.exports = function(app, userModel) {
 
     function getUserById (req, res) {
         var userId = req.params.id;
-        var user = userModel.findUserById(userId);
-        res.json(user);
+        userModel.findUserById(userId)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
     function updateUser (req, res) {
         var userId = req.params.id;
         var user = req.body;
-        user = userModel.updateUser(userId, user);
-        req.session.currentUser = user;
-        res.json(user);
+        userModel.updateUser(userId, user)
+            .then(
+                function (doc) {
+                    req.session.currentUser = doc;
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
     function deleteUser (req, res) {
         var userId = req.params.id;
-        var users = userModel.deleteUser(userId);
-        res.json(users);
+        userModel.deleteUser(userId)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
     function loggedin(req, res) {
@@ -68,4 +115,39 @@ module.exports = function(app, userModel) {
         res.send(200);
     }
 
+    function profile(req, res) {
+        var userId = req.params.userId;
+        var user = null;
+        userModel.findUserById(userId)
+            .then(
+                function (doc) {
+                    user = doc;
+                    // fetch movies this user has rated
+                    return movieModel.findMoviesByTmdbIDs(doc.rates);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            )
+            .then(
+                function (movies) {
+                    user.ratedMovies = movies;
+                    // fetch movies this user has reviewed
+                    return movieModel.findMoviesByTmdbIDs(doc.reviews);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            )
+            .then(
+                function (movies) {
+                    user.reviewedMovies = movies;
+                    res.json(user);
+                },
+                // send error if promise rejected
+                function (err) {
+                    res.status(400).send(err);
+                }
+            )
+    }
 };

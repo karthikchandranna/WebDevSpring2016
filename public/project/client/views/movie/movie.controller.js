@@ -71,7 +71,7 @@
         }
 
         function addReview() {
-            console.log(vm.movie.reviewContent);
+            //console.log(vm.movie.reviewContent);
             MovieService
                 .addReview(vm.currentUser._id,vm.currentUser.username, vm.movie.id, vm.movie.reviewContent,vm.movie)
                 .then(function (response) {
