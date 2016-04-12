@@ -48,3 +48,42 @@
         </div>
     </div>
 </div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-sm-4 myplaceholder">
+            <span style="font-size:15em;" class="glyphicon glyphicon-user" aria-hidden=true></span>
+        </div>
+        <div class="col-xs-12 col-sm-6 myplaceholder">
+            <h1 class="page-header">{{model.otherUser.username}}</h1>
+            <h2></h2>
+            <h3>Movies Rated: {{model.otherUser.rates.length}}</h3>
+            <h3></h3>
+            <h3>Movies Reviewed: {{model.otherUser.reviews.length}}</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-sm-offset-4" ng-if="model.otherUser.rates.length>0">
+            <h3 class="page-header">Ratings</h3>
+            <ul class="list-unstyled">
+                <li ng-repeat="movie in model.otherUser.ratedMovies">
+                    <a href="#/movie/{{movie.tmdbId}}">{{movie.title}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-sm-offset-4" ng-if="model.otherUser.reviews.length>0">
+            <h3 class="page-header">Reviews</h3>
+            <ul class="list-unstyled">
+                <li ng-repeat="movie in model.otherUser.reviewedMovies">
+                    <a href="#/movie/{{movie.tmdbId}}">{{movie.title}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+

@@ -70,11 +70,10 @@
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-sm-offset-4" ng-if="model.movie.ratings">
             <h3 class="page-header">Users who rated this movie</h3>
-            <ul>
+            <ul class="list-unstyled">
                 <li ng-repeat="rating in model.movie.ratings" ng-if="rating.userId!=model.currentUser._id">
-                    <a href="#/profile/{{rating.userId}}">
-                        {{rating.username}}
-                    </a>
+                    <span style="font-size:1.5em;" class=" glyphicon glyphicon-user" aria-hidden=true>
+                        <a href="#/profile/{{rating.userId}}">{{rating.username}}</a></span>
                 </li>
             </ul>
         </div>
@@ -97,18 +96,26 @@
                             type="button">Submit</button>
                 </div>
                 <br/>
-                <div ng-if="model.movie.userReviews.length" ng-repeat="userReview in model.movie.userReviews" >
+                <ul class="list-unstyled">
+                    <li ng-if="model.movie.userReviews.length" ng-repeat="userReview in model.movie.userReviews">
+                        <span style="font-size:1.5em;" class=" glyphicon glyphicon-user" aria-hidden=true>
+                        <a href="#/profile/{{userReview.userId}}">{{userReview.username}}</a></span>
+                        <p>{{userReview.text}}</p>
+                </ul>
+                <!--<div ng-if="model.movie.userReviews.length" ng-repeat="userReview in model.movie.userReviews" >
                     <span style="font-size:1.5em;" class=" glyphicon glyphicon-user" aria-hidden=true>
-                        <a href="#/profile/{{userReview.userId}}">&nbsp;{{userReview.username}}</a></span>
+                        <a href="#/profile/{{userReview.userId}}">{{userReview.username}}</a></span>
                     <p>{{userReview.text}}</p>
-                </div>
+                </div>-->
             </div>
             <div id="review1" class="tab-pane" ng-if="model.movie.reviews.results.length">
                 <h3 class="page-header">Critic Reviews</h3>
-                <div ng-repeat="review in model.movie.reviews.results">
-                    <span style="font-size:1.5em;" class="glyphicon glyphicon-user" aria-hidden=true>&nbsp;{{review.author}}</span>
-                    <p >{{review.content}}</p>
-                </div>
+                <ul class="list-unstyled">
+                    <li ng-repeat="review in model.movie.reviews.results">
+                        <span style="font-size:1.5em;" class="glyphicon glyphicon-user" aria-hidden=true>&nbsp;{{review.author}}</span>
+                        <p >{{review.content}}</p>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
