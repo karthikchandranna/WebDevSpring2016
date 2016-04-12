@@ -6,13 +6,15 @@ module.exports = function(mongoose) {
         title: String,
         imageUrl: String,
         videoUrl: [String],
-        // ids of users that like this movie
+        // ids of ratings for this movie
         ratings: [
             {
                 userId: String,
                 value: Number
             }
         ],
+        // list of users who rated this movie
+        ratedByUsers: [String],
         // list of reviews for this movie
         reviews: [
             {
@@ -20,10 +22,10 @@ module.exports = function(mongoose) {
                 username: String,
                 text: String
             }
-        ]
+        ],
+        // list of users who reviewed this movie
+        reviewedByUsers: [String]
         // store movie documents in this collection
     }, {collection: 'project.movie'});
-
     return MovieSchema;
-
 };

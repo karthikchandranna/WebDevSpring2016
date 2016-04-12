@@ -1,4 +1,4 @@
-module.exports = function(app, movieModel, userModel) {
+module.exports = function(app, userModel, movieModel) {
     app.get("/api/project/movie/:tmdbId/details", getMovieDetails);
     app.post("/api/project/movie/:tmdbId/rating/:ratedValue/user/:userId", userRatesMovie);
     app.post("/api/project/movie/:tmdbId/review/:reviewContent/user/:userId/username/:username", userReviewsMovie);
@@ -22,7 +22,7 @@ module.exports = function(app, movieModel, userModel) {
             // add user to movie ratings
             .then(
                 function (movie) {
-                    movie.totalRatings = calculateRatingsForMovie(movie);
+                    movie._doc.totalRatings = calculateRatingsForMovie(movie);
                     res.json(movie);
                 },
                 function (err) {
@@ -68,10 +68,10 @@ module.exports = function(app, movieModel, userModel) {
                 function (doc) {
                     movie = doc;
                     if (doc) {
-                        doc.totalRatings = calculateRatingsForMovie(doc);
+                        doc._doc.totalRatings = calculateRatingsForMovie(doc);
                         res.json(doc);
                     } else {
-                        res.json ({});
+                        res.json (null);
                     }
                 },
                 function (err) {

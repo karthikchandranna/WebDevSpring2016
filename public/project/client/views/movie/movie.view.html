@@ -32,8 +32,10 @@
                             aria-labelledby="default-rating" ng-class="'rating-star'">
                 </uib-rating>
                 <h4>User's Rating</h4>
-                <uib-rating ng-model="model.movie.usersRating" max=5 read-only="model.isReadonly" on-hover="model.hoveringOver(value)"
-                            on-leave="overStar = null" titles="['one','two','three','four','five']" ng-click="model.addRating()"
+                <uib-rating ng-model="model.movie.usersRating" max=5
+                            read-only="model.isReadonly || model.movie.ratedByUsers.indexOf(currentUser._id) > -1"
+                            on-hover="model.hoveringOver(value)" on-leave="overStar = null"
+                            titles="['one','two','three','four','five']" ng-click="model.addRating()"
                             aria-labelledby="default-rating" ng-class="'rating-star changing-star'">
                 </uib-rating>
                 <span class="label" ng-class="{'label-warning': model.percent<30, 'label-info': model.percent>=30 && model.percent<70, 'label-success': model.percent>=70}"
@@ -72,15 +74,16 @@
     </ul>-->
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-sm-offset-4">
-            <div id="review2" class="tab-pane" ng-if="model.movie.userReviews.length">
+            <div id="review2" class="tab-pane">
                 <h3 class="page-header">User Reviews</h3>
                 <div class="form-group">
-                    <textarea ng-model="model.movie.reviewContent" ng-disabled="model.isReadonly" rows="2"
+                    <textarea ng-model="model.movie.reviewContent"  rows="2"
+                              ng-disabled="model.isReadonly || model.movie.reviewedByUsers.indexOf(currentUser._id) > -1"
                               class="form-control" placeholder="{{model.reviewMsg}}"></textarea>
                     <button ng-click="model.addReview()" class="btn btn-primary btn-block"
                             ng-disabled="model.isReadonly" type="button">Submit</button>
                 </div>
-                <div ng-repeat="userReview in model.movie.userReviews" >
+                <div ng-if="model.movie.userReviews.length" ng-repeat="userReview in model.movie.userReviews" >
                     <span style="font-size:1.5em;" class=" glyphicon glyphicon-user" aria-hidden=true>&nbsp;{{userReview.username}}</span>
                     <p>{{userReview.text}}</p>
                 </div>

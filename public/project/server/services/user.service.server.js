@@ -133,7 +133,7 @@ module.exports = function(app, userModel, movieModel) {
                 function (movies) {
                     user.ratedMovies = movies;
                     // fetch movies this user has reviewed
-                    return movieModel.findMoviesByTmdbIDs(doc.reviews);
+                    return movieModel.findMoviesByTmdbIDs(movies.reviews);
                 },
                 function (err) {
                     res.status(400).send(err);

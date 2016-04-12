@@ -15,7 +15,6 @@
                 .getProfile()
                 .then(function (response) {
                     vm.currentUser = response.data;
-                    console.log(vm.currentUser);
                 });
         }
 

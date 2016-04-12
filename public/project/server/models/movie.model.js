@@ -6,8 +6,6 @@ module.exports = function(db, mongoose) {
 
     var api = {
         createMovie: createMovie,
-        addReviewForMovie: addReviewForMovie,
-        getReviewsForMovie: getReviewsForMovie,
         findMovieByTmdbID: findMovieByTmdbID,
         findMoviesByTmdbIDs: findMoviesByTmdbIDs,
         userRatesMovie: userRatesMovie,
@@ -27,6 +25,8 @@ module.exports = function(db, mongoose) {
                 if (doc) {
                     // add user to ratings
                     doc.ratings.push ({"userId": userId, "value": parseInt(rating)});
+                    // add user to ratedByUsers
+                    doc.ratedByUsers.push (userId);
                     doc.save(function(err, doc){
                         if (err) {
                             deferred.reject(err);
@@ -43,10 +43,14 @@ module.exports = function(db, mongoose) {
                         "imageUrl": movie.poster_path,
                         "videoUrl": movie.untrusted_video_url,
                         "ratings": [],
-                        "reviews": []
+                        "ratedByUsers": [],
+                        "reviews": [],
+                        "reviewedByUsers": []
                     });
-                    // add user to likes
+                    // add user to ratings
                     movie.ratings.push ({"userId": userId, "value": parseInt(rating)});
+                    // add user to ratedByUsers
+                    movie.ratedByUsers.push (userId);
                     // save new instance
                     movie.save(function(err, doc) {
                         if (err) {
@@ -73,6 +77,8 @@ module.exports = function(db, mongoose) {
                 if (doc) {
                     // add user to reviews
                     doc.reviews.push ({"userId": userId, "username": username, "text": review});
+                    // add user to reviewedByUsers
+                    doc.reviewedByUsers.push (userId);
                     doc.save(function(err, doc){
                         if (err) {
                             deferred.reject(err);
@@ -89,10 +95,14 @@ module.exports = function(db, mongoose) {
                         "imageUrl": movie.poster_path,
                         "videoUrl": movie.untrusted_video_url,
                         "ratings": [],
-                        "reviews": []
+                        "ratedByUsers": [],
+                        "reviews": [],
+                        "reviewedByUsers": []
                     });
                     // add user to reviews
                     movie.reviews.push ({"userId": userId, "username": username, "text": review});
+                    // add user to reviewedByUsers
+                    movie.reviewedByUsers.push (userId);
                     // save new instance
                     movie.save(function(err, doc) {
                         if (err) {
@@ -107,36 +117,6 @@ module.exports = function(db, mongoose) {
         return deferred.promise;
     }
 
-    function addReviewForMovie(tmdbId, review, userId, username, movie) {
-        isMovieInDB = false;
-        for (var m in movies) {
-            if (movies[m].tmdbId == tmdbId)
-                isMovieInDB = true;
-        }
-        if(!isMovieInDB) {
-            addMovieToDB(movie);
-        }
-        for (var m in movies) {
-            if (movies[m].tmdbId == tmdbId) {
-                var newReview = {"userId": userId, "username": username, "text": review};
-                if(movies[m].reviews)
-                    movies[m].reviews.unshift(newReview);
-                else
-                    movies[m].reviews = [newReview];
-                break;
-            }
-        }
-        return getReviewsForMovie(tmdbId);
-    }
-
-    function getReviewsForMovie(tmdbId) {
-        for (var m in movies) {
-            if (movies[m].tmdbId == tmdbId) {
-                return movies[m].reviews;
-            }
-        }
-    }
-
     function createMovie(movie) {
         // create instance of movie
         var movie = new Movie({
@@ -145,7 +125,9 @@ module.exports = function(db, mongoose) {
             "imageUrl": movie.poster_path,
             "videoUrl": movie.untrusted_video_url,
             "ratings": [],
-            "reviews": []
+            "ratedByUsers": [],
+            "reviews": [],
+            "reviewedByUsers": []
         });
         var deferred = q.defer();
         // save movie to database

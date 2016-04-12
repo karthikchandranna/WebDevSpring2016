@@ -2,7 +2,7 @@ var q = require("q");
 module.exports = function(db, mongoose) {
 
     var UserSchema = require("./user.schema.server.js")(mongoose);
-    var UserModel = mongoose.model('User', UserSchema);
+    var UserModel = mongoose.model('ProjectUser', UserSchema);
 
     var api = {
         createUser: createUser,
@@ -143,53 +143,44 @@ module.exports = function(db, mongoose) {
 
     function userRatesMovie (userId, movie) {
         var deferred = q.defer();
-        // find the user
         UserModel.findById(userId, function (err, doc) {
-            // reject promise if error
             if (err) {
                 deferred.reject(err);
             } else {
                 // add movie id to user rates
-                doc.rates.push (movie.tmdbId);
+                doc.rates.push (movie.id);
                 // save user
-                doc.save (function (err, doc) {
-
+                doc.save (function (err, user) {
                     if (err) {
                         deferred.reject(err);
                     } else {
-
-                        // resolve promise with user
-                        deferred.resolve (doc);
+                        deferred.resolve (user);
                     }
                 });
             }
         });
-        return deferred;
+        return deferred.promise;
     }
 
     function userReviewsMovie (userId, movie) {
         var deferred = q.defer();
         // find the user
         UserModel.findById(userId, function (err, doc) {
-            // reject promise if error
             if (err) {
                 deferred.reject(err);
             } else {
                 // add movie id to user rates
-                doc.reviews.push (movie.tmdbId);
+                doc.reviews.push (movie.id);
                 // save user
-                doc.save (function (err, doc) {
-
+                doc.save (function (err, user) {
                     if (err) {
                         deferred.reject(err);
                     } else {
-
-                        // resolve promise with user
-                        deferred.resolve (doc);
+                        deferred.resolve (user);
                     }
                 });
             }
         });
-        return deferred;
+        return deferred.promise;
     }
 };
