@@ -63,7 +63,7 @@
             <h3>Movies Reviewed: {{model.otherUser.reviews.length}}</h3>
         </div>
     </div>
-
+    <!--have movie name, id and ratings in model.otherUser.rates-->
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-sm-offset-4" ng-if="model.otherUser.rates.length>0">
             <h3 class="page-header">Ratings</h3>
@@ -74,13 +74,14 @@
             </ul>
         </div>
     </div>
-
+<!--have movie name, id and review in model.otherUser.reviews-->
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-sm-offset-4" ng-if="model.otherUser.reviews.length>0">
             <h3 class="page-header">Reviews</h3>
             <ul class="list-unstyled">
                 <li ng-repeat="movie in model.otherUser.reviewedMovies">
                     <a href="#/movie/{{movie.tmdbId}}">{{movie.title}}</a>
+                    <p></p>
                 </li>
             </ul>
         </div>
