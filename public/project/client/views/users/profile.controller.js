@@ -15,6 +15,8 @@
                 .getProfile()
                 .then(function (response) {
                     vm.currentUser = response.data;
+                    console.log("Movie details of rated and reviewed being fetched but not storing them except ids");
+                    console.log(vm.currentUser);
                 });
         }
 

@@ -123,7 +123,7 @@ module.exports = function(app, userModel, movieModel) {
                 function (doc) {
                     user = doc;
                     // fetch movies this user has rated
-                    return movieModel.findMoviesByTmdbIDs(doc.rates);
+                    return movieModel.findMoviesByTmdbIDs(user.rates);
                 },
                 function (err) {
                     res.status(400).send(err);
@@ -133,7 +133,7 @@ module.exports = function(app, userModel, movieModel) {
                 function (movies) {
                     user.ratedMovies = movies;
                     // fetch movies this user has reviewed
-                    return movieModel.findMoviesByTmdbIDs(movies.reviews);
+                    return movieModel.findMoviesByTmdbIDs(user.reviews);
                 },
                 function (err) {
                     res.status(400).send(err);
