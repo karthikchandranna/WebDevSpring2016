@@ -12,8 +12,8 @@
         };
         return api;
 
-        function addRating(userId, tmdbId, rating,movie) {
-            return $http.post("/api/project/movie/" + tmdbId + "/rating/" + rating + "/user/" + userId, movie);
+        function addRating(userId, username, tmdbId, rating,movie) {
+            return $http.post("/api/project/movie/" + tmdbId + "/rating/" + rating + "/user/" + userId + "/username/" + username, movie);
         }
 
         function addReview(userId, username, tmdbId, review,movie) {

@@ -18,6 +18,7 @@
             updateUser: updateUser,
             findUserByUsername: findUserByUsername,
             getProfile: getProfile,
+            getOtherProfile: getOtherProfile,
             logout: logout
         };
 
@@ -33,6 +34,10 @@
 
         function getProfile() {
             return $http.get("/api/project/profile/"+$rootScope.currentUser._id);
+        }
+
+        function getOtherProfile(userId) {
+            return $http.get("/api/project/profile/"+userId);
         }
 
         function findUserByUsername(username) {

@@ -70,7 +70,7 @@
         function addRating() {
             if(!vm.isReadonly && vm.movie.ratedByUsers.indexOf(vm.currentUser._id) < 0){
                     MovieService
-                        .addRating(vm.currentUser._id, vm.movie.id, vm.movie.usersRating,vm.movie)
+                        .addRating(vm.currentUser._id, vm.currentUser.username, vm.movie.id, vm.movie.usersRating,vm.movie)
                         .then(function (response) {
                             vm.movie.usersRating = parseFloat(response.data.totalRatings);
                             vm.movie.ratings = response.data.ratings;

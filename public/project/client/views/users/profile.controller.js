@@ -4,10 +4,12 @@
         .module("FilmsterApp")
         .controller("ProfileController", ProfileController);
 
-    function ProfileController(UserService) {
+    function ProfileController(UserService, $routeParams) {
         var vm = this;
         vm.error = null;
         vm.message = null;
+        vm.otherUserId = $routeParams.userId;
+        console.log(vm.otherUserId);
         vm.update = update;
 
         function init() {
@@ -18,6 +20,14 @@
                     console.log("Movie details of rated and reviewed being fetched but not storing them except ids");
                     console.log(vm.currentUser);
                 });
+            if(vm.otherUserId){
+                UserService
+                    .getOtherProfile(vm.otherUserId)
+                    .then(function (response){
+                        vm.otherUser = response.data;
+                        console.log(vm.otherUser);
+                    });
+            }
         }
 
         return init();

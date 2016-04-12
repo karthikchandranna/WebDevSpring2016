@@ -10,6 +10,7 @@ module.exports = function(mongoose) {
         ratings: [
             {
                 userId: String,
+                username: String,
                 value: Number
             }
         ],

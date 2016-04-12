@@ -33,7 +33,7 @@
                 </uib-rating>
                 <h4>User's Rating</h4>
                 <uib-rating ng-model="model.movie.usersRating" max=5
-                            read-only="model.isReadonly || model.movie.ratedByUsers.indexOf(currentUser._id) > -1"
+                            read-only="model.isReadonly || model.movie.ratedByUsers.indexOf(model.currentUser._id) > -1"
                             on-hover="model.hoveringOver(value)" on-leave="overStar = null"
                             titles="['one','two','three','four','five']" ng-click="model.addRating()"
                             aria-labelledby="default-rating" ng-class="'rating-star changing-star'">
@@ -67,6 +67,18 @@
             </ul>
         </div>
     </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-sm-offset-4" ng-if="model.movie.ratings">
+            <h3 class="page-header">Users who rated this movie</h3>
+            <ul>
+                <li ng-repeat="rating in model.movie.ratings" ng-if="rating.userId!=model.currentUser._id">
+                    <a href="#/profile/{{rating.userId}}">
+                        {{rating.username}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
     <!--<ul class="nav nav-tabs">
         <li role="presentation" class="active"><a ng-href="#/movie/{{model.movie.id}}#review1">Home</a></li>
         <li role="presentation"><a ng-href="#/movie/{{model.movie.id}}#review2">Profile</a></li>
@@ -78,13 +90,16 @@
                 <h3 class="page-header">User Reviews</h3>
                 <div class="form-group">
                     <textarea ng-model="model.movie.reviewContent"  rows="2"
-                              ng-disabled="model.isReadonly || model.movie.reviewedByUsers.indexOf(currentUser._id) > -1"
+                              ng-disabled="model.isReadonly || model.movie.reviewedByUsers.indexOf(model.currentUser._id) > -1"
                               class="form-control" placeholder="{{model.reviewMsg}}"></textarea>
                     <button ng-click="model.addReview()" class="btn btn-primary btn-block"
-                            ng-disabled="model.isReadonly" type="button">Submit</button>
+                            ng-disabled="model.isReadonly|| model.movie.reviewedByUsers.indexOf(model.currentUser._id) > -1"
+                            type="button">Submit</button>
                 </div>
+                <br/>
                 <div ng-if="model.movie.userReviews.length" ng-repeat="userReview in model.movie.userReviews" >
-                    <span style="font-size:1.5em;" class=" glyphicon glyphicon-user" aria-hidden=true>&nbsp;{{userReview.username}}</span>
+                    <span style="font-size:1.5em;" class=" glyphicon glyphicon-user" aria-hidden=true>
+                        <a href="#/profile/{{userReview.userId}}">&nbsp;{{userReview.username}}</a></span>
                     <p>{{userReview.text}}</p>
                 </div>
             </div>

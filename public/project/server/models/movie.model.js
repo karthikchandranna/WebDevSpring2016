@@ -13,7 +13,7 @@ module.exports = function(db, mongoose) {
     };
     return api;
 
-    function userRatesMovie (tmdbId, rating, userId, movie) {
+    function userRatesMovie (tmdbId, rating, userId, username, movie) {
         var deferred = q.defer();
         // find the movie by tmdb ID
         Movie.findOne({tmdbId: movie.id},
@@ -48,7 +48,7 @@ module.exports = function(db, mongoose) {
                         "reviewedByUsers": []
                     });
                     // add user to ratings
-                    movie.ratings.push ({"userId": userId, "value": parseInt(rating)});
+                    movie.ratings.push ({"userId": userId, "username": username, "value": parseInt(rating)});
                     // add user to ratedByUsers
                     movie.ratedByUsers.push (userId);
                     // save new instance

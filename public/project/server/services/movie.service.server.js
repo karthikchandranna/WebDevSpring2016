@@ -1,19 +1,20 @@
 module.exports = function(app, userModel, movieModel) {
     app.get("/api/project/movie/:tmdbId/details", getMovieDetails);
-    app.post("/api/project/movie/:tmdbId/rating/:ratedValue/user/:userId", userRatesMovie);
+    app.post("/api/project/movie/:tmdbId/rating/:ratedValue/user/:userId/username/:username", userRatesMovie);
     app.post("/api/project/movie/:tmdbId/review/:reviewContent/user/:userId/username/:username", userReviewsMovie);
 
     function userRatesMovie(req, res) {
         var tmdbId = req.params.tmdbId;
         var rating = req.params.ratedValue;
         var userId = req.params.userId;
+        var username = req.params.username;
         var movie = req.body;
         userModel
             .userRatesMovie(userId, movie)
             // add movie to user ratings
             .then(
                 function (user) {
-                    return movieModel.userRatesMovie(tmdbId, rating,userId, movie);
+                    return movieModel.userRatesMovie(tmdbId, rating,userId, username, movie);
                 },
                 function (err) {
                     res.status(400).send(err);
