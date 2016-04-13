@@ -280,3 +280,8 @@ li.w92 img {
     height: 138px;
 }
 
+div.background-image {
+    height:100vh;
+    background-image: url("../images/bg1.jpg");
+}
+

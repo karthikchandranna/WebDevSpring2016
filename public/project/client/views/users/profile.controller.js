@@ -6,8 +6,6 @@
 
     function ProfileController(UserService, $routeParams) {
         var vm = this;
-        vm.error = null;
-        vm.message = null;
         vm.otherUserId = $routeParams.userId;
 
         function init() {
@@ -25,7 +23,6 @@
                     });
             }
         }
-
         return init();
     }
 })();

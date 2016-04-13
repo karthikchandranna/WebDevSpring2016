@@ -41,7 +41,12 @@
                 templateUrl: "views/admin/admin.view.html"
             })
             .when("/critic", {
-                templateUrl: "views/critic/critic.view.html"
+                templateUrl: "views/critic/critic.view.html",
+                controller: "CriticController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
             })
             .when("/search/:query", {
                 templateUrl: "views/search/search.view.html",
