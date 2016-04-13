@@ -29,6 +29,14 @@
                     checkLoggedIn: checkLoggedIn
                 }
             })
+            .when("/editprofile", {
+                templateUrl: "views/users/profileEdit.view.html",
+                controller: "ProfileEditController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
+            })
             .when("/admin", {
                 templateUrl: "views/admin/admin.view.html"
             })

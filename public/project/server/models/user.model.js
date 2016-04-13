@@ -141,14 +141,14 @@ module.exports = function(db, mongoose) {
         });
     }
 
-    function userRatesMovie (userId, movie) {
+    function userRatesMovie (tmdbId,userId, movie, rating) {
         var deferred = q.defer();
         UserModel.findById(userId, function (err, doc) {
             if (err) {
                 deferred.reject(err);
             } else {
                 // add movie id to user rates
-                doc.rates.push (movie.id);
+                doc.rates.push ({"name": movie.title, "tmdbId": tmdbId, "rating": parseInt(rating)});
                 // save user
                 doc.save (function (err, user) {
                     if (err) {
@@ -162,7 +162,7 @@ module.exports = function(db, mongoose) {
         return deferred.promise;
     }
 
-    function userReviewsMovie (userId, movie) {
+    function userReviewsMovie (tmdbId,userId, movie, review) {
         var deferred = q.defer();
         // find the user
         UserModel.findById(userId, function (err, doc) {
@@ -170,7 +170,7 @@ module.exports = function(db, mongoose) {
                 deferred.reject(err);
             } else {
                 // add movie id to user rates
-                doc.reviews.push (movie.id);
+                doc.reviews.push ({"name": movie.title, "tmdbId": tmdbId, "review": review});
                 // save user
                 doc.save (function (err, user) {
                     if (err) {

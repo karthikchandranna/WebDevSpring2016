@@ -10,11 +10,23 @@ module.exports = function(mongoose) {
         email: String,
         roles: [String],
         // tmdb ids of movies this user rates
-        rates: [String],
+        rates: [
+            {
+                name: String,
+                tmdbId: String,
+                rating: Number
+            }
+        ],
         // movies this user rates
         ratedMovies: [MovieSchema],
         // tmdb ids of movies this user has reviewed
-        reviews: [String],
+        reviews: [
+            {
+                name: String,
+                tmdbId: String,
+                review: String
+            }
+        ],
         // movies this user has reviewed
         reviewedMovies: [MovieSchema]
     }, {collection: 'project.user'});

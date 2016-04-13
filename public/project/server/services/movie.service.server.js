@@ -10,7 +10,7 @@ module.exports = function(app, userModel, movieModel) {
         var username = req.params.username;
         var movie = req.body;
         userModel
-            .userRatesMovie(userId, movie)
+            .userRatesMovie(tmdbId,userId, movie, rating)
             // add movie to user ratings
             .then(
                 function (user) {
@@ -39,7 +39,7 @@ module.exports = function(app, userModel, movieModel) {
         var username = req.params.username;
         var movie = req.body;
         userModel
-            .userReviewsMovie(userId, movie)
+            .userReviewsMovie(tmdbId,userId, movie, review)
             // add movie to user reviews
             .then(
                 function (user) {

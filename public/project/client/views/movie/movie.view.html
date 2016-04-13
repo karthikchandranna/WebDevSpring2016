@@ -31,7 +31,7 @@
                 <uib-rating ng-model="model.movie.criticsRating" max=5 read-only="true" titles="['one','two','three','four','five']"
                             aria-labelledby="default-rating" ng-class="'rating-star'">
                 </uib-rating>
-                <h4>User's Rating</h4>
+                <h4>Users Rating</h4>
                 <uib-rating ng-model="model.movie.usersRating" max=5
                             read-only="model.isReadonly || model.movie.ratedByUsers.indexOf(model.currentUser._id) > -1"
                             on-hover="model.hoveringOver(value)" on-leave="overStar = null"
@@ -71,18 +71,13 @@
         <div class="col-xs-12 col-sm-6 col-sm-offset-4" ng-if="model.movie.ratings">
             <h3 class="page-header">Users who rated this movie</h3>
             <ul class="list-unstyled">
-                <li ng-repeat="rating in model.movie.ratings" ng-if="rating.userId!=model.currentUser._id">
+                <li ng-repeat="rating in model.movie.ratings">
                     <span style="font-size:1.5em;" class=" glyphicon glyphicon-user" aria-hidden=true>
                         <a href="#/profile/{{rating.userId}}">{{rating.username}}</a></span>
                 </li>
             </ul>
         </div>
     </div>
-    <!--<ul class="nav nav-tabs">
-        <li role="presentation" class="active"><a ng-href="#/movie/{{model.movie.id}}#review1">Home</a></li>
-        <li role="presentation"><a ng-href="#/movie/{{model.movie.id}}#review2">Profile</a></li>
-        <li role="presentation"><a href="#">Messages</a></li>
-    </ul>-->
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-sm-offset-4">
             <div id="review2" class="tab-pane">
@@ -102,11 +97,6 @@
                         <a href="#/profile/{{userReview.userId}}">{{userReview.username}}</a></span>
                         <p>{{userReview.text}}</p>
                 </ul>
-                <!--<div ng-if="model.movie.userReviews.length" ng-repeat="userReview in model.movie.userReviews" >
-                    <span style="font-size:1.5em;" class=" glyphicon glyphicon-user" aria-hidden=true>
-                        <a href="#/profile/{{userReview.userId}}">{{userReview.username}}</a></span>
-                    <p>{{userReview.text}}</p>
-                </div>-->
             </div>
             <div id="review1" class="tab-pane" ng-if="model.movie.reviews.results.length">
                 <h3 class="page-header">Critic Reviews</h3>

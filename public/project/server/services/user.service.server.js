@@ -122,8 +122,12 @@ module.exports = function(app, userModel, movieModel) {
             .then(
                 function (doc) {
                     user = doc;
+                    var tmdbIds = [];
+                    for(var r in user.rates) {
+                        tmdbIds.push(user.rates[r].tmdbId);
+                    }
                     // fetch movies this user has rated
-                    return movieModel.findMoviesByTmdbIDs(user.rates);
+                    return movieModel.findMoviesByTmdbIDs(tmdbIds);
                 },
                 function (err) {
                     res.status(400).send(err);
@@ -132,8 +136,12 @@ module.exports = function(app, userModel, movieModel) {
             .then(
                 function (movies) {
                     user.ratedMovies = movies;
+                    var tmdbIds = [];
+                    for(var r in user.reviews) {
+                        tmdbIds.push(user.reviews[r].tmdbId);
+                    }
                     // fetch movies this user has reviewed
-                    return movieModel.findMoviesByTmdbIDs(user.reviews);
+                    return movieModel.findMoviesByTmdbIDs(tmdbIds);
                 },
                 function (err) {
                     res.status(400).send(err);

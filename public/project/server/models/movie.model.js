@@ -24,7 +24,7 @@ module.exports = function(db, mongoose) {
                 // if there's a movie
                 if (doc) {
                     // add user to ratings
-                    doc.ratings.push ({"userId": userId, "value": parseInt(rating)});
+                    doc.ratings.push ({"userId": userId, "username": username, "value": parseInt(rating)});
                     // add user to ratedByUsers
                     doc.ratedByUsers.push (userId);
                     doc.save(function(err, doc){
