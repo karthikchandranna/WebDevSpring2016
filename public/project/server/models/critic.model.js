@@ -6,7 +6,8 @@ module.exports = function(db, mongoose) {
 
     var api = {
         saveReview: saveReview,
-        findAllCritics: findAllCritics
+        findAllCritics: findAllCritics,
+        findCritic: findCritic
     };
     return api;
 
@@ -35,6 +36,18 @@ module.exports = function(db, mongoose) {
     function findAllCritics() {
         var deferred = q.defer();
         Critic.find(function (err, users) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(users);
+            }
+        });
+        return deferred.promise;
+    }
+
+    function findCritic(userId) {
+        var deferred = q.defer();
+        Critic.findOne({userId: userId},function (err, users) {
             if (err) {
                 deferred.reject(err);
             } else {

@@ -7,7 +7,8 @@
 
         var api = {
             saveReview: saveReview,
-            getAllCritics: getAllCritics
+            getAllCritics: getAllCritics,
+            getCritic: getCritic
         };
         return api;
 
@@ -16,7 +17,11 @@
         }
 
         function getAllCritics(){
-            return $http.get("/api/project/critic/");
+            return $http.get("/api/project/critic");
+        }
+
+        function getCritic(userId){
+            return $http.get("/api/project/critic/"+userId);
         }
     }
 })();

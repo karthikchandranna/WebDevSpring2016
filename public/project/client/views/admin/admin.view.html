@@ -11,28 +11,16 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>Alice</td>
-                <td>Mad Max: Fury Road</td>
-                <td >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec,
-                    mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed
-                    eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec mauris sit
-                    amet elit iaculis pretium sit amet quis magna. Aenean velit odio, elementum in tempus ut, vehicula eu
-                    diam. Pellentesque rhoncus aliquam mattis. Ut vulputate eros sed felis sodales nec vulputate justo
-                    hendrerit. Vivamus varius pretium ligula, a aliquam odio euismod sit amet. Quisque laoreet sem sit amet
-                    orci ullamcorper at ultricies metus viverra.
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec,
-                    mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed
-                    eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec mauris sit
-                    amet elit iaculis pretium sit amet quis magna. Aenean velit odio, elementum in tempus ut, vehicula eu
-                    diam. Pellentesque rhoncus aliquam mattis. Ut vulputate eros sed felis sodales nec vulputate justo
-                    hendrerit. Vivamus varius pretium ligula, a aliquam odio euismod sit amet. Quisque laoreet sem sit amet
-                    orci ullamcorper at ultricies metus viverra.</td>
-                <td  class="nowrap"><button type="button" class="btn btn-success btn-sm">Yes</button>
-                    <button type="button" class="btn btn-danger btn-sm">No</button>
+            <tr ng-repeat="critic in model.critics">
+                <td>{{critic.username}}</td>
+                <td>{{critic.title}}</td>
+                <td>{{critic.review}}</td>
+                <td class="nowrap">
+                    <button type="button" ng-click="model.accept(critic)" class="btn btn-success btn-sm">Yes</button>
+                    <button type="button" ng-click="model.reject(critic)" class="btn btn-danger btn-sm">No</button>
                 </td>
             </tr>
-            <tr>
+            <!--<tr>
                 <td>Bob</td>
                 <td>Fast and Furious</td>
                 <td>
@@ -97,7 +85,7 @@
                 <td  class="nowrap"><button type="button" class="btn btn-success btn-sm">Yes</button>
                     <button type="button" class="btn btn-danger btn-sm">No</button>
                 </td>
-            </tr>
+            </tr>-->
             </tbody>
         </table>
     </div>

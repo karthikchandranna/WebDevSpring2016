@@ -1,6 +1,7 @@
 module.exports = function(app, criticModel) {
     app.post("/api/project/critic/:userId/userName/:username/movie/:title", saveReview);
     app.get("/api/project/critic", findAllCritics);
+    app.get("/api/project/critic/:userId", findCritic);
 
     function saveReview(req, res) {
         var userId = req.params.userId;
@@ -11,12 +12,9 @@ module.exports = function(app, criticModel) {
             .saveReview(userId, username, title, review)
             .then(
                 function (doc) {
-                    console.log(doc);
                     res.json(doc);
                 },
                 function (err) {
-                    console.log("error");
-                    console.log(err);
                     res.status(400).send(err);
 
                 }
@@ -29,6 +27,20 @@ module.exports = function(app, criticModel) {
             .then(
                 function (critics) {
                     res.json(critics);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function findCritic(req, res) {
+        var userId = req.params.userId;
+        criticModel
+            .findCritic(userId)
+            .then(
+                function (doc) {
+                    res.json(doc);
                 },
                 function (err) {
                     res.status(400).send(err);

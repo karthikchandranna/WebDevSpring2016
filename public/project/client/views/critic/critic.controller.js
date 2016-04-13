@@ -35,10 +35,6 @@
                 vm.error = "Please write a review";
                 return;
             }
-            /*vm.error = null;
-            vm.message = "Application submitted successfully";
-            vm.submitted = true;
-            vm.cancelOrGoBack = "Go Back to Profile";*/
             console.log(vm.movie);
             console.log(vm.review);
             console.log(vm.currentUser);
