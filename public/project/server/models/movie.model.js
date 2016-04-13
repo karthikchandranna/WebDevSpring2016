@@ -133,7 +133,7 @@ module.exports = function(db, mongoose) {
         // save movie to database
         movie.save(function (err, doc) {
             if (err) {
-                defferred.reject(err)
+                deferred.reject(err)
             } else {
                 deferred.resolve(doc);
             }

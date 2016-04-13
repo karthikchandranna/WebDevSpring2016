@@ -4,7 +4,7 @@
         .module("FilmsterApp")
         .controller("CriticController", CriticController);
 
-    function CriticController(UserService, TmdbApiService, $location) {
+    function CriticController(UserService, TmdbApiService, CriticService) {
         var vm = this;
         vm.error = null;
         vm.message = null;
@@ -35,13 +35,27 @@
                 vm.error = "Please write a review";
                 return;
             }
-            vm.error = null;
-            vm.message = "Critic application submitted successfully";
+            /*vm.error = null;
+            vm.message = "Application submitted successfully";
             vm.submitted = true;
-            vm.cancelOrGoBack = "Go Back to Profile";
+            vm.cancelOrGoBack = "Go Back to Profile";*/
             console.log(vm.movie);
             console.log(vm.review);
             console.log(vm.currentUser);
+            CriticService
+                .saveReview(vm.currentUser._id, vm.currentUser.username,vm.movie.title, {"review": vm.review})
+                .then(
+                    function (response) {
+                        console.log(response.data);
+                        vm.error = null;
+                        vm.message = "Application submitted successfully";
+                        vm.submitted = true;
+                        vm.cancelOrGoBack = "Go Back to Profile";
+                    },
+                    function (errResp) {
+                        console.log(errResp.data);
+                        vm.error = "Failed to submit. Try again"
+                    });
         }
     }
 })();
