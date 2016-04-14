@@ -281,6 +281,6 @@ li.w92 img {
 }
 
 div.background-image {
-    height:100vh;
-    background-image: url("../images/bg1.jpg");
+    background: url(../images/bg1.jpg) no-repeat center center;
+    background-size: cover;
 }
