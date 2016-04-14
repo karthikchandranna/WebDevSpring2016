@@ -84,11 +84,11 @@
                 <h3 class="page-header">User Reviews</h3>
                 <div class="form-group">
                     <textarea ng-model="model.movie.reviewContent"  rows="2"
-                              ng-disabled="model.isReadonly || model.movie.reviewedByUsers.indexOf(model.currentUser._id) > -1"
+                              ng-readonly="model.isReadonly || model.movie.reviewedByUsers.indexOf(model.currentUser._id) > -1"
                               class="form-control" placeholder="{{model.reviewMsg}}"></textarea>
                     <button ng-click="model.addReview()" class="btn btn-primary btn-block"
-                            ng-disabled="model.isReadonly|| model.movie.reviewedByUsers.indexOf(model.currentUser._id) > -1"
-                            type="button">Submit</button>
+                            ng-disabled="model.isReadonly|| model.movie.reviewedByUsers.indexOf(model.currentUser._id) > -1">
+                        Submit Review</button>
                 </div>
                 <br/>
                 <ul class="list-unstyled" ng-if="model.movie.userReviews.length>0">

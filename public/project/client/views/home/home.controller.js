@@ -29,11 +29,11 @@
                 .getNowPlaying()
                 .then(function(response){
                     vm.nowPlaying = response.data.results;
-                    TmdbApiService
+                    /*TmdbApiService
                         .fetchAllVideos(vm.nowPlaying)
                         .then(function(resp){
                             fetchAllNowPlayingVideos(resp);
-                        });
+                        });*/
                 });
         }
 
@@ -42,11 +42,11 @@
                 .getUpcomingMovies()
                 .then(function(response){
                     vm.upcoming = response.data.results;
-                    TmdbApiService
+                    /*TmdbApiService
                         .fetchAllVideos(vm.upcoming)
                         .then(function(resp){
                             fetchAllUpComingVideos(resp);
-                        });
+                        });*/
                 });
         }
 

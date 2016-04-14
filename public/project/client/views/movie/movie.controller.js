@@ -63,6 +63,7 @@
         }
 
         function populateCriticReviews() {
+            vm.movie.userReviews = [];
             if(vm.movie.tempUserReviews) {
                 for(var i = 0; i < vm.movie.tempUserReviews.length; i++) {
                     if (vm.movie.tempUserReviews[i].isCritic) {
@@ -71,7 +72,7 @@
                             "content" : vm.movie.tempUserReviews[i].text,
                             "userId" : vm.movie.tempUserReviews[i].userId
                         };
-                        vm.movie.reviews.results.push(review);
+                        vm.movie.reviews.results.unshift(review);
                     }
                     else
                         vm.movie.userReviews.push(vm.movie.tempUserReviews[i]);

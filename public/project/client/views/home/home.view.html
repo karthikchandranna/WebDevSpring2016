@@ -4,7 +4,7 @@
         <div class="col-xs-12 col-sm-6 col-md-4 placeholder" ng-repeat="movie in model.nowPlaying" ng-if="movie.poster_path">
             <div class="thumbnail">
                 <div class="embed-responsive embed-responsive-4by3">
-                    <iframe ng-src="{{movie.video_url}}"></iframe>
+                    <!--<iframe ng-src="{{movie.video_url}}"></iframe>-->
                     <a ng-if="!movie.video_url" href="#/movie/{{movie.id}}">
                         <img ng-src="https://image.tmdb.org/t/p/w500/{{movie.poster_path}}">
                     </a>
@@ -35,7 +35,7 @@
         <div class="col-xs-12 col-sm-6 col-md-4 placeholder" ng-repeat="movie in model.upcoming" ng-if="movie.poster_path">
             <div class="thumbnail">
                 <div class="embed-responsive embed-responsive-4by3">
-                    <iframe ng-src="{{movie.video_url}}"></iframe>
+                    <!--<iframe ng-src="{{movie.video_url}}"></iframe>-->
                     <a ng-if="!movie.video_url" href="#/movie/{{movie.id}}">
                         <img class="img img-responsive" ng-src="https://image.tmdb.org/t/p/w500/{{movie.poster_path}}">
                     </a>

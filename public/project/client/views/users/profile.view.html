@@ -34,7 +34,7 @@
             <ul class="list-unstyled">
                 <li ng-repeat="movie in model.userProfile.reviews">
                     <a href="#/movie/{{movie.tmdbId}}">{{movie.name}}</a><br/>
-                    <textarea class="form-control" disabled="disabled">{{movie.review}}</textarea><br/>
+                    <textarea class="form-control" readonly="readonly">{{movie.review}}</textarea><br/>
                 </li>
             </ul>
         </div>

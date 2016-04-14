@@ -102,7 +102,6 @@
             .getCurrentUser()
             .then(function(response) {
                 var currentUser = response.data;
-                console.log(currentUser);
                 if(currentUser.roles.indexOf("admin")> -1) {
                     deferred.resolve();
                 } else {

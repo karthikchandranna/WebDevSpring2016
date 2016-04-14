@@ -25,11 +25,11 @@
                 .searchMovies(query)
                 .then(function(response){
                     vm.movies = response.data.results;
-                    TmdbApiService
+                    /*TmdbApiService
                         .fetchAllVideos(vm.movies)
                         .then(function(resp){
                             fetchAllVideos(resp);
-                        });
+                        });*/
                 });
         }
 
