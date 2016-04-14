@@ -8,7 +8,8 @@
         var api = {
             saveReview: saveReview,
             getAllCritics: getAllCritics,
-            getCritic: getCritic
+            getCritic: getCritic,
+            deleteCritic: deleteCritic
         };
         return api;
 
@@ -22,6 +23,10 @@
 
         function getCritic(userId){
             return $http.get("/api/project/critic/"+userId);
+        }
+
+        function deleteCritic(id){
+            return $http.delete("/api/project/critic/"+id);
         }
     }
 })();

@@ -68,7 +68,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-12 col-sm-6 col-sm-offset-4" ng-if="model.movie.ratings">
+        <div class="col-xs-12 col-sm-6 col-sm-offset-4" ng-if="model.movie.ratings.length>0">
             <h3 class="page-header">Users who rated this movie</h3>
             <ul class="list-unstyled">
                 <li ng-repeat="rating in model.movie.ratings">
@@ -91,18 +91,25 @@
                             type="button">Submit</button>
                 </div>
                 <br/>
-                <ul class="list-unstyled">
-                    <li ng-if="model.movie.userReviews.length" ng-repeat="userReview in model.movie.userReviews">
+                <ul class="list-unstyled" ng-if="model.movie.userReviews.length>0">
+                    <li ng-repeat="userReview in model.movie.userReviews">
                         <span style="font-size:1.5em;" class=" glyphicon glyphicon-user" aria-hidden=true>
                         <a href="#/profile/{{userReview.userId}}">{{userReview.username}}</a></span>
                         <p>{{userReview.text}}</p>
                 </ul>
             </div>
-            <div id="review1" class="tab-pane" ng-if="model.movie.reviews.results.length">
+            <div id="review1" class="tab-pane" ng-if="model.movie.reviews.results.length>0">
                 <h3 class="page-header">Critic Reviews</h3>
                 <ul class="list-unstyled">
                     <li ng-repeat="review in model.movie.reviews.results">
-                        <span style="font-size:1.5em;" class="glyphicon glyphicon-user" aria-hidden=true>&nbsp;{{review.author}}</span>
+                        <span style="font-size:1.5em;" class="glyphicon glyphicon-user" aria-hidden=true>
+                            <span ng-if="review.userId">
+                                <a href="#/profile/{{review.userId}}">{{review.author}}</a>
+                            </span>
+                            <span ng-if="!review.userId">
+                                <label>{{review.author}}</label>
+                            </span>
+                        </span>
                         <p >{{review.content}}</p>
                     </li>
                 </ul>

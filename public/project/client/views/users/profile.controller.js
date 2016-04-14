@@ -14,15 +14,26 @@
                 .then(function (response) {
                     vm.currentUser = response.data;
                     vm.userProfile = response.data;
+
+                    getOtherProfile();
+
                 });
+
+
+        }
+        return init();
+
+        function getOtherProfile(){
             if(vm.otherUserId){
                 UserService
                     .getOtherProfile(vm.otherUserId)
                     .then(function (response){
                         vm.userProfile = response.data;
+                        vm.isCritic = vm.userProfile.roles.indexOf('critic')> -1;
                     });
             }
+            else
+                vm.isCritic = vm.userProfile.roles.indexOf('critic')> -1;
         }
-        return init();
     }
 })();

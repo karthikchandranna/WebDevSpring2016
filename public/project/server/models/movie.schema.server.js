@@ -21,7 +21,8 @@ module.exports = function(mongoose) {
             {
                 userId: String,
                 username: String,
-                text: String
+                text: String,
+                isCritic: Boolean
             }
         ],
         // list of users who reviewed this movie

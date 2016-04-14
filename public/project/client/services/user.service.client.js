@@ -19,7 +19,8 @@
             findUserByUsername: findUserByUsername,
             getProfile: getProfile,
             getOtherProfile: getOtherProfile,
-            logout: logout
+            logout: logout,
+            addRole: addRole
         };
 
         return api;
@@ -66,6 +67,10 @@
 
         function logout() {
             return $http.post("/api/project/logout");
+        }
+
+        function addRole(userId, role) {
+            return $http.put("/api/project/user/"+ userId+"/role", role);
         }
     }
 })();

@@ -9,31 +9,32 @@
         vm.message = null;
         vm.register = register;
 
-        function register(user) {
+        function register() {
             vm.message = null;
-            if (user == null) {
+            if (vm.user == null) {
                 vm.message = "Please fill in the required fields";
                 return;
             }
-            if (!user.username) {
+            if (!vm.user.username) {
                 vm.message = "Please provide a username";
                 return;
             }
-            if (!user.password || !user.password2) {
+            if (!vm.user.password || !vm.user.password2) {
                 vm.message = "Please provide a password";
                 return;
             }
-            if (user.password !== user.password2) {
+            if (vm.user.password !== vm.user.password2) {
                 vm.message = "Passwords must match";
                 return;
             }
-            if (!user.email) {
+            if (!vm.user.email) {
                 vm.message = "Please provide a valid email";
                 return;
             }
+            vm.user.roles = ["user"];
             var userDB;
             UserService
-                .findUserByUsername(user.username)
+                .findUserByUsername(vm.user.username)
                 .then(function(response){
                     if (response.data) {
                         vm.message = "User already exists";

@@ -12,12 +12,12 @@
         };
         return api;
 
-        function addRating(userId, username, tmdbId, rating,movie) {
+        function addRating(userId, username, tmdbId, rating, movie) {
             return $http.post("/api/project/movie/" + tmdbId + "/rating/" + rating + "/user/" + userId + "/username/" + username, movie);
         }
 
-        function addReview(userId, username, tmdbId, review,movie) {
-            return $http.post("/api/project/movie/" + tmdbId + "/review/" + review + "/user/" + userId + "/username/" + username, movie);
+        function addReview(userId, username, tmdbId, review) {
+            return $http.post("/api/project/movie/" + tmdbId + "/review/user/" + userId + "/username/" + username, review);
         }
 
         function getMovieDetails(tmdbId) {

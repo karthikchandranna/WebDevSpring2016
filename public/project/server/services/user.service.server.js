@@ -8,6 +8,7 @@ module.exports = function(app, userModel, movieModel) {
     app.get("/api/project/loggedin", loggedin);
     app.post("/api/project/logout", logout);
     app.get("/api/project/profile/:userId", profile);
+    app.put("/api/project/user/:userId/role", addRole);
 
     function createUser (req, res) {
         var user = req.body;
@@ -157,5 +158,30 @@ module.exports = function(app, userModel, movieModel) {
                     res.status(400).send(err);
                 }
             )
+    }
+
+    function addRole(req, res) {
+        var userId = req.params.userId;
+        var role = req.body.role;
+        userModel.findUserById(userId)
+            .then(
+                function (user) {
+                    if(user.roles.indexOf(role)<0) {
+                        user.roles.push(role);
+                    }
+                    return userModel.updateUser(userId, user)
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            )
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 };

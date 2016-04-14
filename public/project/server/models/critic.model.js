@@ -7,7 +7,8 @@ module.exports = function(db, mongoose) {
     var api = {
         saveReview: saveReview,
         findAllCritics: findAllCritics,
-        findCritic: findCritic
+        findCritic: findCritic,
+        deleteCritic: deleteCritic
     };
     return api;
 
@@ -35,11 +36,11 @@ module.exports = function(db, mongoose) {
 
     function findAllCritics() {
         var deferred = q.defer();
-        Critic.find(function (err, users) {
+        Critic.find(function (err, critics) {
             if (err) {
                 deferred.reject(err);
             } else {
-                deferred.resolve(users);
+                deferred.resolve(critics);
             }
         });
         return deferred.promise;
@@ -47,11 +48,23 @@ module.exports = function(db, mongoose) {
 
     function findCritic(userId) {
         var deferred = q.defer();
-        Critic.findOne({userId: userId},function (err, users) {
+        Critic.findOne({userId: userId},function (err, critic) {
             if (err) {
                 deferred.reject(err);
             } else {
-                deferred.resolve(users);
+                deferred.resolve(critic);
+            }
+        });
+        return deferred.promise;
+    }
+
+    function deleteCritic(id) {
+        var deferred = q.defer();
+        Critic.remove({_id: id}, function (err, critics) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(critics);
             }
         });
         return deferred.promise;

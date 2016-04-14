@@ -3,10 +3,11 @@
         <div class="col-xs-12 col-sm-4 myplaceholder">
             <br/>
             <span style="font-size:16em;" class="glyphicon glyphicon-user" aria-hidden=true></span><br/>
+            <h1 ng-if="model.isCritic">CRITIC</h1>
             <a href="#/editprofile" class="btn btn-primary btn-lg"
                ng-if="model.userProfile._id==model.currentUser._id" role="button">Edit Profile</a>
             <a href="#/critic" class="btn btn-primary btn-lg"
-               ng-if="model.userProfile._id==model.currentUser._id" role="button">Be A Critic</a>
+               ng-if="model.userProfile._id==model.currentUser._id && !model.isCritic" role="button">Be A Critic</a>
         </div>
         <div class="col-xs-12 col-sm-6 myplaceholder">
             <h1 class="page-header">{{model.userProfile.username}}</h1>

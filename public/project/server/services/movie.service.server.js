@@ -1,7 +1,7 @@
 module.exports = function(app, userModel, movieModel) {
     app.get("/api/project/movie/:tmdbId/details", getMovieDetails);
     app.post("/api/project/movie/:tmdbId/rating/:ratedValue/user/:userId/username/:username", userRatesMovie);
-    app.post("/api/project/movie/:tmdbId/review/:reviewContent/user/:userId/username/:username", userReviewsMovie);
+    app.post("/api/project/movie/:tmdbId/review/user/:userId/username/:username", userReviewsMovie);
 
     function userRatesMovie(req, res) {
         var tmdbId = req.params.tmdbId;
@@ -34,16 +34,17 @@ module.exports = function(app, userModel, movieModel) {
 
     function userReviewsMovie(req, res) {
         var tmdbId = req.params.tmdbId;
-        var review = req.params.reviewContent;
+        var review = req.body.text;
         var userId = req.params.userId;
         var username = req.params.username;
-        var movie = req.body;
+        var movie = req.body.movie;
+        var isCritic = req.body.isCritic;
         userModel
             .userReviewsMovie(tmdbId,userId, movie, review)
             // add movie to user reviews
             .then(
                 function (user) {
-                    return movieModel.userReviewsMovie(tmdbId, review, userId, username, movie);
+                    return movieModel.userReviewsMovie(tmdbId, review, userId, username, movie, isCritic);
                 },
                 function (err) {
                     res.status(400).send(err);

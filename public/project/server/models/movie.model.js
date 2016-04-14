@@ -65,7 +65,7 @@ module.exports = function(db, mongoose) {
         return deferred.promise;
     }
 
-    function userReviewsMovie (tmdbId, review, userId, username, movie) {
+    function userReviewsMovie (tmdbId, review, userId, username, movie, isCritic) {
         var deferred = q.defer();
         // find the movie by tmdb ID
         Movie.findOne({tmdbId: movie.id},
@@ -76,7 +76,7 @@ module.exports = function(db, mongoose) {
                 // if there's a movie
                 if (doc) {
                     // add user to reviews
-                    doc.reviews.push ({"userId": userId, "username": username, "text": review});
+                    doc.reviews.push ({"userId": userId, "username": username, "text": review, "isCritic": isCritic});
                     // add user to reviewedByUsers
                     doc.reviewedByUsers.push (userId);
                     doc.save(function(err, doc){
@@ -100,7 +100,7 @@ module.exports = function(db, mongoose) {
                         "reviewedByUsers": []
                     });
                     // add user to reviews
-                    movie.reviews.push ({"userId": userId, "username": username, "text": review});
+                    movie.reviews.push ({"userId": userId, "username": username, "text": review, "isCritic": isCritic});
                     // add user to reviewedByUsers
                     movie.reviewedByUsers.push (userId);
                     // save new instance

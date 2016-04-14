@@ -27,6 +27,7 @@
                     if(vm.currentUser) {
                         vm.isReadonly = false;
                         vm.reviewMsg = "Write a Review";
+                        vm.isCritic = vm.currentUser.roles.indexOf('critic')> -1;
                     }
                 });
         }
@@ -44,22 +45,38 @@
                     vm.movie.criticsRating = response.vote_average / 2;
                     vm.movie.ratedByUsers = [];
                     vm.movie.reviewedByUsers = [];
-                    /*vm.movie.ratings = [];
-                    vm.movie.usersRating = 0.0;
-                    vm.movie.userReviews = [];*/
+                    console.log(vm.movie);
 
                     MovieService
                         .getMovieDetails(vm.movie.id)
                         .then(function (response) {
                             if (response.data) {
                                 vm.movie.usersRating = parseFloat(response.data.totalRatings);
-                                vm.movie.userReviews = response.data.reviews;
+                                vm.movie.tempUserReviews = response.data.reviews;
                                 vm.movie.ratings = response.data.ratings;
                                 vm.movie.ratedByUsers = response.data.ratedByUsers;
                                 vm.movie.reviewedByUsers = response.data.reviewedByUsers;
+                                populateCriticReviews();
                             }
                         })
                 });
+        }
+
+        function populateCriticReviews() {
+            if(vm.movie.tempUserReviews) {
+                for(var i = 0; i < vm.movie.tempUserReviews.length; i++) {
+                    if (vm.movie.tempUserReviews[i].isCritic) {
+                        var review = {
+                            "author" : vm.movie.tempUserReviews[i].username,
+                            "content" : vm.movie.tempUserReviews[i].text,
+                            "userId" : vm.movie.tempUserReviews[i].userId
+                        };
+                        vm.movie.reviews.results.push(review);
+                    }
+                    else
+                        vm.movie.userReviews.push(vm.movie.tempUserReviews[i]);
+                }
+            }
         }
 
         function hoveringOver(value) {
@@ -69,25 +86,30 @@
 
         function addRating() {
             if(!vm.isReadonly && vm.movie.ratedByUsers.indexOf(vm.currentUser._id) < 0){
-                    MovieService
-                        .addRating(vm.currentUser._id, vm.currentUser.username, vm.movie.id, vm.movie.usersRating,vm.movie)
-                        .then(function (response) {
-                            vm.movie.usersRating = parseFloat(response.data.totalRatings);
-                            vm.movie.ratings = response.data.ratings;
-                            vm.movie.ratedByUsers = response.data.ratedByUsers;
-                        });
+                MovieService
+                    .addRating(vm.currentUser._id, vm.currentUser.username, vm.movie.id, vm.movie.usersRating,vm.movie)
+                    .then(function (response) {
+                        vm.movie.usersRating = parseFloat(response.data.totalRatings);
+                        vm.movie.ratings = response.data.ratings;
+                        vm.movie.ratedByUsers = response.data.ratedByUsers;
+                    });
             }
         }
 
         function addReview() {
+            vm.review = {
+                "movie" : vm.movie,
+                "isCritic" : vm.isCritic,
+                "text" : vm.movie.reviewContent
+            };
             MovieService
-                .addReview(vm.currentUser._id,vm.currentUser.username, vm.movie.id, vm.movie.reviewContent,vm.movie)
+                .addReview(vm.currentUser._id,vm.currentUser.username, vm.movie.id, vm.review)
                 .then(function (response) {
-                    vm.movie.userReviews = response.data.reviews;
+                    vm.movie.tempUserReviews = response.data.reviews;
                     vm.movie.reviewedByUsers = response.data.reviewedByUsers;
                     vm.movie.reviewContent = null;
+                    populateCriticReviews();
                 });
-
         }
     }
 })();

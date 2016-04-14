@@ -2,6 +2,7 @@ module.exports = function(app, criticModel) {
     app.post("/api/project/critic/:userId/userName/:username/movie/:title", saveReview);
     app.get("/api/project/critic", findAllCritics);
     app.get("/api/project/critic/:userId", findCritic);
+    app.delete("/api/project/critic/:id", deleteCritic);
 
     function saveReview(req, res) {
         var userId = req.params.userId;
@@ -46,5 +47,19 @@ module.exports = function(app, criticModel) {
                     res.status(400).send(err);
                 }
             );
+    }
+
+    function deleteCritic(req, res) {
+        var id = req.params.id;
+        criticModel
+            .deleteCritic(id)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                });
+
     }
 };
