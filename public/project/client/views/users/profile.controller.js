@@ -4,7 +4,8 @@
         .module("FilmsterApp")
         .controller("ProfileController", ProfileController);
 
-    function ProfileController(UserService, $routeParams) {
+    function ProfileController(UserService, $routeParams, $route) {
+        // display follows details too
         var vm = this;
         vm.otherUserId = $routeParams.userId;
         vm.follow = false;
@@ -16,7 +17,6 @@
                 .then(function (response) {
                     vm.currentUser = response.data;
                     vm.userProfile = response.data;
-
                     getOtherProfile();
 
                 },
@@ -38,8 +38,8 @@
                         console.log(vm.currentUser);
                         console.log(vm.userProfile);
                         vm.isCritic = vm.userProfile.roles.indexOf('critic')> -1;
-                        if(vm.currentUser && (vm.currentUser != vm.userProfile))
-                            vm.follow = true;
+                        checkToEnableFollows();
+
                     });
             }
             else
@@ -53,10 +53,26 @@
             };
             UserService.follow(followDetails)
                 .then(function (response){
+                    console.log(response.data);
                     vm.currentUser = response.data;
+                    vm.follow = false;
                     UserService.setCurrentUser(response.data);
                     getOtherProfile();
                 });
+        }
+
+        function checkToEnableFollows(){
+            if(vm.currentUser && (vm.currentUser._id != vm.userProfile._id)) {
+                //check if current user already follows the other user
+                for(var i = 0; i < vm.currentUser.follows.length; i++) {
+                    var follow = vm.currentUser.follows[i];
+                    if(follow.userId==vm.userProfile._id) {
+                        vm.follow = false;
+                        return;
+                    }
+                }
+                vm.follow = true;
+            }
         }
     }
 })();

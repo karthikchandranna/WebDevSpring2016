@@ -3,13 +3,14 @@ module.exports = function(app, userModel, movieModel) {
     app.post("/api/project/user", createUser);//register
     app.get("/api/project/user", getUser);//login
     app.get("/api/project/user/:id", getUserById);
+    app.put("/api/project/user/follow", follow);
     app.put("/api/project/user/:id", updateUser);
     app.delete("/api/project/user/:id", deleteUser);
     app.get("/api/project/loggedin", loggedin);
     app.post("/api/project/logout", logout);
     app.get("/api/project/profile/:userId", profile);
     app.put("/api/project/user/:userId/role", addRole);
-    app.put("/api/project/user/follow", follow);
+
 
     function createUser (req, res) {
         var user = req.body;
@@ -90,6 +91,7 @@ module.exports = function(app, userModel, movieModel) {
                     res.json(doc);
                 },
                 function (err) {
+                    console.log("update");
                     res.status(400).send(err);
                 }
             );
@@ -188,19 +190,28 @@ module.exports = function(app, userModel, movieModel) {
 
     function follow(req, res) {
         // just 1 way update
+        //console.log(req.body);
         var follower = req.body.follower;
         var followee = req.body.followee;
-        follower.followes.push(followee);// should have schema for follows which has the id,ratings,reviews
+        var follow = {
+            userId: followee._id,
+            username: followee.username,
+            rates: followee.rates,
+            reviews: followee.reviews
+        };
+        follower.follows.push(follow);
         userModel.updateUser(follower._id, follower)
             .then(
                 function (follower) {
+                    console.log(follower);
                     req.session.currentUser = follower;
                     req.json(follower);
                 },
                 function (err) {
+                    console.log("here");
+                    console.log(err);
                     res.status(400).send(err);
                 }
-            )
-
+            );
     }
 };

@@ -28,7 +28,27 @@ module.exports = function(mongoose) {
             }
         ],
         // movies this user has reviewed
-        reviewedMovies: [MovieSchema]
+        reviewedMovies: [MovieSchema],
+        follows: [
+            {
+                userId: String,
+                username: String,
+                rates: [
+                    {
+                        name: String,
+                        tmdbId: String,
+                        rating: Number
+                    }
+                ],
+                reviews: [
+                    {
+                        name: String,
+                        tmdbId: String,
+                        review: String
+                    }
+                ]
+            }
+        ]
     }, {collection: 'project.user'});
     return UserSchema;
 };

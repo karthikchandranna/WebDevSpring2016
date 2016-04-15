@@ -32,6 +32,8 @@
                 return;
             }
             vm.user.roles = ["user"];
+            vm.user.follows = [];
+            // initialize all variables of user schema
             var userDB;
             UserService
                 .findUserByUsername(vm.user.username)

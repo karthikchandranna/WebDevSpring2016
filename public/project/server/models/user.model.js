@@ -67,7 +67,8 @@ module.exports = function(db, mongoose) {
             rates: user.rates,
             ratedMovies: user.ratedMovies,
             reviews: user.reviews,
-            reviewedMovies: user.reviewedMovies
+            reviewedMovies: user.reviewedMovies,
+            follows: user.follows
         };
         UserModel.update (
             {_id: userId},
