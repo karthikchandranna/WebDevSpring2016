@@ -20,7 +20,8 @@
             getProfile: getProfile,
             getOtherProfile: getOtherProfile,
             logout: logout,
-            addRole: addRole
+            addRole: addRole,
+            follow: follow
         };
 
         return api;
@@ -71,6 +72,10 @@
 
         function addRole(userId, role) {
             return $http.put("/api/project/user/"+ userId+"/role", role);
+        }
+
+        function follow(followDetails) {
+            return $http.put("/api/project/user/follow", followDetails);
         }
     }
 })();

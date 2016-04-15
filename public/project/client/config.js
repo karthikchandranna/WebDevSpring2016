@@ -21,12 +21,20 @@
                 controller: "LoginController",
                 controllerAs: "model"
             })
-            .when("/profile/:userId?", {
+            .when("/profile/", {
                 templateUrl: "views/users/profile.view.html",
                 controller: "ProfileController",
                 controllerAs: "model",
                 resolve: {
                     checkLoggedIn: checkLoggedIn
+                }
+            })
+            .when("/profile/:userId", {
+                templateUrl: "views/users/profile.view.html",
+                controller: "ProfileController",
+                controllerAs: "model",
+                resolve: {
+                    getLoggedIn: getLoggedIn
                 }
             })
             .when("/editprofile", {

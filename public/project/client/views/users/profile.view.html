@@ -15,6 +15,9 @@
             <h3>Movies Rated: {{model.userProfile.rates?model.userProfile.rates.length:0}}</h3>
             <h3></h3>
             <h3>Movies Reviewed: {{model.userProfile.reviews?model.userProfile.reviews.length:0}}</h3>
+            <button ng-if="model.follow" ng-click="model.followOtherUser()" class="btn btn-primary btn-lg">
+                Follow {{model.userProfile.username}}
+            </button>
         </div>
     </div>
     <div class="row">

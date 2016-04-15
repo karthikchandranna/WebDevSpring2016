@@ -9,6 +9,7 @@ module.exports = function(app, userModel, movieModel) {
     app.post("/api/project/logout", logout);
     app.get("/api/project/profile/:userId", profile);
     app.put("/api/project/user/:userId/role", addRole);
+    app.put("/api/project/user/follow", follow);
 
     function createUser (req, res) {
         var user = req.body;
@@ -183,5 +184,23 @@ module.exports = function(app, userModel, movieModel) {
                     res.status(400).send(err);
                 }
             );
+    }
+
+    function follow(req, res) {
+        // just 1 way update
+        var follower = req.body.follower;
+        var followee = req.body.followee;
+        follower.followes.push(followee);// should have schema for follows which has the id,ratings,reviews
+        userModel.updateUser(follower._id, follower)
+            .then(
+                function (follower) {
+                    req.session.currentUser = follower;
+                    req.json(follower);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            )
+
     }
 };

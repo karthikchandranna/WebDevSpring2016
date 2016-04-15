@@ -88,7 +88,7 @@
                               class="form-control" placeholder="{{model.reviewMsg}}"></textarea>
                     <button ng-click="model.addReview()" class="btn btn-primary btn-block"
                             ng-disabled="model.isReadonly|| model.movie.reviewedByUsers.indexOf(model.currentUser._id) > -1">
-                        Submit Review</button>
+                        Post Review</button>
                 </div>
                 <br/>
                 <ul class="list-unstyled" ng-if="model.movie.userReviews.length>0">
