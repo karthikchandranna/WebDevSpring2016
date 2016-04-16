@@ -75,7 +75,6 @@
         }
 
         function follow(followDetails) {
-            console.log("user client");
             return $http.put("/api/project/user/follow", followDetails);
         }
     }

@@ -189,8 +189,6 @@ module.exports = function(app, userModel, movieModel) {
     }
 
     function follow(req, res) {
-        // just 1 way update
-        //console.log(req.body);
         var follower = req.body.follower;
         var followee = req.body.followee;
         var follow = {
@@ -203,13 +201,10 @@ module.exports = function(app, userModel, movieModel) {
         userModel.updateUser(follower._id, follower)
             .then(
                 function (follower) {
-                    console.log(follower);
                     req.session.currentUser = follower;
                     req.json(follower);
                 },
                 function (err) {
-                    console.log("here");
-                    console.log(err);
                     res.status(400).send(err);
                 }
             );
