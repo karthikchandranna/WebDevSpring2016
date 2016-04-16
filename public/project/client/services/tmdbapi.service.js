@@ -48,7 +48,7 @@
         }
 
         function searchMovies(query) {
-            var moviesSearchUrl = baseUrl + '/search/movie?api_key=' + apikey + '&query=' + query + '&language=en';
+            var moviesSearchUrl = baseUrl + '/search/movie?api_key=' + apikey + '&query=' + query + '&language=en&include_adult=false';
             return $http.get(moviesSearchUrl);
         }
 

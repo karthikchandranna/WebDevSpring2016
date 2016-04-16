@@ -44,7 +44,7 @@
     </div>
     <div class="row" ng-if="model.userProfile._id==model.currentUser._id">
         <div class="col-xs-12 col-sm-6 col-sm-offset-4" ng-if="model.userProfile.follows.length>0">
-            <h3>People I follow</h3>
+            <h3 class="page-header">People I follow</h3>
             <div class="col-xs-12 col-sm-12" ng-repeat="follow in model.userProfile.follows">
                 <li>
                     <h3><a href="#/profile/{{follow.userId}}">{{follow.username}}</a></h3>
