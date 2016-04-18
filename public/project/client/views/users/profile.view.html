@@ -23,23 +23,35 @@
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-sm-offset-4" ng-if="model.userProfile.rates.length>0">
             <h3 class="page-header">My Ratings</h3>
-            <ul class="list-unstyled">
-                <li ng-repeat="movie in model.userProfile.rates">
+            <div ng-repeat="movie in model.userProfile.rates">
+                <div class="col-xs-5 col-sm-4">
+                    <a href="#/movie/{{movie.tmdbId}}">
+                        <img class="img img-responsive" ng-src="https://image.tmdb.org/t/p/w92{{movie.imageUrl}}">
+                    </a>
+                </div>
+                <div class="col-xs-7 col-sm-8">
                     <a href="#/movie/{{movie.tmdbId}}">{{movie.name}}</a>
-                    <p></p>
-                </li>
-            </ul>
+                    <br/><br/>
+                    <uib-rating ng-model="movie.rating" max=5 read-only="true" ng-class="'rating-star'"></uib-rating>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-sm-offset-4" ng-if="model.userProfile.reviews.length>0">
             <h3 class="page-header">My Reviews</h3>
-            <ul class="list-unstyled">
-                <li ng-repeat="movie in model.userProfile.reviews">
+            <div ng-repeat="movie in model.userProfile.reviews">
+                <div class="col-xs-5 col-sm-4">
+                    <a href="#/movie/{{movie.tmdbId}}">
+                        <img class="img img-responsive" ng-src="https://image.tmdb.org/t/p/w92{{movie.imageUrl}}">
+                    </a>
+                </div>
+                <div class="col-xs-7 col-sm-8">
                     <a href="#/movie/{{movie.tmdbId}}">{{movie.name}}</a><br/>
+                    <br/>
                     <textarea class="form-control" readonly="readonly">{{movie.review}}</textarea><br/>
-                </li>
-            </ul>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row" ng-if="model.userProfile._id==model.currentUser._id">
@@ -49,23 +61,35 @@
                 <li>
                     <h3><a href="#/profile/{{follow.userId}}">{{follow.username}}</a></h3>
                 </li>
-                <div class="col-xs-offset-1 col-sm-offset-1" ng-if="follow.rates.length>0">
+                <div class="col-xs-12 col-sm-12" ng-if="follow.rates.length>0">
                     <h4 class="page-header">Ratings</h4>
-                    <ul class="list-unstyled">
-                        <li ng-repeat="movie in follow.rates">
+                    <div ng-repeat="movie in follow.rates">
+                        <div class="col-xs-5 col-sm-4">
+                            <a href="#/movie/{{movie.tmdbId}}">
+                                <img class="img img-responsive" ng-src="https://image.tmdb.org/t/p/w92{{movie.imageUrl}}">
+                            </a>
+                        </div>
+                        <div class="col-xs-7 col-sm-8">
                             <a href="#/movie/{{movie.tmdbId}}">{{movie.name}}</a>
-                            <p></p>
-                        </li>
-                    </ul>
+                            <br/><br/>
+                            <uib-rating ng-model="movie.rating" max=5 read-only="true" ng-class="'rating-star'"></uib-rating>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-xs-offset-1 col-sm-offset-1" ng-if="follow.reviews.length>0">
+                <div class="col-xs-12 col-sm-12" ng-if="follow.reviews.length>0">
                     <h4 class="page-header">Reviews</h4>
-                    <ul class="list-unstyled">
-                        <li ng-repeat="movie in follow.reviews">
+                    <div ng-repeat="movie in follow.reviews">
+                        <div class="col-xs-5 col-sm-4">
+                            <a href="#/movie/{{movie.tmdbId}}">
+                                <img class="img img-responsive" ng-src="https://image.tmdb.org/t/p/w92{{movie.imageUrl}}">
+                            </a>
+                        </div>
+                        <div class="col-xs-7 col-sm-8">
                             <a href="#/movie/{{movie.tmdbId}}">{{movie.name}}</a><br/>
+                            <br/>
                             <textarea class="form-control" readonly="readonly">{{movie.review}}</textarea><br/>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

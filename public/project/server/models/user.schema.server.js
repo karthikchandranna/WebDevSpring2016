@@ -14,7 +14,8 @@ module.exports = function(mongoose) {
             {
                 name: String,
                 tmdbId: String,
-                rating: Number
+                rating: Number,
+                imageUrl: String
             }
         ],
         // movies this user rates
@@ -24,7 +25,8 @@ module.exports = function(mongoose) {
             {
                 name: String,
                 tmdbId: String,
-                review: String
+                review: String,
+                imageUrl: String
             }
         ],
         // movies this user has reviewed
@@ -37,14 +39,16 @@ module.exports = function(mongoose) {
                     {
                         name: String,
                         tmdbId: String,
-                        rating: Number
+                        rating: Number,
+                        imageUrl: String
                     }
                 ],
                 reviews: [
                     {
                         name: String,
                         tmdbId: String,
-                        review: String
+                        review: String,
+                        imageUrl: String
                     }
                 ]
             }

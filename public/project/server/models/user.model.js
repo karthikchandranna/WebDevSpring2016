@@ -149,7 +149,7 @@ module.exports = function(db, mongoose) {
                 deferred.reject(err);
             } else {
                 // add movie id to user rates
-                doc.rates.push ({"name": movie.title, "tmdbId": tmdbId, "rating": parseInt(rating)});
+                doc.rates.push ({"name": movie.title, "tmdbId": tmdbId, "rating": parseInt(rating), "imageUrl": movie.poster_path});
                 // save user
                 doc.save (function (err, user) {
                     if (err) {
@@ -171,7 +171,7 @@ module.exports = function(db, mongoose) {
                 deferred.reject(err);
             } else {
                 // add movie id to user rates
-                doc.reviews.push ({"name": movie.title, "tmdbId": tmdbId, "review": review});
+                doc.reviews.push ({"name": movie.title, "tmdbId": tmdbId, "review": review, "imageUrl": movie.poster_path});
                 // save user
                 doc.save (function (err, user) {
                     if (err) {
