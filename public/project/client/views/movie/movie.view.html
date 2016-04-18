@@ -37,15 +37,20 @@
                 <uib-rating ng-model="model.movie.criticsRating" max=5 read-only="true" titles="['one','two','three','four','five']"
                             aria-labelledby="default-rating" ng-class="'rating-star'">
                 </uib-rating>
-                <h4>Users Rating</h4>
-                <uib-rating ng-model="model.movie.usersRating" max=5
-                            read-only="model.isReadonly || model.movie.ratedByUsers.indexOf(model.currentUser._id) > -1"
-                            on-hover="model.hoveringOver(value)" on-leave="overStar = null"
-                            titles="['one','two','three','four','five']" ng-click="model.addRating()"
-                            aria-labelledby="default-rating" ng-class="'rating-star changing-star'">
-                </uib-rating>
-                <span class="label" ng-class="{'label-warning': model.percent<30, 'label-info': model.percent>=30 && model.percent<70, 'label-success': model.percent>=70}"
-                      ng-if="model.overStar && !model.isReadonly">{{model.percent}}%</span>
+                <div ng-if="model.released">
+                    <h4>Users Rating</h4>
+                    <uib-rating ng-model="model.movie.usersRating" max=5
+                                read-only="model.isReadonly || model.movie.ratedByUsers.indexOf(model.currentUser._id) > -1"
+                                on-hover="model.hoveringOver(value)" on-leave="overStar = null"
+                                titles="['one','two','three','four','five']" ng-click="model.addRating()"
+                                aria-labelledby="default-rating" ng-class="'rating-star changing-star'">
+                    </uib-rating>
+                    <span class="label" ng-class="{'label-warning': model.percent<30, 'label-info': model.percent>=30 && model.percent<70, 'label-success': model.percent>=70}"
+                          ng-if="model.overStar && !model.isReadonly">{{model.percent}}%</span>
+                </div>
+                <div ng-if="!model.released">
+                    <br/><br/><br/>
+                </div>
                 <!--<div class="star-rating star-rating-big"><s><s><s><s><s></s></s></s></s></s></div>-->
                 <h5>&nbsp</h5>
                 <h4>Release Date:</h4>
@@ -73,7 +78,7 @@
             </ul>
         </div>
     </div>
-    <div class="row">
+    <div class="row" ng-if="model.released">
         <div class="col-xs-12 col-sm-6 col-sm-offset-4" ng-if="model.movie.ratings.length>0">
             <h3 class="page-header">Users who rated this movie</h3>
             <ul class="list-unstyled">
@@ -84,7 +89,7 @@
             </ul>
         </div>
     </div>
-    <div class="row">
+    <div class="row" ng-if="model.released">
         <div class="col-xs-12 col-sm-6 col-sm-offset-4">
             <div id="review2" class="tab-pane">
                 <h3 class="page-header">User Reviews</h3>

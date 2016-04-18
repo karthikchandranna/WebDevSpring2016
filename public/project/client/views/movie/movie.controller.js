@@ -8,6 +8,7 @@
         vm.id = $routeParams.id;
         vm.isReadonly = true;
         vm.reviewMsg = "Login to write a review";
+        vm.released = false;
         vm.hoveringOver = hoveringOver;
         vm.addRating = addRating;
         vm.addReview = addReview;
@@ -45,8 +46,12 @@
                     vm.movie.criticsRating = response.vote_average / 2;
                     vm.movie.ratedByUsers = [];
                     vm.movie.reviewedByUsers = [];
+                    var now = new Date();
+                    var releaseDate = new Date(response.release_date);
+                    if(now > releaseDate) {
+                        vm.released = true;
+                    }
                     console.log(vm.movie);
-
                     MovieService
                         .getMovieDetails(vm.movie.id)
                         .then(function (response) {
