@@ -284,3 +284,7 @@ div.background-image {
     background: url(../images/bg1.jpg) no-repeat center center;
     background-size: cover;
 }
+
+div.movies {
+    margin-bottom: 20px;
+}
