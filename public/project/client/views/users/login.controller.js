@@ -31,11 +31,13 @@
                 .then(
                     function(response)
                     {
+                        console.log(response.data);
                         UserService.setCurrentUser(response.data);
                         $location.url("/profile");
                     },
                     function(err) {
                         vm.error = err;
+                        vm.message = "Invalid credentials";
                     }
                 );
         }

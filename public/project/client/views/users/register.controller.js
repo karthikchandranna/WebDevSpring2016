@@ -42,6 +42,7 @@
                             UserService.setCurrentUser(user);
                             $location.url("/profile");
                         }
+                        vm.message = "Username already exists.";
                     },
                     function(err) {
                         vm.error = err;
