@@ -21,7 +21,6 @@
                 .getNowPlaying()
                 .then(function(response){
                     vm.nowPlaying = response.data.results;
-                    console.log(vm.nowPlaying);
                 });
         }
         return init();
@@ -35,21 +34,16 @@
                 vm.error = "Please write a review";
                 return;
             }
-            console.log(vm.movie);
-            console.log(vm.review);
-            console.log(vm.currentUser);
             CriticService
                 .saveReview(vm.currentUser._id, vm.currentUser.username,vm.movie.title, {"review": vm.review})
                 .then(
                     function (response) {
-                        console.log(response.data);
                         vm.error = null;
                         vm.message = "Application submitted successfully";
                         vm.submitted = true;
                         vm.cancelOrGoBack = "Go Back to Profile";
                     },
                     function (errResp) {
-                        console.log(errResp.data);
                         vm.error = "Failed to submit. Try again"
                     });
         }

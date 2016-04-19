@@ -3,7 +3,13 @@
         .module("FilmsterApp")
         .controller("CastController", CastController);
 
-    function CastController($routeParams, TmdbApiService) {
+    function CastController(UserService, $routeParams, TmdbApiService) {
+        UserService
+            .getCurrentUser()
+            .then(function (response) {
+                vm.currentUser = response.data;
+            })
+
         var vm = this;
         vm.id = $routeParams.id;
         TmdbApiService.findCastByID(vm.id,

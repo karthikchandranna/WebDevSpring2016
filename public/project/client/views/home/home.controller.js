@@ -4,17 +4,26 @@
         .module("FilmsterApp")
         .controller("HomeController", HomeController);
 
-    function HomeController(TmdbApiService, $sce) {
+    function HomeController(UserService, TmdbApiService, $sce) {
         var vm = this;
         vm.genreName = genreName;
 
         function init() {
+            getCurrentUser();
             getGenres();
             getNowplayingMovies();
             getUpcomingMovies();
         }
 
         return init();
+
+        function getCurrentUser() {
+            UserService
+                .getCurrentUser()
+                .then(function (response) {
+                    vm.currentUser = response.data;
+                })
+        }
 
         function getGenres() {
             TmdbApiService

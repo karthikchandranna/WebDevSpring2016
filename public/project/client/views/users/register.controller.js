@@ -33,26 +33,20 @@
             }
             vm.user.roles = ["user"];
             vm.user.follows = [];
-            // initialize all variables of user schema
-            var userDB;
             UserService
-                .findUserByUsername(vm.user.username)
-                .then(function(response){
-                    if (response.data) {
-                        vm.message = "User already exists";
+                .register(vm.user)
+                .then(
+                    function(response) {
+                        var user = response.data;
+                        if(user != null) {
+                            UserService.setCurrentUser(user);
+                            $location.url("/profile");
+                        }
+                    },
+                    function(err) {
+                        vm.error = err;
                     }
-                    else{
-                        UserService
-                            .createUser(vm.user)
-                            .then(function(response) {
-                                var currentUser = response.data;
-                                if(currentUser != null) {
-                                    UserService.setCurrentUser(currentUser);
-                                    $location.url("/profile");
-                                }
-                            });
-                    }
-                });
+                );
         }
     }
 })();

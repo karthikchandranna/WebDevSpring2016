@@ -9,7 +9,10 @@
             .when("/home", {
                 templateUrl: "views/home/home.view.html",
                 controller: "HomeController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: {
+                    getLoggedIn: getLoggedIn
+                }
             })
             .when("/register", {
                 templateUrl: "views/users/register.view.html",
@@ -65,7 +68,10 @@
             .when("/search/:query", {
                 templateUrl: "views/search/search.view.html",
                 controller: "SearchController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: {
+                    getLoggedIn: getLoggedIn
+                }
             })
             .when("/movie/:id", {
                 templateUrl: "views/movie/movie.view.html",
@@ -78,7 +84,10 @@
             .when("/cast/:id", {
                 templateUrl: "views/cast/cast.view.html",
                 controller: "CastController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: {
+                    getLoggedIn: getLoggedIn
+                }
             })
             .otherwise({
                 redirectTo: "/home"
@@ -86,7 +95,6 @@
     }
 
     function checkLoggedIn(UserService, $q, $location) {
-
         var deferred = $q.defer();
         UserService
             .getCurrentUser()
@@ -96,6 +104,7 @@
                     UserService.setCurrentUser(currentUser);
                     deferred.resolve();
                 } else {
+                    UserService.setCurrentUser(null);
                     deferred.reject();
                     $location.url("/home");
                 }
@@ -104,13 +113,12 @@
     }
 
     function checkIfAdmin(UserService, $q, $location) {
-
         var deferred = $q.defer();
         UserService
             .getCurrentUser()
             .then(function(response) {
                 var currentUser = response.data;
-                if(currentUser.roles.indexOf("admin")> -1) {
+                if(currentUser.roles.indexOf("admin")> 0) {
                     deferred.resolve();
                 } else {
                     deferred.reject();
@@ -122,7 +130,6 @@
 
     function getLoggedIn(UserService, $q) {
         var deferred = $q.defer();
-
         UserService
             .getCurrentUser()
             .then(function(response){
@@ -130,7 +137,6 @@
                 UserService.setCurrentUser(currentUser);
                 deferred.resolve();
             });
-
         return deferred.promise;
     }
 })();

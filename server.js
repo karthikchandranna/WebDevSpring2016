@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var bodyParser    = require('body-parser');
 var multer        = require('multer');
+var passport      = require('passport');
 var cookieParser  = require('cookie-parser');
 var session       = require('express-session');
 var mongoose      = require('mongoose');
@@ -20,8 +21,13 @@ var db = mongoose.connect(connectionString);
 app.use(bodyParser.json());// for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }));// for parsing application/x-www-form-urlencoded
 app.use(multer());
-app.use(session({ secret: process.env.PASSPORT_SECRET }));
+app.use(
+    session({ secret: process.env.PASSPORT_SECRET,
+    resave: true,
+    saveUninitialized: true}));
 app.use(cookieParser());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(__dirname + '/public'));
 
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';

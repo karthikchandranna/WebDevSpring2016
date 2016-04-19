@@ -1,26 +1,126 @@
+var passport         = require('passport');
+var ProjectStrategy    = require('passport-local').Strategy;
 module.exports = function(app, userModel, movieModel) {
 
-    app.post("/api/project/user", createUser);//register
-    app.get("/api/project/user", getUser);//login
-    app.get("/api/project/user/:id", getUserById);
-    app.put("/api/project/user/follow", follow);
-    app.put("/api/project/user/:id", updateUser);
-    app.delete("/api/project/user/:id", deleteUser);
+    var auth = authorized;
+    app.post('/api/project/login', passport.authenticate('project'), login);
+    app.post("/api/project/user", createUser);// admin
+    app.post("/api/project/register", register);//register
+    app.get("/api/project/user", auth, getUser);
+    app.get("/api/project/user/:id", auth, getUserById);
+    app.put("/api/project/user/follow", auth, follow);
+    app.put("/api/project/user/:id", auth, updateUser);
+    app.delete("/api/project/user/:id", auth, deleteUser);
     app.get("/api/project/loggedin", loggedin);
     app.post("/api/project/logout", logout);
     app.get("/api/project/profile/:userId", profile);
-    app.put("/api/project/user/:userId/role", addRole);
+    app.put("/api/project/user/:userId/role", auth, addRole);
 
+    passport.use('project', new ProjectStrategy(projectStrategy));
+    passport.serializeUser(serializeUser);
+    passport.deserializeUser(deserializeUser);
+
+    function serializeUser(user, done) {
+        done(null, user);
+    }
+
+    function deserializeUser(user, done) {
+        userModel
+            .findUserById(user._id)
+            .then(
+                function(user){
+                    done(null, user);
+                },
+                function(err){
+                    done(err, null);
+                }
+            );
+    }
+
+    function projectStrategy(username, password, done) {
+        userModel
+            .findUserByCredentials({username: username, password: password})
+            .then(
+                function(user) {
+                    if (!user) { return done(null, false); }
+                    return done(null, user);
+                },
+                function(err) {
+                    if (err) { return done(err); }
+                }
+            );
+    }
 
     function createUser (req, res) {
-        var user = req.body;
-        userModel.createUser(user)
+        if(isAdmin(req.user)) {
+            var newUser = req.body;
+            if(newUser.roles.length < 2)
+                newUser.roles = ["user"];
+            userModel
+                .findUserByUsername(newUser.username)
+                .then(
+                    function(user){
+                        if(user == null) {
+                            return userModel.createUser(newUser)
+                                .then(
+                                    function(){
+                                        return userModel.findAllUsers();
+                                    },
+                                    function(err){
+                                        res.status(400).send(err);
+                                    }
+                                );
+                        } else {
+                            return userModel.findAllUsers();
+                        }
+                    },
+                    function(err){
+                        res.status(400).send(err);
+                    }
+                )
+                .then(
+                    function(users){
+                        res.json(users);
+                    },
+                    function(){
+                        res.status(400).send(err);
+                    }
+                )
+        } else {
+            res.send(403);
+        }
+    }
+
+    function register(req, res) {
+        var newUser = req.body;
+        newUser.roles = ["user"];
+        userModel
+            .findUserByUsername(newUser.username)
             .then(
-                function (doc) {
-                    req.session.currentUser = doc;
-                    res.json(doc);
+                function(user){
+                    if(user) {
+                        res.json(null);
+                    } else {
+                        return userModel.createUser(newUser);
+                    }
                 },
-                function (err) {
+                function(err){
+                    res.status(400).send(err);
+                }
+            )
+            .then(
+                function(user){
+                    if(user){
+                        req.login(user, function(err) {
+                            if(err) {
+                                res.status(400).send(err);
+                            } else {
+                                res.json(user);
+                            }
+                        });
+                    }
+                },
+                function(err){
                     res.status(400).send(err);
                 }
             );
@@ -87,35 +187,37 @@ module.exports = function(app, userModel, movieModel) {
         userModel.updateUser(userId, user)
             .then(
                 function (doc) {
-                    req.session.currentUser = doc;
                     res.json(doc);
                 },
                 function (err) {
-                    console.log("update");
                     res.status(400).send(err);
                 }
             );
     }
 
     function deleteUser (req, res) {
-        var userId = req.params.id;
-        userModel.deleteUser(userId)
-            .then(
-                function (doc) {
-                    res.json(doc);
-                },
-                function (err) {
-                    res.status(400).send(err);
-                }
-            );
+        if(isAdmin(req.user)) {
+            var userId = req.params.id;
+            userModel.deleteUser(userId)
+                .then(
+                    function (doc) {
+                        res.json(doc);
+                    },
+                    function (err) {
+                        res.status(400).send(err);
+                    }
+                );
+        } else {
+            res.send(403);
+        }
     }
 
     function loggedin(req, res) {
-        res.json(req.session.currentUser);
+        res.json(req.isAuthenticated() ? req.user : null);
     }
 
     function logout(req, res) {
-        req.session.destroy();
+        req.logOut();
         res.send(200);
     }
 
@@ -156,7 +258,6 @@ module.exports = function(app, userModel, movieModel) {
                     user.reviewedMovies = movies;
                     res.json(user);
                 },
-                // send error if promise rejected
                 function (err) {
                     res.status(400).send(err);
                 }
@@ -164,28 +265,32 @@ module.exports = function(app, userModel, movieModel) {
     }
 
     function addRole(req, res) {
-        var userId = req.params.userId;
-        var role = req.body.role;
-        userModel.findUserById(userId)
-            .then(
-                function (user) {
-                    if(user.roles.indexOf(role)<0) {
-                        user.roles.push(role);
+        if(isAdmin(req.user)) {
+            var userId = req.params.userId;
+            var role = req.body.role;
+            userModel.findUserById(userId)
+                .then(
+                    function (user) {
+                        if(user.roles.indexOf(role)<0) {
+                            user.roles.push(role);
+                        }
+                        return userModel.updateUser(userId, user)
+                    },
+                    function (err) {
+                        res.status(400).send(err);
                     }
-                    return userModel.updateUser(userId, user)
-                },
-                function (err) {
-                    res.status(400).send(err);
-                }
-            )
-            .then(
-                function (doc) {
-                    res.json(doc);
-                },
-                function (err) {
-                    res.status(400).send(err);
-                }
-            );
+                )
+                .then(
+                    function (doc) {
+                        res.json(doc);
+                    },
+                    function (err) {
+                        res.status(400).send(err);
+                    }
+                );
+        } else {
+            res.send(403);
+        }
     }
 
     function follow(req, res) {
@@ -208,5 +313,25 @@ module.exports = function(app, userModel, movieModel) {
                     res.status(400).send(err);
                 }
             );
+    }
+
+    function login(req, res) {
+        var user = req.user;
+        res.json(user);
+    }
+
+    function isAdmin(user) {
+        if(user.roles.indexOf("admin") > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    function authorized (req, res, next) {
+        if (!req.isAuthenticated()) {
+            res.send(401);
+        } else {
+            next();
+        }
     }
 };

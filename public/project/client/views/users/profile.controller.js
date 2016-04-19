@@ -5,7 +5,6 @@
         .controller("ProfileController", ProfileController);
 
     function ProfileController(UserService, $routeParams, $route) {
-        // display follows details too
         var vm = this;
         vm.otherUserId = $routeParams.userId;
         vm.follow = false;
@@ -13,20 +12,26 @@
 
         function init() {
             UserService
-                .getProfile()
+                .getCurrentUser()
                 .then(function (response) {
-                    vm.currentUser = response.data;
-                    vm.userProfile = response.data;
-                    getOtherProfile();
-
-                },
-                    function (err) {
-                        getOtherProfile();
+                        if(response.data) {
+                            UserService
+                                .getProfile()
+                                .then(function (response) {
+                                    vm.currentUser = response.data;
+                                    vm.userProfile = response.data;
+                                    getOtherProfile();
+                                    setLabels();
+                                });
+                        }
+                        else {
+                            getOtherProfile();
+                            setLabels();
+                        }
                     }
                 );
-
-
         }
+
         return init();
 
         function getOtherProfile(){
@@ -35,8 +40,6 @@
                     .getOtherProfile(vm.otherUserId)
                     .then(function (response){
                         vm.userProfile = response.data;
-                        console.log(vm.currentUser);
-                        console.log(vm.userProfile);
                         vm.isCritic = vm.userProfile.roles.indexOf('critic')> -1;
                         checkToEnableFollows();
 
@@ -53,7 +56,6 @@
             };
             UserService.follow(followDetails)
                 .then(function (response){
-                    console.log(response.data);
                     vm.currentUser = response.data;
                     vm.follow = false;
                     UserService.setCurrentUser(response.data);
@@ -73,6 +75,13 @@
                 }
                 vm.follow = true;
             }
+        }
+
+        function setLabels() {
+            if(vm.currentUser._id != vm.userProfile._id)
+                vm.userLabel = vm.userProfile.username + "'s";
+            else
+                vm.userLabel = "My";
         }
     }
 })();

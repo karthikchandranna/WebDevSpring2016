@@ -21,7 +21,9 @@
             getOtherProfile: getOtherProfile,
             logout: logout,
             addRole: addRole,
-            follow: follow
+            follow: follow,
+            login: login,
+            register: register
         };
 
         return api;
@@ -32,6 +34,14 @@
 
         function getCurrentUser() {
             return $http.get("/api/project/loggedin");
+        }
+
+        function login(user) {
+            return $http.post("/api/project/login", user);
+        }
+
+        function register(user) {
+            return $http.post("/api/project/register", user);
         }
 
         function getProfile() {

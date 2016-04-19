@@ -4,7 +4,7 @@
         .module("FilmsterApp")
         .controller("SearchController", SearchController);
 
-    function SearchController($routeParams, TmdbApiService, $sce) {
+    function SearchController(UserService, $routeParams, TmdbApiService, $sce) {
         var vm = this;
         vm.search = search;
         vm.query = $routeParams.query;
@@ -13,12 +13,21 @@
 
         function init() {
             if (vm.query) {
+                getCurrentUser();
                 search(vm.query);
                 getGenres();
             }
         }
 
         return init();
+
+        function getCurrentUser() {
+            UserService
+                .getCurrentUser()
+                .then(function (response) {
+                    vm.currentUser = response.data;
+                })
+        }
 
         function search(query) {
             TmdbApiService
@@ -56,6 +65,6 @@
                     return vm.genres[genre].name;
                 }
             }
-        };
+        }
     }
 })();

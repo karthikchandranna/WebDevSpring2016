@@ -14,7 +14,6 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-12 col-sm-4">
-            <!--Use w300 and profile NO max-width: 75%; for the same effect-->
             <img class="img img-responsive profile" ng-src="https://image.tmdb.org/t/p/w300/{{model.movie.poster_path}}">
         </div>
         <div class="col-xs-12 col-sm-8">
@@ -84,7 +83,7 @@
             <ul class="list-unstyled">
                 <li ng-repeat="rating in model.movie.ratings">
                     <span style="font-size:1.5em;" class=" glyphicon glyphicon-user" aria-hidden=true>
-                        <a href="#/profile/{{rating.userId}}">{{rating.username}}</a></span>
+                        <a href="#/profile/{{rating.userId}}">{{rating.username}}</a></span><h4></h4>
                 </li>
             </ul>
         </div>

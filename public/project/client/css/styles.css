@@ -62,10 +62,6 @@ body {
 .placeholder {
     margin-bottom: 20px;
 }
-/*.placeholder img {
-    display: inline-block;
-    border-radius: 50%;
-}*/
 
 #searchbar {
     margin-bottom: 12px;
@@ -287,4 +283,8 @@ div.background-image {
 
 div.movies {
     margin-bottom: 20px;
+}
+
+span.user{
+    font-size:17em;
 }

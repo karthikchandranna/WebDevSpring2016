@@ -51,7 +51,6 @@
                     if(now > releaseDate) {
                         vm.released = true;
                     }
-                    console.log(vm.movie);
                     MovieService
                         .getMovieDetails(vm.movie.id)
                         .then(function (response) {

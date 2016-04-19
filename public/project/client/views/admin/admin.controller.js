@@ -25,7 +25,6 @@
                 .getAllCritics()
                 .then(function(response){
                     vm.critics = response.data;
-                    console.log(vm.critics);
                 });
         }
 
@@ -54,7 +53,6 @@
                 .deleteCritic(critic._id)
                 .then(function(response){
                     vm.critics = response.data;
-                    console.log(vm.critics);// should return the new list of critics instead of Object {ok: 1, n: 1}
                 });
             getCritics();
         }

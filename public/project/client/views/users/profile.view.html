@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-xs-12 col-sm-4 myplaceholder">
             <br/>
-            <span style="font-size:16em;" class="glyphicon glyphicon-user" aria-hidden=true></span><br/>
+            <span class="glyphicon glyphicon-user user" aria-hidden=true></span><br/>
             <h1 ng-if="model.isCritic">CRITIC</h1>
             <a href="#/editprofile" class="btn btn-primary btn-lg"
                ng-if="model.userProfile._id==model.currentUser._id" role="button">Edit Profile</a>
@@ -22,7 +22,9 @@
     </div>
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-sm-offset-4" ng-if="model.userProfile.rates.length>0">
-            <h3 class="page-header">My Ratings</h3>
+            <h3 class="page-header" ng-if="model.userProfile._id==model.currentUser._id">My Ratings</h3>
+            <h3 class="page-header" ng-if="model.userProfile._id!=model.currentUser._id">
+                {{model.userProfile.username}}'s Ratings</h3>
             <div ng-repeat="movie in model.userProfile.rates">
                 <div class="col-xs-12 col-sm-12 movies">
                     <div class="col-xs-5 col-sm-4">
@@ -41,7 +43,9 @@
     </div>
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-sm-offset-4" ng-if="model.userProfile.reviews.length>0">
-            <h3 class="page-header">My Reviews</h3>
+            <h3 class="page-header" ng-if="model.userProfile._id==model.currentUser._id">My Reviews</h3>
+            <h3 class="page-header" ng-if="model.userProfile._id!=model.currentUser._id">
+                {{model.userProfile.username}}'s Reviews</h3>
             <div ng-repeat="movie in model.userProfile.reviews">
                 <div class="col-xs-12 col-sm-12 movies">
                     <div class="col-xs-5 col-sm-4">
