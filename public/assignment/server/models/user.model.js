@@ -66,7 +66,8 @@ module.exports = function(db, mongoose) {
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
-            phones: user.phones
+            phones: user.phones,
+            roles: user.roles
         };
         UserModel.update (
             {_id: userId},

@@ -1,8 +1,11 @@
 module.exports = function(app, userModel) {
 
-    app.post("/api/assignment/user", createUser);//register
+    //app.post('/api/assignment/login', login);
+    app.post("/api/assignment/register", register);//register
+    app.post("/api/assignment/user", createUser);//admin create
     app.get("/api/assignment/user", getUser);//login
     app.get("/api/assignment/user/:id", getUserById);
+    app.put("/api/assignment/admin/user/:id", adminUpdateUser);
     app.put("/api/assignment/user/:id", updateUser);
     app.delete("/api/assignment/user/:id", deleteUser);
     app.get("/api/assignment/loggedin", loggedin);
@@ -10,6 +13,20 @@ module.exports = function(app, userModel) {
 
     function createUser (req, res) {
         var user = req.body;
+        userModel.createUser(user)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function register (req, res) {
+        var user = req.body;
+        user.roles = ["student"];
         userModel.createUser(user)
             .then(
                 function (doc) {
@@ -84,6 +101,20 @@ module.exports = function(app, userModel) {
             .then(
                 function (doc) {
                     req.session.currentUser = doc;
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function adminUpdateUser (req, res) {
+        var userId = req.params.id;
+        var user = req.body;
+        userModel.updateUser(userId, user)
+            .then(
+                function (doc) {
                     res.json(doc);
                 },
                 function (err) {

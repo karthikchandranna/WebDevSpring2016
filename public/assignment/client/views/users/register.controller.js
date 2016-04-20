@@ -40,7 +40,7 @@
                     }
                     else{
                         UserService
-                            .createUser(vm.user)
+                            .register(vm.user)
                             .then(function(response) {
                                 var currentUser = response.data;
                                 if(currentUser != null) {

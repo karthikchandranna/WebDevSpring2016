@@ -4,11 +4,90 @@
         .module("FormBuilderApp")
         .controller("AdminController", AdminController);
 
-    function AdminController($scope, $location, UserService) {
+    function AdminController(UserService) {
+        // update in server is updating the session. so try smthn ls.
+        var vm = this;
+        vm.predicate = 'username';
+        vm.reverse = false;
+        vm.order = order;
+        vm.addUser = addUser;
+        vm.deleteUser = deleteUser;
+        vm.selectUser = selectUser;
+        vm.updateUser = updateUser;
+        vm.findAllUsers = findAllUsers;
+        function init() {
+            UserService
+                .getProfile()
+                .then(function (response) {
+                    vm.currentUser = response.data;
+                    findAllUsers();
+                });
+        }
+        return init();
 
-        $scope.currentUser = UserService.getCurrentUser();
-        if (!$scope.currentUser || !$scope.currentUser.roles || $scope.currentUser.roles.indexOf('admin') < 0) {
-            $location.url("/home");
+        function order(predicate) {
+            vm.reverse = (vm.predicate === predicate) ? !vm.reverse : false;
+            vm.predicate = predicate;
+        }
+
+        function findAllUsers(){
+            UserService
+                .findAllUsers()
+                .then(function (resp) {
+                    vm.users = resp.data;
+                    console.log(vm.users);
+                })
+        }
+
+        function selectUser(user) {
+            vm.selectedIndex = vm.users.indexOf(user);
+            vm.user={
+                _id: user._id,
+                username: user.username,
+                password: user.password,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                phones: user.phones,
+                roles: user.roles
+            };
+        }
+
+        function addUser(user) {
+            console.log(user);
+            if (user && user.username && !user._id) {
+                UserService
+                    .createUser(user)
+                    .then(function () {
+                        vm.user = {};
+                        findAllUsers();
+                    })
+            }
+            else
+                vm.user = {};
+        }
+
+        function updateUser(user) {
+            if (user && user._id) {
+                UserService
+                    .adminUpdateUser(user._id, user)
+                    .then(function () {
+                        vm.user = {};
+                        findAllUsers();
+                    })
+            }
+        }
+
+        function deleteUser(user) {
+            UserService
+                .deleteUserById(user._id)
+                .then(function (response) {
+                    if (vm.user && vm.user._id && user._id === vm.user._id) {
+                        vm.user = {};
+                        vm.selectedIndex = {};
+                    }
+                    findAllUsers();
+                })
         }
     }
 })();

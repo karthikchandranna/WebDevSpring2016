@@ -16,7 +16,10 @@
             createUser: createUser,
             deleteUserById: deleteUserById,
             updateUser: updateUser,
-            logout: logout
+            adminUpdateUser: adminUpdateUser,
+            logout: logout,
+            login: login,
+            register: register
         };
         return api;
 
@@ -26,6 +29,14 @@
 
         function getCurrentUser() {
             return $http.get("/api/assignment/loggedin");
+        }
+
+        function login(user) {
+            return $http.post("/api/assignment/login", user);
+        }
+
+        function register(user) {
+            return $http.post("/api/assignment/register", user);
         }
 
         function getProfile() {
@@ -54,6 +65,10 @@
 
         function updateUser(userId, user) {
             return $http.put ("/api/assignment/user/" + userId, user);
+        }
+
+        function adminUpdateUser(userId, user) {
+            return $http.put ("/api/assignment/admin/user/" + userId, user);
         }
 
         function logout() {

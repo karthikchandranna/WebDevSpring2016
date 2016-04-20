@@ -8,7 +8,10 @@
         $routeProvider
             .when("/home", {
                 templateUrl: "views/home/home.view.html",
-                controller: "HomeController"
+                controller: "HomeController",
+                resolve: {
+                    getLoggedIn: getLoggedIn
+                }
             })
             .when("/register", {
                 templateUrl: "views/users/register.view.html",
@@ -30,7 +33,12 @@
             })
             .when("/admin", {
                 templateUrl: "views/admin/admin.view.html",
-                controller: "AdminController"
+                controller: "AdminController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn,
+                    checkIfAdmin: checkIfAdmin
+                }
             })
             .when("/forms", {
                 templateUrl: "views/forms/forms.view.html",
@@ -69,4 +77,33 @@
             });
         return deferred.promise;
     }
+
+    function checkIfAdmin(UserService, $q, $location) {
+        var deferred = $q.defer();
+        UserService
+            .getCurrentUser()
+            .then(function(response) {
+                var currentUser = response.data;
+                if(currentUser.roles && currentUser.roles.indexOf("admin")> 0) {
+                    deferred.resolve();
+                } else {
+                    deferred.reject();
+                    $location.url("/home");
+                }
+            });
+        return deferred.promise;
+    }
+
+    function getLoggedIn(UserService, $q) {
+        var deferred = $q.defer();
+        UserService
+            .getCurrentUser()
+            .then(function(response){
+                var currentUser = response.data;
+                UserService.setCurrentUser(currentUser);
+                deferred.resolve();
+            });
+        return deferred.promise;
+    }
+
 })();
