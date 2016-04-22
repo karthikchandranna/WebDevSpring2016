@@ -5,7 +5,6 @@
         .controller("AdminController", AdminController);
 
     function AdminController(UserService) {
-        // update in server is updating the session. so try smthn ls.
         var vm = this;
         vm.predicate = 'username';
         vm.reverse = false;
@@ -17,7 +16,7 @@
         vm.findAllUsers = findAllUsers;
         function init() {
             UserService
-                .getProfile()
+                .getCurrentUser()
                 .then(function (response) {
                     vm.currentUser = response.data;
                     findAllUsers();
@@ -54,8 +53,7 @@
         }
 
         function addUser(user) {
-            console.log(user);
-            if (user && user.username && !user._id) {
+            if (user && user.username && user.password && !user._id) {
                 UserService
                     .createUser(user)
                     .then(function () {
@@ -68,7 +66,7 @@
         }
 
         function updateUser(user) {
-            if (user && user._id) {
+            if (user && user._id && user.username && user.password) {
                 UserService
                     .adminUpdateUser(user._id, user)
                     .then(function () {
@@ -76,6 +74,8 @@
                         findAllUsers();
                     })
             }
+            else
+                vm.user = {};
         }
 
         function deleteUser(user) {

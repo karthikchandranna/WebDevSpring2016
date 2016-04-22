@@ -84,7 +84,7 @@
             .getCurrentUser()
             .then(function(response) {
                 var currentUser = response.data;
-                if(currentUser.roles && currentUser.roles.indexOf("admin")> 0) {
+                if(currentUser.roles && currentUser.roles.indexOf("admin")> -1) {
                     deferred.resolve();
                 } else {
                     deferred.reject();

@@ -1,6 +1,5 @@
-var passport         = require('passport');
-var ProjectStrategy    = require('passport-local').Strategy;
-module.exports = function(app, userModel, movieModel) {
+var bcrypt = require("bcrypt-nodejs");
+module.exports = function(app, userModel, movieModel, passport) {
 
     var auth = authorized;
     app.post('/api/project/login', passport.authenticate('project'), login);
@@ -10,46 +9,11 @@ module.exports = function(app, userModel, movieModel) {
     app.get("/api/project/user/:id", auth, getUserById);
     app.put("/api/project/user/follow", auth, follow);
     app.put("/api/project/user/:id", auth, updateUser);
-    app.delete("/api/project/user/:id", auth, deleteUser);
+    app.delete("/api/project/user/:id", auth, deleteUser);// admin
     app.get("/api/project/loggedin", loggedin);
     app.post("/api/project/logout", logout);
     app.get("/api/project/profile/:userId", profile);
-    app.put("/api/project/user/:userId/role", auth, addRole);
-
-    passport.use('project', new ProjectStrategy(projectStrategy));
-    passport.serializeUser(serializeUser);
-    passport.deserializeUser(deserializeUser);
-
-    function serializeUser(user, done) {
-        done(null, user);
-    }
-
-    function deserializeUser(user, done) {
-        userModel
-            .findUserById(user._id)
-            .then(
-                function(user){
-                    done(null, user);
-                },
-                function(err){
-                    done(err, null);
-                }
-            );
-    }
-
-    function projectStrategy(username, password, done) {
-        userModel
-            .findUserByCredentials({username: username, password: password})
-            .then(
-                function(user) {
-                    if (!user) { return done(null, false); }
-                    return done(null, user);
-                },
-                function(err) {
-                    if (err) { return done(err); }
-                }
-            );
-    }
+    app.put("/api/project/user/:userId/role", auth, addRole);// admin
 
     function createUser (req, res) {
         if(isAdmin(req.user)) {
@@ -61,6 +25,7 @@ module.exports = function(app, userModel, movieModel) {
                 .then(
                     function(user){
                         if(user == null) {
+                            newUser.password = bcrypt.hashSync(newUser.password);
                             return userModel.createUser(newUser)
                                 .then(
                                     function(){
@@ -101,6 +66,7 @@ module.exports = function(app, userModel, movieModel) {
                     if(user) {
                         res.json(null);
                     } else {
+                        newUser.password = bcrypt.hashSync(newUser.password);
                         return userModel.createUser(newUser);
                     }
                 },
@@ -181,13 +147,26 @@ module.exports = function(app, userModel, movieModel) {
             );
     }
 
-    function updateUser (req, res) {
+    function updateUser(req,res) {
         var userId = req.params.id;
-        var user = req.body;
-        userModel.updateUser(userId, user)
+        var userToUpdate = req.body;
+        userModel
+            .findUserById(userId)
             .then(
-                function (doc) {
-                    res.json(doc);
+                function (user) {
+                    if (user.password !== userToUpdate.password) {
+                        userToUpdate.password = bcrypt.hashSync(userToUpdate.password);
+                    }
+                    userModel
+                        .updateUser(userId, userToUpdate)
+                        .then(
+                            function (doc) {
+                                res.json(doc);
+                            },
+                            function (err) {
+                                res.status(400).send(err);
+                            }
+                        );
                 },
                 function (err) {
                     res.status(400).send(err);
@@ -321,7 +300,7 @@ module.exports = function(app, userModel, movieModel) {
     }
 
     function isAdmin(user) {
-        if(user.roles.indexOf("admin") > 0) {
+        if(user.roles.indexOf("admin") > -1) {
             return true;
         }
         return false;

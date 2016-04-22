@@ -78,7 +78,7 @@
         }
 
         function setLabels() {
-            if(vm.currentUser._id != vm.userProfile._id)
+            if(vm.currentUser && vm.currentUser._id != vm.userProfile._id)
                 vm.userLabel = vm.userProfile.username + "'s";
             else
                 vm.userLabel = "My";

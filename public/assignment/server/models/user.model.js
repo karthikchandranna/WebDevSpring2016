@@ -1,8 +1,8 @@
 var q = require("q");
-module.exports = function(db, mongoose) {
+module.exports = function(db, mongoose, UserModel) {
 
-    var UserSchema = require("./user.schema.server.js")(mongoose);
-    var UserModel = mongoose.model('User', UserSchema);
+    //var UserSchema = require("./user.schema.server.js")(mongoose);
+    //var UserModel = mongoose.model('AssignUser', UserSchema);
 
     var api = {
         createUser: createUser,
@@ -12,9 +12,14 @@ module.exports = function(db, mongoose) {
         deleteUser: deleteUser,
         findUserByUsername: findUserByUsername,
         findUserByCredentials: findUserByCredentials,
-        findUsersByIds: findUsersByIds
+        findUsersByIds: findUsersByIds,
+        findUserByGoogleId: findUserByGoogleId
     };
     return api;
+
+    function findUserByGoogleId(googleId) {
+        return UserModel.findOne({'google.id': googleId});
+    }
 
     function createUser(user) {
         var deferred = q.defer();

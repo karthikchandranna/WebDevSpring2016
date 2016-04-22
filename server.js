@@ -32,7 +32,17 @@ app.use(express.static(__dirname + '/public'));
 
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
+//  passport mess
+var ProjectUserSchema = require("./public/project/server/models/user.schema.server.js")(mongoose);
+var ProjectUser = mongoose.model("ProjectUser", ProjectUserSchema);
+var ProjectUserModel = require('./public/project/server/models/user.model.js')(db, mongoose, ProjectUser);
 
-require("./public/assignment/server/app.js")(app, db, mongoose);
-require("./public/project/server/app.js")(app, db, mongoose);
+var AssignmentUserSchema = require("./public/assignment/server/models/user.schema.server.js")(mongoose);
+var AssignmentUser = mongoose.model("AssignmentUser", AssignmentUserSchema);
+var AssignmentUserModel = require('./public/assignment/server/models/user.model.js')(db, mongoose, AssignmentUser);
+
+require("./public/security/security.js")(app, ProjectUserModel, AssignmentUserModel, passport);
+
+require("./public/assignment/server/app.js")(app, db, mongoose, passport, AssignmentUserModel);
+require("./public/project/server/app.js")(app, db, mongoose, passport, ProjectUserModel);
 app.listen(port, ipaddress);

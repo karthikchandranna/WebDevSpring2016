@@ -27,15 +27,18 @@
             var password = user.password;
             var newUser;
             UserService
-                .findUserByCredentials(username, password)
-                .then(function (response) {
-                    if(response.data) {
+                .login(user)
+                .then(
+                    function(response)
+                    {
                         UserService.setCurrentUser(response.data);
                         $location.url("/profile");
+                    },
+                    function(err) {
+                        vm.error = err;
+                        vm.message = "Invalid credentials";
                     }
-                    else
-                        vm.message = "Invalid login credentials";
-                });
+                );
         }
     }
 })();

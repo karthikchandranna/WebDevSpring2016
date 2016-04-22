@@ -35,19 +35,16 @@
                 .deleteCritic(critic._id)
                 .then(function(response){
                     vm.critics = response.data;
-                    console.log(vm.critics);
                 });
             // add critic role to critic.userId
             UserService
                 .addRole(critic.userId, {"role":"critic"})
                 .then(function (response) {
-                    console.log(response.data);
                 });
             getCritics();
         }
 
         function reject(critic) {
-            console.log(critic);
             //remove from critic table
             CriticService
                 .deleteCritic(critic._id)
